@@ -1,0 +1,77 @@
+/* CSS reset */
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,textarea,p,blockquote,th,td {
+    margin:0;
+    padding:0;
+}
+html,body {
+    margin:0;
+    padding:0;
+    min-height: 100%;
+}
+a{
+    text-decoration: none;
+    color: #fff;
+}
+a:hover{
+    text-decoration: none;
+}
+table {
+    border-collapse:collapse;
+    border-spacing:0;
+}
+table td{
+    border-spacing: 0;
+    padding: 0;
+    margin: 0;
+}
+fieldset,img {
+    border:0;
+}
+legend{
+    font-weight: bold;
+}
+address,caption,cite,code,dfn,th,var {
+    font-style:normal;
+    font-weight:normal;
+}
+ol,ul {
+    list-style:none;
+    padding: 0;
+    margin: 0;
+}
+caption,th {
+    text-align:left;
+}
+h1,h2,h3,h4,h5,h6 {
+    font-size:100%;
+    font-weight:normal;
+}
+h1{
+    font-size: 26px;
+}
+h2{
+    font-size: 24px;
+}
+h3{
+    font-size: 22px;
+}
+h4{
+    font-size: 20px;
+}
+h5{
+    font-size: 18px;
+}
+h6{
+    font-size: 16px;
+}
+q:before,q:after {
+    content:'';
+}
+abbr,acronym { border:0;
+}
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+    display: block;
+}
+
+

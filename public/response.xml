@@ -1,0 +1,1054 @@
+<?xml version='1.0' encoding='utf-8'?>
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+	<soapenv:Header/>
+	<soapenv:Body>
+		<ns2:OTA_AirAvailAndFaresRSType SequenceNmbr="0" TimeStamp="" xmlns:ns2="http://ota.paxws.otaxmlws/">
+			<Success xmlns="http://ota.paxws.otaxmlws/">true</Success>
+			<OriginDestinationOptionsExt xmlns="http://ota.paxws.otaxmlws/">
+				<OriginDestinationOptionExt xmlns="http://types.paxws.otaxmlws/">
+					<FlightSegmentExt ArrivalDateTime="2016-08-03 09:05:00.0" DepartureDateTime="2016-08-03 07:45:00.0" FlightNumber="141" JourneyDuration="" OnTimeRate="" ResBookDesigCode="" ResBookDesigID="" StopQuantity="0" Ticket="">
+						<DepartureAirport LocationCode="AYT"/>
+						<ArrivalAirport LocationCode="SAW"/>
+						<Equipment AirEquipType="" ChangeofGauge="NONE"/>
+						<MarkettingAirline CompanyShortName="PC"/>
+						<MarketingCabin CabinType="" RPH="0">
+							<Meal>*</Meal>
+						</MarketingCabin>
+						<BookingClassAvailExt RPH="0" ResBookDesigCode="A" ResBookDesigQuantity="9">
+							<FareDisplayInfos>
+								<FareDisplayInfo ResBookDesigCode="A">
+									<TravelDates ArrivalDate="2016-08-03 09:05:00.0" DepartureDate="2016-08-03 07:45:00.0"/>
+									<FareReference>AOW/DOM</FareReference>
+									<FareReferenceID>2147812</FareReferenceID>
+									<MarkettingAirline CompanyShortName="PC"/>
+									<DepartureLocation LocationCode="AYT"/>
+									<ArrivalLocation LocationCode="SAW"/>
+									<PricingInfo PassengerTypeCode="ADT">
+										<BaseFare Amount="95.0" CurrencyCode="USD" DecimalPlaces="2"/>
+										<Taxes>
+											<Tax Amount="4.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="adult_tax"/>
+											<Tax Amount="6.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="adult_surcharge"/>
+											<Tax Amount="3.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="adult_checkInFee"/>
+											<Tax Amount="0.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="service_fee"/>
+										</Taxes>
+										<TotalFare Amount="108.0" CurrencyCode="USD" DecimalPlaces="2"/>
+									</PricingInfo>
+								</FareDisplayInfo>
+								<FareDisplayInfo ResBookDesigCode="A">
+									<TravelDates ArrivalDate="2016-08-03 09:05:00.0" DepartureDate="2016-08-03 07:45:00.0"/>
+									<FareReference>AOW/DOM</FareReference>
+									<FareReferenceID>2147812</FareReferenceID>
+									<MarkettingAirline CompanyShortName="PC"/>
+									<DepartureLocation LocationCode="AYT"/>
+									<ArrivalLocation LocationCode="SAW"/>
+									<PricingInfo PassengerTypeCode="CHL">
+										<BaseFare Amount="95.0" CurrencyCode="USD" DecimalPlaces="2"/>
+										<Taxes>
+											<Tax Amount="4.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="child_tax"/>
+											<Tax Amount="6.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="child_surcharge"/>
+											<Tax Amount="3.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="child_checkInFee"/>
+											<Tax Amount="0.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="service_fee"/>
+										</Taxes>
+										<TotalFare Amount="108.0" CurrencyCode="USD" DecimalPlaces="2"/>
+									</PricingInfo>
+								</FareDisplayInfo>
+								<FareDisplayInfo ResBookDesigCode="A">
+									<TravelDates ArrivalDate="2016-08-03 09:05:00.0" DepartureDate="2016-08-03 07:45:00.0"/>
+									<FareReference>AOW/DOM</FareReference>
+									<FareReferenceID>2147812</FareReferenceID>
+									<MarkettingAirline CompanyShortName="PC"/>
+									<DepartureLocation LocationCode="AYT"/>
+									<ArrivalLocation LocationCode="SAW"/>
+									<PricingInfo PassengerTypeCode="INF">
+										<BaseFare Amount="8.0" CurrencyCode="USD" DecimalPlaces="2"/>
+										<Taxes>
+											<Tax Amount="0.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="infant_tax"/>
+											<Tax Amount="0.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="infant_surcharge"/>
+											<Tax Amount="0.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="infant_checkInFee"/>
+											<Tax Amount="0.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="service_fee"/>
+										</Taxes>
+										<TotalFare Amount="8.0" CurrencyCode="USD" DecimalPlaces="2"/>
+									</PricingInfo>
+								</FareDisplayInfo>
+								<dummy xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+							</FareDisplayInfos>
+						</BookingClassAvailExt>
+						<BookingClassAvailExt RPH="0" ResBookDesigCode="F" ResBookDesigQuantity="9">
+							<FareDisplayInfos>
+								<FareDisplayInfo ResBookDesigCode="F">
+									<TravelDates ArrivalDate="2016-08-03 09:05:00.0" DepartureDate="2016-08-03 07:45:00.0"/>
+									<FareReference>FAOW/DOM</FareReference>
+									<FareReferenceID>2147828</FareReferenceID>
+									<MarkettingAirline CompanyShortName="PC"/>
+									<DepartureLocation LocationCode="AYT"/>
+									<ArrivalLocation LocationCode="SAW"/>
+									<PricingInfo PassengerTypeCode="ADT">
+										<BaseFare Amount="92.0" CurrencyCode="USD" DecimalPlaces="2"/>
+										<Taxes>
+											<Tax Amount="4.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="adult_tax"/>
+											<Tax Amount="6.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="adult_surcharge"/>
+											<Tax Amount="3.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="adult_checkInFee"/>
+											<Tax Amount="0.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="service_fee"/>
+										</Taxes>
+										<TotalFare Amount="105.0" CurrencyCode="USD" DecimalPlaces="2"/>
+									</PricingInfo>
+								</FareDisplayInfo>
+								<FareDisplayInfo ResBookDesigCode="F">
+									<TravelDates ArrivalDate="2016-08-03 09:05:00.0" DepartureDate="2016-08-03 07:45:00.0"/>
+									<FareReference>FAOW/DOM</FareReference>
+									<FareReferenceID>2147828</FareReferenceID>
+									<MarkettingAirline CompanyShortName="PC"/>
+									<DepartureLocation LocationCode="AYT"/>
+									<ArrivalLocation LocationCode="SAW"/>
+									<PricingInfo PassengerTypeCode="CHL">
+										<BaseFare Amount="92.0" CurrencyCode="USD" DecimalPlaces="2"/>
+										<Taxes>
+											<Tax Amount="4.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="child_tax"/>
+											<Tax Amount="6.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="child_surcharge"/>
+											<Tax Amount="3.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="child_checkInFee"/>
+											<Tax Amount="0.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="service_fee"/>
+										</Taxes>
+										<TotalFare Amount="105.0" CurrencyCode="USD" DecimalPlaces="2"/>
+									</PricingInfo>
+								</FareDisplayInfo>
+								<FareDisplayInfo ResBookDesigCode="F">
+									<TravelDates ArrivalDate="2016-08-03 09:05:00.0" DepartureDate="2016-08-03 07:45:00.0"/>
+									<FareReference>FAOW/DOM</FareReference>
+									<FareReferenceID>2147828</FareReferenceID>
+									<MarkettingAirline CompanyShortName="PC"/>
+									<DepartureLocation LocationCode="AYT"/>
+									<ArrivalLocation LocationCode="SAW"/>
+									<PricingInfo PassengerTypeCode="INF">
+										<BaseFare Amount="8.0" CurrencyCode="USD" DecimalPlaces="2"/>
+										<Taxes>
+											<Tax Amount="0.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="infant_tax"/>
+											<Tax Amount="0.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="infant_surcharge"/>
+											<Tax Amount="0.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="infant_checkInFee"/>
+											<Tax Amount="0.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="service_fee"/>
+										</Taxes>
+										<TotalFare Amount="8.0" CurrencyCode="USD" DecimalPlaces="2"/>
+									</PricingInfo>
+								</FareDisplayInfo>
+								<dummy xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+							</FareDisplayInfos>
+						</BookingClassAvailExt>
+						<BookingClassAvailExt RPH="0" ResBookDesigCode="E" ResBookDesigQuantity="9">
+							<FareDisplayInfos>
+								<FareDisplayInfo ResBookDesigCode="E">
+									<TravelDates ArrivalDate="2016-08-03 09:05:00.0" DepartureDate="2016-08-03 07:45:00.0"/>
+									<FareReference>EAOW/DOM</FareReference>
+									<FareReferenceID>2147820</FareReferenceID>
+									<MarkettingAirline CompanyShortName="PC"/>
+									<DepartureLocation LocationCode="AYT"/>
+									<ArrivalLocation LocationCode="SAW"/>
+									<PricingInfo PassengerTypeCode="ADT">
+										<BaseFare Amount="51.0" CurrencyCode="USD" DecimalPlaces="2"/>
+										<Taxes>
+											<Tax Amount="4.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="adult_tax"/>
+											<Tax Amount="6.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="adult_surcharge"/>
+											<Tax Amount="3.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="adult_checkInFee"/>
+											<Tax Amount="0.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="service_fee"/>
+										</Taxes>
+										<TotalFare Amount="64.0" CurrencyCode="USD" DecimalPlaces="2"/>
+									</PricingInfo>
+								</FareDisplayInfo>
+								<FareDisplayInfo ResBookDesigCode="E">
+									<TravelDates ArrivalDate="2016-08-03 09:05:00.0" DepartureDate="2016-08-03 07:45:00.0"/>
+									<FareReference>EAOW/DOM</FareReference>
+									<FareReferenceID>2147820</FareReferenceID>
+									<MarkettingAirline CompanyShortName="PC"/>
+									<DepartureLocation LocationCode="AYT"/>
+									<ArrivalLocation LocationCode="SAW"/>
+									<PricingInfo PassengerTypeCode="CHL">
+										<BaseFare Amount="51.0" CurrencyCode="USD" DecimalPlaces="2"/>
+										<Taxes>
+											<Tax Amount="4.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="child_tax"/>
+											<Tax Amount="6.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="child_surcharge"/>
+											<Tax Amount="3.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="child_checkInFee"/>
+											<Tax Amount="0.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="service_fee"/>
+										</Taxes>
+										<TotalFare Amount="64.0" CurrencyCode="USD" DecimalPlaces="2"/>
+									</PricingInfo>
+								</FareDisplayInfo>
+								<FareDisplayInfo ResBookDesigCode="E">
+									<TravelDates ArrivalDate="2016-08-03 09:05:00.0" DepartureDate="2016-08-03 07:45:00.0"/>
+									<FareReference>EAOW/DOM</FareReference>
+									<FareReferenceID>2147820</FareReferenceID>
+									<MarkettingAirline CompanyShortName="PC"/>
+									<DepartureLocation LocationCode="AYT"/>
+									<ArrivalLocation LocationCode="SAW"/>
+									<PricingInfo PassengerTypeCode="INF">
+										<BaseFare Amount="8.0" CurrencyCode="USD" DecimalPlaces="2"/>
+										<Taxes>
+											<Tax Amount="0.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="infant_tax"/>
+											<Tax Amount="0.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="infant_surcharge"/>
+											<Tax Amount="0.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="infant_checkInFee"/>
+											<Tax Amount="0.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="service_fee"/>
+										</Taxes>
+										<TotalFare Amount="8.0" CurrencyCode="USD" DecimalPlaces="2"/>
+									</PricingInfo>
+								</FareDisplayInfo>
+								<dummy xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+							</FareDisplayInfos>
+						</BookingClassAvailExt>
+						<comment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+					</FlightSegmentExt>
+					<dummy xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+				</OriginDestinationOptionExt>
+				<dummy xmlns="http://types.paxws.otaxmlws/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+			</OriginDestinationOptionsExt>
+			<ReturnOriginDestinationOptionsExt xmlns="http://ota.paxws.otaxmlws/">
+				<OriginDestinationOptionExt xmlns="http://types.paxws.otaxmlws/">
+					<FlightSegmentExt ArrivalDateTime="2016-08-03 10:05:00.0" DepartureDateTime="2016-08-03 09:05:00.0" FlightNumber="101" JourneyDuration="" OnTimeRate="" ResBookDesigCode="" ResBookDesigID="" StopQuantity="0" Ticket="">
+						<DepartureAirport LocationCode="ESB"/>
+						<ArrivalAirport LocationCode="SAW"/>
+						<Equipment AirEquipType="" ChangeofGauge="NONE"/>
+						<MarkettingAirline CompanyShortName="PC"/>
+						<MarketingCabin CabinType="" RPH="0">
+							<Meal>*</Meal>
+						</MarketingCabin>
+						<BookingClassAvailExt RPH="0" ResBookDesigCode="A" ResBookDesigQuantity="9">
+							<FareDisplayInfos>
+								<FareDisplayInfo ResBookDesigCode="A">
+									<TravelDates ArrivalDate="2016-08-03 10:05:00.0" DepartureDate="2016-08-03 09:05:00.0"/>
+									<FareReference>AOW/DOM</FareReference>
+									<FareReferenceID>2147813</FareReferenceID>
+									<MarkettingAirline CompanyShortName="PC"/>
+									<DepartureLocation LocationCode="ESB"/>
+									<ArrivalLocation LocationCode="SAW"/>
+									<PricingInfo PassengerTypeCode="ADT">
+										<BaseFare Amount="95.0" CurrencyCode="USD" DecimalPlaces="2"/>
+										<Taxes>
+											<Tax Amount="4.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="adult_tax"/>
+											<Tax Amount="6.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="adult_surcharge"/>
+											<Tax Amount="3.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="adult_checkInFee"/>
+											<Tax Amount="0.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="service_fee"/>
+										</Taxes>
+										<TotalFare Amount="108.0" CurrencyCode="USD" DecimalPlaces="2"/>
+									</PricingInfo>
+								</FareDisplayInfo>
+								<FareDisplayInfo ResBookDesigCode="A">
+									<TravelDates ArrivalDate="2016-08-03 10:05:00.0" DepartureDate="2016-08-03 09:05:00.0"/>
+									<FareReference>AOW/DOM</FareReference>
+									<FareReferenceID>2147813</FareReferenceID>
+									<MarkettingAirline CompanyShortName="PC"/>
+									<DepartureLocation LocationCode="ESB"/>
+									<ArrivalLocation LocationCode="SAW"/>
+									<PricingInfo PassengerTypeCode="CHL">
+										<BaseFare Amount="95.0" CurrencyCode="USD" DecimalPlaces="2"/>
+										<Taxes>
+											<Tax Amount="4.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="child_tax"/>
+											<Tax Amount="6.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="child_surcharge"/>
+											<Tax Amount="3.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="child_checkInFee"/>
+											<Tax Amount="0.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="service_fee"/>
+										</Taxes>
+										<TotalFare Amount="108.0" CurrencyCode="USD" DecimalPlaces="2"/>
+									</PricingInfo>
+								</FareDisplayInfo>
+								<FareDisplayInfo ResBookDesigCode="A">
+									<TravelDates ArrivalDate="2016-08-03 10:05:00.0" DepartureDate="2016-08-03 09:05:00.0"/>
+									<FareReference>AOW/DOM</FareReference>
+									<FareReferenceID>2147813</FareReferenceID>
+									<MarkettingAirline CompanyShortName="PC"/>
+									<DepartureLocation LocationCode="ESB"/>
+									<ArrivalLocation LocationCode="SAW"/>
+									<PricingInfo PassengerTypeCode="INF">
+										<BaseFare Amount="8.0" CurrencyCode="USD" DecimalPlaces="2"/>
+										<Taxes>
+											<Tax Amount="0.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="infant_tax"/>
+											<Tax Amount="0.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="infant_surcharge"/>
+											<Tax Amount="0.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="infant_checkInFee"/>
+											<Tax Amount="0.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="service_fee"/>
+										</Taxes>
+										<TotalFare Amount="8.0" CurrencyCode="USD" DecimalPlaces="2"/>
+									</PricingInfo>
+								</FareDisplayInfo>
+								<dummy xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+							</FareDisplayInfos>
+						</BookingClassAvailExt>
+						<BookingClassAvailExt RPH="0" ResBookDesigCode="F" ResBookDesigQuantity="9">
+							<FareDisplayInfos>
+								<FareDisplayInfo ResBookDesigCode="F">
+									<TravelDates ArrivalDate="2016-08-03 10:05:00.0" DepartureDate="2016-08-03 09:05:00.0"/>
+									<FareReference>FAOW/DOM</FareReference>
+									<FareReferenceID>2147829</FareReferenceID>
+									<MarkettingAirline CompanyShortName="PC"/>
+									<DepartureLocation LocationCode="ESB"/>
+									<ArrivalLocation LocationCode="SAW"/>
+									<PricingInfo PassengerTypeCode="ADT">
+										<BaseFare Amount="93.0" CurrencyCode="USD" DecimalPlaces="2"/>
+										<Taxes>
+											<Tax Amount="4.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="adult_tax"/>
+											<Tax Amount="6.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="adult_surcharge"/>
+											<Tax Amount="3.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="adult_checkInFee"/>
+											<Tax Amount="0.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="service_fee"/>
+										</Taxes>
+										<TotalFare Amount="106.0" CurrencyCode="USD" DecimalPlaces="2"/>
+									</PricingInfo>
+								</FareDisplayInfo>
+								<FareDisplayInfo ResBookDesigCode="F">
+									<TravelDates ArrivalDate="2016-08-03 10:05:00.0" DepartureDate="2016-08-03 09:05:00.0"/>
+									<FareReference>FAOW/DOM</FareReference>
+									<FareReferenceID>2147829</FareReferenceID>
+									<MarkettingAirline CompanyShortName="PC"/>
+									<DepartureLocation LocationCode="ESB"/>
+									<ArrivalLocation LocationCode="SAW"/>
+									<PricingInfo PassengerTypeCode="CHL">
+										<BaseFare Amount="93.0" CurrencyCode="USD" DecimalPlaces="2"/>
+										<Taxes>
+											<Tax Amount="4.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="child_tax"/>
+											<Tax Amount="6.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="child_surcharge"/>
+											<Tax Amount="3.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="child_checkInFee"/>
+											<Tax Amount="0.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="service_fee"/>
+										</Taxes>
+										<TotalFare Amount="106.0" CurrencyCode="USD" DecimalPlaces="2"/>
+									</PricingInfo>
+								</FareDisplayInfo>
+								<FareDisplayInfo ResBookDesigCode="F">
+									<TravelDates ArrivalDate="2016-08-03 10:05:00.0" DepartureDate="2016-08-03 09:05:00.0"/>
+									<FareReference>FAOW/DOM</FareReference>
+									<FareReferenceID>2147829</FareReferenceID>
+									<MarkettingAirline CompanyShortName="PC"/>
+									<DepartureLocation LocationCode="ESB"/>
+									<ArrivalLocation LocationCode="SAW"/>
+									<PricingInfo PassengerTypeCode="INF">
+										<BaseFare Amount="8.0" CurrencyCode="USD" DecimalPlaces="2"/>
+										<Taxes>
+											<Tax Amount="0.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="infant_tax"/>
+											<Tax Amount="0.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="infant_surcharge"/>
+											<Tax Amount="0.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="infant_checkInFee"/>
+											<Tax Amount="0.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="service_fee"/>
+										</Taxes>
+										<TotalFare Amount="8.0" CurrencyCode="USD" DecimalPlaces="2"/>
+									</PricingInfo>
+								</FareDisplayInfo>
+								<dummy xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+							</FareDisplayInfos>
+						</BookingClassAvailExt>
+						<BookingClassAvailExt RPH="0" ResBookDesigCode="E" ResBookDesigQuantity="9">
+							<FareDisplayInfos>
+								<FareDisplayInfo ResBookDesigCode="E">
+									<TravelDates ArrivalDate="2016-08-03 10:05:00.0" DepartureDate="2016-08-03 09:05:00.0"/>
+									<FareReference>EAOW/DOM</FareReference>
+									<FareReferenceID>2147821</FareReferenceID>
+									<MarkettingAirline CompanyShortName="PC"/>
+									<DepartureLocation LocationCode="ESB"/>
+									<ArrivalLocation LocationCode="SAW"/>
+									<PricingInfo PassengerTypeCode="ADT">
+										<BaseFare Amount="54.0" CurrencyCode="USD" DecimalPlaces="2"/>
+										<Taxes>
+											<Tax Amount="4.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="adult_tax"/>
+											<Tax Amount="6.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="adult_surcharge"/>
+											<Tax Amount="3.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="adult_checkInFee"/>
+											<Tax Amount="0.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="service_fee"/>
+										</Taxes>
+										<TotalFare Amount="67.0" CurrencyCode="USD" DecimalPlaces="2"/>
+									</PricingInfo>
+								</FareDisplayInfo>
+								<FareDisplayInfo ResBookDesigCode="E">
+									<TravelDates ArrivalDate="2016-08-03 10:05:00.0" DepartureDate="2016-08-03 09:05:00.0"/>
+									<FareReference>EAOW/DOM</FareReference>
+									<FareReferenceID>2147821</FareReferenceID>
+									<MarkettingAirline CompanyShortName="PC"/>
+									<DepartureLocation LocationCode="ESB"/>
+									<ArrivalLocation LocationCode="SAW"/>
+									<PricingInfo PassengerTypeCode="CHL">
+										<BaseFare Amount="54.0" CurrencyCode="USD" DecimalPlaces="2"/>
+										<Taxes>
+											<Tax Amount="4.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="child_tax"/>
+											<Tax Amount="6.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="child_surcharge"/>
+											<Tax Amount="3.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="child_checkInFee"/>
+											<Tax Amount="0.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="service_fee"/>
+										</Taxes>
+										<TotalFare Amount="67.0" CurrencyCode="USD" DecimalPlaces="2"/>
+									</PricingInfo>
+								</FareDisplayInfo>
+								<FareDisplayInfo ResBookDesigCode="E">
+									<TravelDates ArrivalDate="2016-08-03 10:05:00.0" DepartureDate="2016-08-03 09:05:00.0"/>
+									<FareReference>EAOW/DOM</FareReference>
+									<FareReferenceID>2147821</FareReferenceID>
+									<MarkettingAirline CompanyShortName="PC"/>
+									<DepartureLocation LocationCode="ESB"/>
+									<ArrivalLocation LocationCode="SAW"/>
+									<PricingInfo PassengerTypeCode="INF">
+										<BaseFare Amount="8.0" CurrencyCode="USD" DecimalPlaces="2"/>
+										<Taxes>
+											<Tax Amount="0.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="infant_tax"/>
+											<Tax Amount="0.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="infant_surcharge"/>
+											<Tax Amount="0.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="infant_checkInFee"/>
+											<Tax Amount="0.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="service_fee"/>
+										</Taxes>
+										<TotalFare Amount="8.0" CurrencyCode="USD" DecimalPlaces="2"/>
+									</PricingInfo>
+								</FareDisplayInfo>
+								<dummy xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+							</FareDisplayInfos>
+						</BookingClassAvailExt>
+						<comment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+					</FlightSegmentExt>
+					<FlightSegmentExt ArrivalDateTime="2016-08-03 13:35:00.0" DepartureDateTime="2016-08-03 12:10:00.0" FlightNumber="144" JourneyDuration="" OnTimeRate="" ResBookDesigCode="" ResBookDesigID="" StopQuantity="0" Ticket="">
+						<DepartureAirport LocationCode="SAW"/>
+						<ArrivalAirport LocationCode="AYT"/>
+						<Equipment AirEquipType="" ChangeofGauge="NONE"/>
+						<MarkettingAirline CompanyShortName="PC"/>
+						<MarketingCabin CabinType="" RPH="0">
+							<Meal>*</Meal>
+						</MarketingCabin>
+						<BookingClassAvailExt RPH="0" ResBookDesigCode="Y" ResBookDesigQuantity="9">
+							<FareDisplayInfos>
+								<FareDisplayInfo ResBookDesigCode="Y">
+									<TravelDates ArrivalDate="2016-08-03 13:35:00.0" DepartureDate="2016-08-03 12:10:00.0"/>
+									<FareReference>YOW</FareReference>
+									<FareReferenceID>2039793</FareReferenceID>
+									<MarkettingAirline CompanyShortName="PC"/>
+									<DepartureLocation LocationCode="SAW"/>
+									<ArrivalLocation LocationCode="AYT"/>
+									<PricingInfo PassengerTypeCode="ADT">
+										<BaseFare Amount="92.0" CurrencyCode="USD" DecimalPlaces="2"/>
+										<Taxes>
+											<Tax Amount="4.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="adult_tax"/>
+											<Tax Amount="6.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="adult_surcharge"/>
+											<Tax Amount="3.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="adult_checkInFee"/>
+											<Tax Amount="0.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="service_fee"/>
+										</Taxes>
+										<TotalFare Amount="105.0" CurrencyCode="USD" DecimalPlaces="2"/>
+									</PricingInfo>
+								</FareDisplayInfo>
+								<FareDisplayInfo ResBookDesigCode="Y">
+									<TravelDates ArrivalDate="2016-08-03 13:35:00.0" DepartureDate="2016-08-03 12:10:00.0"/>
+									<FareReference>YOW</FareReference>
+									<FareReferenceID>2039793</FareReferenceID>
+									<MarkettingAirline CompanyShortName="PC"/>
+									<DepartureLocation LocationCode="SAW"/>
+									<ArrivalLocation LocationCode="AYT"/>
+									<PricingInfo PassengerTypeCode="CHL">
+										<BaseFare Amount="79.0" CurrencyCode="USD" DecimalPlaces="2"/>
+										<Taxes>
+											<Tax Amount="4.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="child_tax"/>
+											<Tax Amount="6.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="child_surcharge"/>
+											<Tax Amount="3.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="child_checkInFee"/>
+											<Tax Amount="0.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="service_fee"/>
+										</Taxes>
+										<TotalFare Amount="92.0" CurrencyCode="USD" DecimalPlaces="2"/>
+									</PricingInfo>
+								</FareDisplayInfo>
+								<FareDisplayInfo ResBookDesigCode="Y">
+									<TravelDates ArrivalDate="2016-08-03 13:35:00.0" DepartureDate="2016-08-03 12:10:00.0"/>
+									<FareReference>YOW</FareReference>
+									<FareReferenceID>2039793</FareReferenceID>
+									<MarkettingAirline CompanyShortName="PC"/>
+									<DepartureLocation LocationCode="SAW"/>
+									<ArrivalLocation LocationCode="AYT"/>
+									<PricingInfo PassengerTypeCode="INF">
+										<BaseFare Amount="8.0" CurrencyCode="USD" DecimalPlaces="2"/>
+										<Taxes>
+											<Tax Amount="0.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="infant_tax"/>
+											<Tax Amount="0.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="infant_surcharge"/>
+											<Tax Amount="0.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="infant_checkInFee"/>
+											<Tax Amount="0.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="service_fee"/>
+										</Taxes>
+										<TotalFare Amount="8.0" CurrencyCode="USD" DecimalPlaces="2"/>
+									</PricingInfo>
+								</FareDisplayInfo>
+								<dummy xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+							</FareDisplayInfos>
+						</BookingClassAvailExt>
+						<BookingClassAvailExt RPH="0" ResBookDesigCode="D" ResBookDesigQuantity="9">
+							<FareDisplayInfos>
+								<FareDisplayInfo ResBookDesigCode="D">
+									<TravelDates ArrivalDate="2016-08-03 13:35:00.0" DepartureDate="2016-08-03 12:10:00.0"/>
+									<FareReference>DOW</FareReference>
+									<FareReferenceID>2039777</FareReferenceID>
+									<MarkettingAirline CompanyShortName="PC"/>
+									<DepartureLocation LocationCode="SAW"/>
+									<ArrivalLocation LocationCode="AYT"/>
+									<PricingInfo PassengerTypeCode="ADT">
+										<BaseFare Amount="92.0" CurrencyCode="USD" DecimalPlaces="2"/>
+										<Taxes>
+											<Tax Amount="4.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="adult_tax"/>
+											<Tax Amount="6.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="adult_surcharge"/>
+											<Tax Amount="3.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="adult_checkInFee"/>
+											<Tax Amount="0.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="service_fee"/>
+										</Taxes>
+										<TotalFare Amount="105.0" CurrencyCode="USD" DecimalPlaces="2"/>
+									</PricingInfo>
+								</FareDisplayInfo>
+								<FareDisplayInfo ResBookDesigCode="D">
+									<TravelDates ArrivalDate="2016-08-03 13:35:00.0" DepartureDate="2016-08-03 12:10:00.0"/>
+									<FareReference>DOW</FareReference>
+									<FareReferenceID>2039777</FareReferenceID>
+									<MarkettingAirline CompanyShortName="PC"/>
+									<DepartureLocation LocationCode="SAW"/>
+									<ArrivalLocation LocationCode="AYT"/>
+									<PricingInfo PassengerTypeCode="CHL">
+										<BaseFare Amount="79.0" CurrencyCode="USD" DecimalPlaces="2"/>
+										<Taxes>
+											<Tax Amount="4.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="child_tax"/>
+											<Tax Amount="6.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="child_surcharge"/>
+											<Tax Amount="3.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="child_checkInFee"/>
+											<Tax Amount="0.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="service_fee"/>
+										</Taxes>
+										<TotalFare Amount="92.0" CurrencyCode="USD" DecimalPlaces="2"/>
+									</PricingInfo>
+								</FareDisplayInfo>
+								<FareDisplayInfo ResBookDesigCode="D">
+									<TravelDates ArrivalDate="2016-08-03 13:35:00.0" DepartureDate="2016-08-03 12:10:00.0"/>
+									<FareReference>DOW</FareReference>
+									<FareReferenceID>2039777</FareReferenceID>
+									<MarkettingAirline CompanyShortName="PC"/>
+									<DepartureLocation LocationCode="SAW"/>
+									<ArrivalLocation LocationCode="AYT"/>
+									<PricingInfo PassengerTypeCode="INF">
+										<BaseFare Amount="8.0" CurrencyCode="USD" DecimalPlaces="2"/>
+										<Taxes>
+											<Tax Amount="0.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="infant_tax"/>
+											<Tax Amount="0.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="infant_surcharge"/>
+											<Tax Amount="0.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="infant_checkInFee"/>
+											<Tax Amount="0.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="service_fee"/>
+										</Taxes>
+										<TotalFare Amount="8.0" CurrencyCode="USD" DecimalPlaces="2"/>
+									</PricingInfo>
+								</FareDisplayInfo>
+								<dummy xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+							</FareDisplayInfos>
+						</BookingClassAvailExt>
+						<BookingClassAvailExt RPH="0" ResBookDesigCode="R" ResBookDesigQuantity="9">
+							<FareDisplayInfos>
+								<FareDisplayInfo ResBookDesigCode="R">
+									<TravelDates ArrivalDate="2016-08-03 13:35:00.0" DepartureDate="2016-08-03 12:10:00.0"/>
+									<FareReference>ROW</FareReference>
+									<FareReferenceID>2039787</FareReferenceID>
+									<MarkettingAirline CompanyShortName="PC"/>
+									<DepartureLocation LocationCode="SAW"/>
+									<ArrivalLocation LocationCode="AYT"/>
+									<PricingInfo PassengerTypeCode="ADT">
+										<BaseFare Amount="92.0" CurrencyCode="USD" DecimalPlaces="2"/>
+										<Taxes>
+											<Tax Amount="4.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="adult_tax"/>
+											<Tax Amount="6.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="adult_surcharge"/>
+											<Tax Amount="3.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="adult_checkInFee"/>
+											<Tax Amount="0.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="service_fee"/>
+										</Taxes>
+										<TotalFare Amount="105.0" CurrencyCode="USD" DecimalPlaces="2"/>
+									</PricingInfo>
+								</FareDisplayInfo>
+								<FareDisplayInfo ResBookDesigCode="R">
+									<TravelDates ArrivalDate="2016-08-03 13:35:00.0" DepartureDate="2016-08-03 12:10:00.0"/>
+									<FareReference>ROW</FareReference>
+									<FareReferenceID>2039787</FareReferenceID>
+									<MarkettingAirline CompanyShortName="PC"/>
+									<DepartureLocation LocationCode="SAW"/>
+									<ArrivalLocation LocationCode="AYT"/>
+									<PricingInfo PassengerTypeCode="CHL">
+										<BaseFare Amount="79.0" CurrencyCode="USD" DecimalPlaces="2"/>
+										<Taxes>
+											<Tax Amount="4.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="child_tax"/>
+											<Tax Amount="6.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="child_surcharge"/>
+											<Tax Amount="3.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="child_checkInFee"/>
+											<Tax Amount="0.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="service_fee"/>
+										</Taxes>
+										<TotalFare Amount="92.0" CurrencyCode="USD" DecimalPlaces="2"/>
+									</PricingInfo>
+								</FareDisplayInfo>
+								<FareDisplayInfo ResBookDesigCode="R">
+									<TravelDates ArrivalDate="2016-08-03 13:35:00.0" DepartureDate="2016-08-03 12:10:00.0"/>
+									<FareReference>ROW</FareReference>
+									<FareReferenceID>2039787</FareReferenceID>
+									<MarkettingAirline CompanyShortName="PC"/>
+									<DepartureLocation LocationCode="SAW"/>
+									<ArrivalLocation LocationCode="AYT"/>
+									<PricingInfo PassengerTypeCode="INF">
+										<BaseFare Amount="8.0" CurrencyCode="USD" DecimalPlaces="2"/>
+										<Taxes>
+											<Tax Amount="0.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="infant_tax"/>
+											<Tax Amount="0.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="infant_surcharge"/>
+											<Tax Amount="0.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="infant_checkInFee"/>
+											<Tax Amount="0.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="service_fee"/>
+										</Taxes>
+										<TotalFare Amount="8.0" CurrencyCode="USD" DecimalPlaces="2"/>
+									</PricingInfo>
+								</FareDisplayInfo>
+								<dummy xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+							</FareDisplayInfos>
+						</BookingClassAvailExt>
+						<BookingClassAvailExt RPH="0" ResBookDesigCode="Q" ResBookDesigQuantity="9">
+							<FareDisplayInfos>
+								<FareDisplayInfo ResBookDesigCode="Q">
+									<TravelDates ArrivalDate="2016-08-03 13:35:00.0" DepartureDate="2016-08-03 12:10:00.0"/>
+									<FareReference>QOW</FareReference>
+									<FareReferenceID>2034367</FareReferenceID>
+									<MarkettingAirline CompanyShortName="PC"/>
+									<DepartureLocation LocationCode="SAW"/>
+									<ArrivalLocation LocationCode="AYT"/>
+									<PricingInfo PassengerTypeCode="ADT">
+										<BaseFare Amount="92.0" CurrencyCode="USD" DecimalPlaces="2"/>
+										<Taxes>
+											<Tax Amount="4.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="adult_tax"/>
+											<Tax Amount="6.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="adult_surcharge"/>
+											<Tax Amount="3.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="adult_checkInFee"/>
+											<Tax Amount="0.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="service_fee"/>
+										</Taxes>
+										<TotalFare Amount="105.0" CurrencyCode="USD" DecimalPlaces="2"/>
+									</PricingInfo>
+								</FareDisplayInfo>
+								<FareDisplayInfo ResBookDesigCode="Q">
+									<TravelDates ArrivalDate="2016-08-03 13:35:00.0" DepartureDate="2016-08-03 12:10:00.0"/>
+									<FareReference>QOW</FareReference>
+									<FareReferenceID>2034367</FareReferenceID>
+									<MarkettingAirline CompanyShortName="PC"/>
+									<DepartureLocation LocationCode="SAW"/>
+									<ArrivalLocation LocationCode="AYT"/>
+									<PricingInfo PassengerTypeCode="CHL">
+										<BaseFare Amount="79.0" CurrencyCode="USD" DecimalPlaces="2"/>
+										<Taxes>
+											<Tax Amount="4.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="child_tax"/>
+											<Tax Amount="6.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="child_surcharge"/>
+											<Tax Amount="3.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="child_checkInFee"/>
+											<Tax Amount="0.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="service_fee"/>
+										</Taxes>
+										<TotalFare Amount="92.0" CurrencyCode="USD" DecimalPlaces="2"/>
+									</PricingInfo>
+								</FareDisplayInfo>
+								<FareDisplayInfo ResBookDesigCode="Q">
+									<TravelDates ArrivalDate="2016-08-03 13:35:00.0" DepartureDate="2016-08-03 12:10:00.0"/>
+									<FareReference>QOW</FareReference>
+									<FareReferenceID>2034367</FareReferenceID>
+									<MarkettingAirline CompanyShortName="PC"/>
+									<DepartureLocation LocationCode="SAW"/>
+									<ArrivalLocation LocationCode="AYT"/>
+									<PricingInfo PassengerTypeCode="INF">
+										<BaseFare Amount="8.0" CurrencyCode="USD" DecimalPlaces="2"/>
+										<Taxes>
+											<Tax Amount="0.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="infant_tax"/>
+											<Tax Amount="0.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="infant_surcharge"/>
+											<Tax Amount="0.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="infant_checkInFee"/>
+											<Tax Amount="0.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="service_fee"/>
+										</Taxes>
+										<TotalFare Amount="8.0" CurrencyCode="USD" DecimalPlaces="2"/>
+									</PricingInfo>
+								</FareDisplayInfo>
+								<dummy xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+							</FareDisplayInfos>
+						</BookingClassAvailExt>
+						<BookingClassAvailExt RPH="0" ResBookDesigCode="B" ResBookDesigQuantity="9">
+							<FareDisplayInfos>
+								<FareDisplayInfo ResBookDesigCode="B">
+									<TravelDates ArrivalDate="2016-08-03 13:35:00.0" DepartureDate="2016-08-03 12:10:00.0"/>
+									<FareReference>BOW</FareReference>
+									<FareReferenceID>2034354</FareReferenceID>
+									<MarkettingAirline CompanyShortName="PC"/>
+									<DepartureLocation LocationCode="SAW"/>
+									<ArrivalLocation LocationCode="AYT"/>
+									<PricingInfo PassengerTypeCode="ADT">
+										<BaseFare Amount="85.0" CurrencyCode="USD" DecimalPlaces="2"/>
+										<Taxes>
+											<Tax Amount="4.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="adult_tax"/>
+											<Tax Amount="6.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="adult_surcharge"/>
+											<Tax Amount="3.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="adult_checkInFee"/>
+											<Tax Amount="0.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="service_fee"/>
+										</Taxes>
+										<TotalFare Amount="98.0" CurrencyCode="USD" DecimalPlaces="2"/>
+									</PricingInfo>
+								</FareDisplayInfo>
+								<FareDisplayInfo ResBookDesigCode="B">
+									<TravelDates ArrivalDate="2016-08-03 13:35:00.0" DepartureDate="2016-08-03 12:10:00.0"/>
+									<FareReference>BOW</FareReference>
+									<FareReferenceID>2034354</FareReferenceID>
+									<MarkettingAirline CompanyShortName="PC"/>
+									<DepartureLocation LocationCode="SAW"/>
+									<ArrivalLocation LocationCode="AYT"/>
+									<PricingInfo PassengerTypeCode="CHL">
+										<BaseFare Amount="73.0" CurrencyCode="USD" DecimalPlaces="2"/>
+										<Taxes>
+											<Tax Amount="4.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="child_tax"/>
+											<Tax Amount="6.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="child_surcharge"/>
+											<Tax Amount="3.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="child_checkInFee"/>
+											<Tax Amount="0.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="service_fee"/>
+										</Taxes>
+										<TotalFare Amount="86.0" CurrencyCode="USD" DecimalPlaces="2"/>
+									</PricingInfo>
+								</FareDisplayInfo>
+								<FareDisplayInfo ResBookDesigCode="B">
+									<TravelDates ArrivalDate="2016-08-03 13:35:00.0" DepartureDate="2016-08-03 12:10:00.0"/>
+									<FareReference>BOW</FareReference>
+									<FareReferenceID>2034354</FareReferenceID>
+									<MarkettingAirline CompanyShortName="PC"/>
+									<DepartureLocation LocationCode="SAW"/>
+									<ArrivalLocation LocationCode="AYT"/>
+									<PricingInfo PassengerTypeCode="INF">
+										<BaseFare Amount="8.0" CurrencyCode="USD" DecimalPlaces="2"/>
+										<Taxes>
+											<Tax Amount="0.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="infant_tax"/>
+											<Tax Amount="0.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="infant_surcharge"/>
+											<Tax Amount="0.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="infant_checkInFee"/>
+											<Tax Amount="0.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="service_fee"/>
+										</Taxes>
+										<TotalFare Amount="8.0" CurrencyCode="USD" DecimalPlaces="2"/>
+									</PricingInfo>
+								</FareDisplayInfo>
+								<dummy xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+							</FareDisplayInfos>
+						</BookingClassAvailExt>
+						<BookingClassAvailExt RPH="0" ResBookDesigCode="L" ResBookDesigQuantity="9">
+							<FareDisplayInfos>
+								<FareDisplayInfo ResBookDesigCode="L">
+									<TravelDates ArrivalDate="2016-08-03 13:35:00.0" DepartureDate="2016-08-03 12:10:00.0"/>
+									<FareReference>LOW</FareReference>
+									<FareReferenceID>2034361</FareReferenceID>
+									<MarkettingAirline CompanyShortName="PC"/>
+									<DepartureLocation LocationCode="SAW"/>
+									<ArrivalLocation LocationCode="AYT"/>
+									<PricingInfo PassengerTypeCode="ADT">
+										<BaseFare Amount="78.0" CurrencyCode="USD" DecimalPlaces="2"/>
+										<Taxes>
+											<Tax Amount="4.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="adult_tax"/>
+											<Tax Amount="6.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="adult_surcharge"/>
+											<Tax Amount="3.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="adult_checkInFee"/>
+											<Tax Amount="0.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="service_fee"/>
+										</Taxes>
+										<TotalFare Amount="91.0" CurrencyCode="USD" DecimalPlaces="2"/>
+									</PricingInfo>
+								</FareDisplayInfo>
+								<FareDisplayInfo ResBookDesigCode="L">
+									<TravelDates ArrivalDate="2016-08-03 13:35:00.0" DepartureDate="2016-08-03 12:10:00.0"/>
+									<FareReference>LOW</FareReference>
+									<FareReferenceID>2034361</FareReferenceID>
+									<MarkettingAirline CompanyShortName="PC"/>
+									<DepartureLocation LocationCode="SAW"/>
+									<ArrivalLocation LocationCode="AYT"/>
+									<PricingInfo PassengerTypeCode="CHL">
+										<BaseFare Amount="67.0" CurrencyCode="USD" DecimalPlaces="2"/>
+										<Taxes>
+											<Tax Amount="4.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="child_tax"/>
+											<Tax Amount="6.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="child_surcharge"/>
+											<Tax Amount="3.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="child_checkInFee"/>
+											<Tax Amount="0.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="service_fee"/>
+										</Taxes>
+										<TotalFare Amount="80.0" CurrencyCode="USD" DecimalPlaces="2"/>
+									</PricingInfo>
+								</FareDisplayInfo>
+								<FareDisplayInfo ResBookDesigCode="L">
+									<TravelDates ArrivalDate="2016-08-03 13:35:00.0" DepartureDate="2016-08-03 12:10:00.0"/>
+									<FareReference>LOW</FareReference>
+									<FareReferenceID>2034361</FareReferenceID>
+									<MarkettingAirline CompanyShortName="PC"/>
+									<DepartureLocation LocationCode="SAW"/>
+									<ArrivalLocation LocationCode="AYT"/>
+									<PricingInfo PassengerTypeCode="INF">
+										<BaseFare Amount="8.0" CurrencyCode="USD" DecimalPlaces="2"/>
+										<Taxes>
+											<Tax Amount="0.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="infant_tax"/>
+											<Tax Amount="0.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="infant_surcharge"/>
+											<Tax Amount="0.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="infant_checkInFee"/>
+											<Tax Amount="0.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="service_fee"/>
+										</Taxes>
+										<TotalFare Amount="8.0" CurrencyCode="USD" DecimalPlaces="2"/>
+									</PricingInfo>
+								</FareDisplayInfo>
+								<dummy xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+							</FareDisplayInfos>
+						</BookingClassAvailExt>
+						<BookingClassAvailExt RPH="0" ResBookDesigCode="M" ResBookDesigQuantity="9">
+							<FareDisplayInfos>
+								<FareDisplayInfo ResBookDesigCode="M">
+									<TravelDates ArrivalDate="2016-08-03 13:35:00.0" DepartureDate="2016-08-03 12:10:00.0"/>
+									<FareReference>MOW</FareReference>
+									<FareReferenceID>2039783</FareReferenceID>
+									<MarkettingAirline CompanyShortName="PC"/>
+									<DepartureLocation LocationCode="SAW"/>
+									<ArrivalLocation LocationCode="AYT"/>
+									<PricingInfo PassengerTypeCode="ADT">
+										<BaseFare Amount="69.0" CurrencyCode="USD" DecimalPlaces="2"/>
+										<Taxes>
+											<Tax Amount="4.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="adult_tax"/>
+											<Tax Amount="6.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="adult_surcharge"/>
+											<Tax Amount="3.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="adult_checkInFee"/>
+											<Tax Amount="0.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="service_fee"/>
+										</Taxes>
+										<TotalFare Amount="82.0" CurrencyCode="USD" DecimalPlaces="2"/>
+									</PricingInfo>
+								</FareDisplayInfo>
+								<FareDisplayInfo ResBookDesigCode="M">
+									<TravelDates ArrivalDate="2016-08-03 13:35:00.0" DepartureDate="2016-08-03 12:10:00.0"/>
+									<FareReference>MOW</FareReference>
+									<FareReferenceID>2039783</FareReferenceID>
+									<MarkettingAirline CompanyShortName="PC"/>
+									<DepartureLocation LocationCode="SAW"/>
+									<ArrivalLocation LocationCode="AYT"/>
+									<PricingInfo PassengerTypeCode="CHL">
+										<BaseFare Amount="59.0" CurrencyCode="USD" DecimalPlaces="2"/>
+										<Taxes>
+											<Tax Amount="4.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="child_tax"/>
+											<Tax Amount="6.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="child_surcharge"/>
+											<Tax Amount="3.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="child_checkInFee"/>
+											<Tax Amount="0.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="service_fee"/>
+										</Taxes>
+										<TotalFare Amount="72.0" CurrencyCode="USD" DecimalPlaces="2"/>
+									</PricingInfo>
+								</FareDisplayInfo>
+								<FareDisplayInfo ResBookDesigCode="M">
+									<TravelDates ArrivalDate="2016-08-03 13:35:00.0" DepartureDate="2016-08-03 12:10:00.0"/>
+									<FareReference>MOW</FareReference>
+									<FareReferenceID>2039783</FareReferenceID>
+									<MarkettingAirline CompanyShortName="PC"/>
+									<DepartureLocation LocationCode="SAW"/>
+									<ArrivalLocation LocationCode="AYT"/>
+									<PricingInfo PassengerTypeCode="INF">
+										<BaseFare Amount="8.0" CurrencyCode="USD" DecimalPlaces="2"/>
+										<Taxes>
+											<Tax Amount="0.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="infant_tax"/>
+											<Tax Amount="0.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="infant_surcharge"/>
+											<Tax Amount="0.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="infant_checkInFee"/>
+											<Tax Amount="0.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="service_fee"/>
+										</Taxes>
+										<TotalFare Amount="8.0" CurrencyCode="USD" DecimalPlaces="2"/>
+									</PricingInfo>
+								</FareDisplayInfo>
+								<dummy xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+							</FareDisplayInfos>
+						</BookingClassAvailExt>
+						<BookingClassAvailExt RPH="0" ResBookDesigCode="H" ResBookDesigQuantity="9">
+							<FareDisplayInfos>
+								<FareDisplayInfo ResBookDesigCode="H">
+									<TravelDates ArrivalDate="2016-08-03 13:35:00.0" DepartureDate="2016-08-03 12:10:00.0"/>
+									<FareReference>HOW</FareReference>
+									<FareReferenceID>2034359</FareReferenceID>
+									<MarkettingAirline CompanyShortName="PC"/>
+									<DepartureLocation LocationCode="SAW"/>
+									<ArrivalLocation LocationCode="AYT"/>
+									<PricingInfo PassengerTypeCode="ADT">
+										<BaseFare Amount="67.0" CurrencyCode="USD" DecimalPlaces="2"/>
+										<Taxes>
+											<Tax Amount="4.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="adult_tax"/>
+											<Tax Amount="6.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="adult_surcharge"/>
+											<Tax Amount="3.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="adult_checkInFee"/>
+											<Tax Amount="0.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="service_fee"/>
+										</Taxes>
+										<TotalFare Amount="80.0" CurrencyCode="USD" DecimalPlaces="2"/>
+									</PricingInfo>
+								</FareDisplayInfo>
+								<FareDisplayInfo ResBookDesigCode="H">
+									<TravelDates ArrivalDate="2016-08-03 13:35:00.0" DepartureDate="2016-08-03 12:10:00.0"/>
+									<FareReference>HOW</FareReference>
+									<FareReferenceID>2034359</FareReferenceID>
+									<MarkettingAirline CompanyShortName="PC"/>
+									<DepartureLocation LocationCode="SAW"/>
+									<ArrivalLocation LocationCode="AYT"/>
+									<PricingInfo PassengerTypeCode="CHL">
+										<BaseFare Amount="58.0" CurrencyCode="USD" DecimalPlaces="2"/>
+										<Taxes>
+											<Tax Amount="4.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="child_tax"/>
+											<Tax Amount="6.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="child_surcharge"/>
+											<Tax Amount="3.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="child_checkInFee"/>
+											<Tax Amount="0.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="service_fee"/>
+										</Taxes>
+										<TotalFare Amount="71.0" CurrencyCode="USD" DecimalPlaces="2"/>
+									</PricingInfo>
+								</FareDisplayInfo>
+								<FareDisplayInfo ResBookDesigCode="H">
+									<TravelDates ArrivalDate="2016-08-03 13:35:00.0" DepartureDate="2016-08-03 12:10:00.0"/>
+									<FareReference>HOW</FareReference>
+									<FareReferenceID>2034359</FareReferenceID>
+									<MarkettingAirline CompanyShortName="PC"/>
+									<DepartureLocation LocationCode="SAW"/>
+									<ArrivalLocation LocationCode="AYT"/>
+									<PricingInfo PassengerTypeCode="INF">
+										<BaseFare Amount="8.0" CurrencyCode="USD" DecimalPlaces="2"/>
+										<Taxes>
+											<Tax Amount="0.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="infant_tax"/>
+											<Tax Amount="0.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="infant_surcharge"/>
+											<Tax Amount="0.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="infant_checkInFee"/>
+											<Tax Amount="0.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="service_fee"/>
+										</Taxes>
+										<TotalFare Amount="8.0" CurrencyCode="USD" DecimalPlaces="2"/>
+									</PricingInfo>
+								</FareDisplayInfo>
+								<dummy xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+							</FareDisplayInfos>
+						</BookingClassAvailExt>
+						<BookingClassAvailExt RPH="0" ResBookDesigCode="K" ResBookDesigQuantity="9">
+							<FareDisplayInfos>
+								<FareDisplayInfo ResBookDesigCode="K">
+									<TravelDates ArrivalDate="2016-08-03 13:35:00.0" DepartureDate="2016-08-03 12:10:00.0"/>
+									<FareReference>KOW</FareReference>
+									<FareReferenceID>2034360</FareReferenceID>
+									<MarkettingAirline CompanyShortName="PC"/>
+									<DepartureLocation LocationCode="SAW"/>
+									<ArrivalLocation LocationCode="AYT"/>
+									<PricingInfo PassengerTypeCode="ADT">
+										<BaseFare Amount="62.0" CurrencyCode="USD" DecimalPlaces="2"/>
+										<Taxes>
+											<Tax Amount="4.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="adult_tax"/>
+											<Tax Amount="6.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="adult_surcharge"/>
+											<Tax Amount="3.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="adult_checkInFee"/>
+											<Tax Amount="0.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="service_fee"/>
+										</Taxes>
+										<TotalFare Amount="75.0" CurrencyCode="USD" DecimalPlaces="2"/>
+									</PricingInfo>
+								</FareDisplayInfo>
+								<FareDisplayInfo ResBookDesigCode="K">
+									<TravelDates ArrivalDate="2016-08-03 13:35:00.0" DepartureDate="2016-08-03 12:10:00.0"/>
+									<FareReference>KOW</FareReference>
+									<FareReferenceID>2034360</FareReferenceID>
+									<MarkettingAirline CompanyShortName="PC"/>
+									<DepartureLocation LocationCode="SAW"/>
+									<ArrivalLocation LocationCode="AYT"/>
+									<PricingInfo PassengerTypeCode="CHL">
+										<BaseFare Amount="53.0" CurrencyCode="USD" DecimalPlaces="2"/>
+										<Taxes>
+											<Tax Amount="4.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="child_tax"/>
+											<Tax Amount="6.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="child_surcharge"/>
+											<Tax Amount="3.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="child_checkInFee"/>
+											<Tax Amount="0.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="service_fee"/>
+										</Taxes>
+										<TotalFare Amount="66.0" CurrencyCode="USD" DecimalPlaces="2"/>
+									</PricingInfo>
+								</FareDisplayInfo>
+								<FareDisplayInfo ResBookDesigCode="K">
+									<TravelDates ArrivalDate="2016-08-03 13:35:00.0" DepartureDate="2016-08-03 12:10:00.0"/>
+									<FareReference>KOW</FareReference>
+									<FareReferenceID>2034360</FareReferenceID>
+									<MarkettingAirline CompanyShortName="PC"/>
+									<DepartureLocation LocationCode="SAW"/>
+									<ArrivalLocation LocationCode="AYT"/>
+									<PricingInfo PassengerTypeCode="INF">
+										<BaseFare Amount="8.0" CurrencyCode="USD" DecimalPlaces="2"/>
+										<Taxes>
+											<Tax Amount="0.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="infant_tax"/>
+											<Tax Amount="0.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="infant_surcharge"/>
+											<Tax Amount="0.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="infant_checkInFee"/>
+											<Tax Amount="0.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="service_fee"/>
+										</Taxes>
+										<TotalFare Amount="8.0" CurrencyCode="USD" DecimalPlaces="2"/>
+									</PricingInfo>
+								</FareDisplayInfo>
+								<dummy xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+							</FareDisplayInfos>
+						</BookingClassAvailExt>
+						<BookingClassAvailExt RPH="0" ResBookDesigCode="N" ResBookDesigQuantity="9">
+							<FareDisplayInfos>
+								<FareDisplayInfo ResBookDesigCode="N">
+									<TravelDates ArrivalDate="2016-08-03 13:35:00.0" DepartureDate="2016-08-03 12:10:00.0"/>
+									<FareReference>NOW</FareReference>
+									<FareReferenceID>2034362</FareReferenceID>
+									<MarkettingAirline CompanyShortName="PC"/>
+									<DepartureLocation LocationCode="SAW"/>
+									<ArrivalLocation LocationCode="AYT"/>
+									<PricingInfo PassengerTypeCode="ADT">
+										<BaseFare Amount="56.0" CurrencyCode="USD" DecimalPlaces="2"/>
+										<Taxes>
+											<Tax Amount="4.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="adult_tax"/>
+											<Tax Amount="6.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="adult_surcharge"/>
+											<Tax Amount="3.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="adult_checkInFee"/>
+											<Tax Amount="0.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="service_fee"/>
+										</Taxes>
+										<TotalFare Amount="69.0" CurrencyCode="USD" DecimalPlaces="2"/>
+									</PricingInfo>
+								</FareDisplayInfo>
+								<FareDisplayInfo ResBookDesigCode="N">
+									<TravelDates ArrivalDate="2016-08-03 13:35:00.0" DepartureDate="2016-08-03 12:10:00.0"/>
+									<FareReference>NOW</FareReference>
+									<FareReferenceID>2034362</FareReferenceID>
+									<MarkettingAirline CompanyShortName="PC"/>
+									<DepartureLocation LocationCode="SAW"/>
+									<ArrivalLocation LocationCode="AYT"/>
+									<PricingInfo PassengerTypeCode="CHL">
+										<BaseFare Amount="49.0" CurrencyCode="USD" DecimalPlaces="2"/>
+										<Taxes>
+											<Tax Amount="4.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="child_tax"/>
+											<Tax Amount="6.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="child_surcharge"/>
+											<Tax Amount="3.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="child_checkInFee"/>
+											<Tax Amount="0.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="service_fee"/>
+										</Taxes>
+										<TotalFare Amount="62.0" CurrencyCode="USD" DecimalPlaces="2"/>
+									</PricingInfo>
+								</FareDisplayInfo>
+								<FareDisplayInfo ResBookDesigCode="N">
+									<TravelDates ArrivalDate="2016-08-03 13:35:00.0" DepartureDate="2016-08-03 12:10:00.0"/>
+									<FareReference>NOW</FareReference>
+									<FareReferenceID>2034362</FareReferenceID>
+									<MarkettingAirline CompanyShortName="PC"/>
+									<DepartureLocation LocationCode="SAW"/>
+									<ArrivalLocation LocationCode="AYT"/>
+									<PricingInfo PassengerTypeCode="INF">
+										<BaseFare Amount="8.0" CurrencyCode="USD" DecimalPlaces="2"/>
+										<Taxes>
+											<Tax Amount="0.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="infant_tax"/>
+											<Tax Amount="0.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="infant_surcharge"/>
+											<Tax Amount="0.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="infant_checkInFee"/>
+											<Tax Amount="0.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="service_fee"/>
+										</Taxes>
+										<TotalFare Amount="8.0" CurrencyCode="USD" DecimalPlaces="2"/>
+									</PricingInfo>
+								</FareDisplayInfo>
+								<dummy xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+							</FareDisplayInfos>
+						</BookingClassAvailExt>
+						<BookingClassAvailExt RPH="0" ResBookDesigCode="S" ResBookDesigQuantity="9">
+							<FareDisplayInfos>
+								<FareDisplayInfo ResBookDesigCode="S">
+									<TravelDates ArrivalDate="2016-08-03 13:35:00.0" DepartureDate="2016-08-03 12:10:00.0"/>
+									<FareReference>SOW</FareReference>
+									<FareReferenceID>2039789</FareReferenceID>
+									<MarkettingAirline CompanyShortName="PC"/>
+									<DepartureLocation LocationCode="SAW"/>
+									<ArrivalLocation LocationCode="AYT"/>
+									<PricingInfo PassengerTypeCode="ADT">
+										<BaseFare Amount="48.0" CurrencyCode="USD" DecimalPlaces="2"/>
+										<Taxes>
+											<Tax Amount="4.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="adult_tax"/>
+											<Tax Amount="6.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="adult_surcharge"/>
+											<Tax Amount="3.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="adult_checkInFee"/>
+											<Tax Amount="0.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="service_fee"/>
+										</Taxes>
+										<TotalFare Amount="61.0" CurrencyCode="USD" DecimalPlaces="2"/>
+									</PricingInfo>
+								</FareDisplayInfo>
+								<FareDisplayInfo ResBookDesigCode="S">
+									<TravelDates ArrivalDate="2016-08-03 13:35:00.0" DepartureDate="2016-08-03 12:10:00.0"/>
+									<FareReference>SOW</FareReference>
+									<FareReferenceID>2039789</FareReferenceID>
+									<MarkettingAirline CompanyShortName="PC"/>
+									<DepartureLocation LocationCode="SAW"/>
+									<ArrivalLocation LocationCode="AYT"/>
+									<PricingInfo PassengerTypeCode="CHL">
+										<BaseFare Amount="41.0" CurrencyCode="USD" DecimalPlaces="2"/>
+										<Taxes>
+											<Tax Amount="4.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="child_tax"/>
+											<Tax Amount="6.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="child_surcharge"/>
+											<Tax Amount="3.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="child_checkInFee"/>
+											<Tax Amount="0.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="service_fee"/>
+										</Taxes>
+										<TotalFare Amount="54.0" CurrencyCode="USD" DecimalPlaces="2"/>
+									</PricingInfo>
+								</FareDisplayInfo>
+								<FareDisplayInfo ResBookDesigCode="S">
+									<TravelDates ArrivalDate="2016-08-03 13:35:00.0" DepartureDate="2016-08-03 12:10:00.0"/>
+									<FareReference>SOW</FareReference>
+									<FareReferenceID>2039789</FareReferenceID>
+									<MarkettingAirline CompanyShortName="PC"/>
+									<DepartureLocation LocationCode="SAW"/>
+									<ArrivalLocation LocationCode="AYT"/>
+									<PricingInfo PassengerTypeCode="INF">
+										<BaseFare Amount="8.0" CurrencyCode="USD" DecimalPlaces="2"/>
+										<Taxes>
+											<Tax Amount="0.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="infant_tax"/>
+											<Tax Amount="0.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="infant_surcharge"/>
+											<Tax Amount="0.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="infant_checkInFee"/>
+											<Tax Amount="0.0" CurrencyCode="USD" DecimalPlaces="2" TaxCode="service_fee"/>
+										</Taxes>
+										<TotalFare Amount="8.0" CurrencyCode="USD" DecimalPlaces="2"/>
+									</PricingInfo>
+								</FareDisplayInfo>
+								<dummy xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+							</FareDisplayInfos>
+						</BookingClassAvailExt>
+						<comment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+					</FlightSegmentExt>
+					<dummy xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+				</OriginDestinationOptionExt>
+				<dummy xmlns="http://types.paxws.otaxmlws/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+			</ReturnOriginDestinationOptionsExt>
+		</ns2:OTA_AirAvailAndFaresRSType>
+	</soapenv:Body>
+</soapenv:Envelope>
