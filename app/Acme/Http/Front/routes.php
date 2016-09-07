@@ -30,6 +30,11 @@ Route::group(['prefix' => '/', 'namespace' => 'Front\Controllers'], function() {
     Route::post('loadCities', ['as'=>'front.loadCities', 'uses'=>'AjaxController@loadCities']);
     Route::post('loadRegions', ['as'=>'front.loadRegions', 'uses'=>'AjaxController@loadRegions']);
 
+
+    // Sender and Receiver
+    Route::get('receiver/first/{first}/second/{second}',['as'=>'front.messenger','uses'=>'HomeController@receiver']);
+    Route::get('sender',['as'=>'front.messenger','uses'=>'HomeController@sender']);
+
 });
 
 ?>

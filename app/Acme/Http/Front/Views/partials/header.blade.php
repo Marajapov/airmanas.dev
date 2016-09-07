@@ -1,9 +1,10 @@
+
 <div class="header">
     <div class="top clearfix">
         <div class="logo col-lg-4 col-md-4 col-sm-4 col-xs-12">
-            <a class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding" href="{{ asset('')}}">
-                <img class="col-lg-12 col-md-12 col-sm-12 col-xs-12" src="{{ asset('assets/css/img/logo-flykg.png') }}" alt=""/>
-            </a>
+        <a class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding navbar-brand" href="{{ route('front.home')}}">
+            <img class="col-lg-12 col-md-12 col-sm-12 col-xs-12" src="{{ asset('front/images/logo.png') }}" alt=""/>
+        </a>
         </div>
         <div class="tel col-lg-7 col-md-7 col-sm-6 col-xs-9 no-padding hidden-xs">
             <h3 class="col-lg-12 text-right"><span class="tel-number">+996 (312) 89-56-20</span></h3>

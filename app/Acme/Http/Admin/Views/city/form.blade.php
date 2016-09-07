@@ -20,7 +20,7 @@
     <div class="col-md-6">
         <div class="form-group">
             <label for="name">Код страны</label>
-            {!! Form::text('country_code', null, ["class" => "form-control", "placeholder" => "Код страны"]) !!}
+            {!! Form::text('country_code', null, ["class" => "form-control", "required" => true, "placeholder" => "Код страны"]) !!}
         </div>
     </div>
 </div>

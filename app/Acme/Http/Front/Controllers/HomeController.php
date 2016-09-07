@@ -702,4 +702,33 @@ class HomeController extends Controller
         return $header;
     }
 
+    public function receiver(Request $request, $first, $second)
+    {
+        $sum = $first + $second;
+        dd($sum,$first,$second);
+        
+    }
+
+    public function sender(Request $request)
+    {
+        $departure; // from where
+        $destination; // where to go
+        $adult_count; // adult count
+        $child_count; // child count
+        $infant_count; // infant count
+        $departure_date; // date format ('Y-m-d')
+        $return_date // date format ('Y-m-d')
+        
+        $first = 10;
+        $second = 15;
+        $address = 'http://airmanas.dev/receiver/first/'.$first.'/second/'.$second;
+        if( $curl = curl_init() ) {
+        curl_setopt($curl, CURLOPT_URL, $address);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER,true);
+        $out = curl_exec($curl);
+        echo $out;
+        curl_close($curl);
+        }
+    }
+
 }
