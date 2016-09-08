@@ -1,6 +1,6 @@
 <?php
 
-Route::group(['domain' => 'airmanas.dev', 'prefix' => '/', 'namespace' => 'Front\Controllers'], function() {
+Route::group(['domain' => '46.101.124.76', 'prefix' => '/', 'namespace' => 'Front\Controllers'], function() {
     Route::get('/', ['as' => 'front.home',   'uses' => 'HomeController@Home']);
 });
 
@@ -14,7 +14,8 @@ Route::group(['prefix' => '/', 'namespace' => 'Front\Controllers'], function() {
     Route::post('search', ['as' => 'front.search', 'uses' => 'HomeController@searchResult']);
     Route::post('passenger', ['as' => 'front.passenger', 'uses' => 'HomeController@passenger']);
 	
-    Route::get('pay/qiwi/command/{command}/account/{account}/txn_id/{txn_id}/sum/{sum}', ['as' => 'front.payqiwi', 'uses' => 'HomeController@payQiwi']);
+    // Qiwi
+    Route::get('qiwi/', ['as' => 'front.payqiwi', 'uses' => 'HomeController@payQiwi']);
 	
     
     Route::post('passenger', ['as'=>'front.passenger', 'uses'=> 'HomeController@passenger']);
@@ -32,7 +33,7 @@ Route::group(['prefix' => '/', 'namespace' => 'Front\Controllers'], function() {
 
 
     // Sender and Receiver
-    Route::get('receiver/first/{first}/second/{second}',['as'=>'front.messenger','uses'=>'HomeController@receiver']);
+    Route::get('receiver/',['as'=>'front.messenger','uses'=>'HomeController@receiver']);
     Route::get('sender',['as'=>'front.messenger','uses'=>'HomeController@sender']);
 
 });

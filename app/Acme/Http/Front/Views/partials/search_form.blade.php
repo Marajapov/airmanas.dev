@@ -1,14 +1,11 @@
 <div class="search-wrapper col-lg-4 col-md-4">
-
     <div class="search-inner col-lg-12 col-md-12">
-
         <h4 class="">Авиарейсти издѳѳ</h4>
-
         
         {!! Form::open(array('route' => 'front.search', 'method' => 'post', 'enctype' => 'multipart/form-data', 'class'=> 'main-search', 'id'=> 'mainForm', 'name'=>'theForm')) !!}
-    <!--<form class="main-search" id="mainForm" name="theForm" action="get_available_tickets.php" method="post">-->
             <div class="form-group cityFrom">
                 <label for="">Каяктан?</label>
+                
                 <select id="fromAddress" name="departure" class="form-control" placeholder="Шаарды тандаңыз...">
             <?php foreach($airport_loc as $key=>$value) { ?>
                         <option value="<?php echo $key; ?>"><?php echo $value; ?></option>
@@ -29,7 +26,6 @@
                 </select>
             </div>
             <div class="clear"></div>
-
 
             <div class="form-group">
                 <div class="checkbox">

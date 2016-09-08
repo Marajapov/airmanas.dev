@@ -15,6 +15,13 @@
 
     <script src="{{ asset('assets/js/tabcontent.js') }}" type="text/javascript"></script>
 
+    <script type="text/javascript" src="{{ asset('js/bootstrap-select.js') }}"></script>
+
+    <!-- Abakan added -->
+    <script src="{{ asset('js/admin/bootstrap-tokenfield.js') }}"></script>
+    
+    <!-- end -->
+
     <style>
         .tab-content{
             display: none;

@@ -600,10 +600,10 @@ class HomeController extends Controller
 	// require_once "../../class/getPNR.php";
 	// require_once "../../class/sms_functions.php";
 	
-    $command = $request->command;
-    $account = $request->account;
-    $txn_id = $request->txn_id;
-	$sum = $request->sum;
+    $command = $request->get('command');
+    $account = $request->get('account');
+    $txn_id = $request->get('txn_id');
+	$sum = $request->get('sum');
     //dd($command,$account,$txn_id,$sum);
     
 	//header("Content-type: text/xml");
@@ -702,25 +702,20 @@ class HomeController extends Controller
         return $header;
     }
 
-    public function receiver(Request $request, $first, $second)
+    //  Routes for work with Mobilnik
+    public function getFlightParams()
     {
-        $sum = $first + $second;
-        dd($sum,$first,$second);
-        
-    }
 
-    public function sender(Request $request)
-    {
         $departure; // from where
         $destination; // where to go
         $adult_count; // adult count
         $child_count; // child count
         $infant_count; // infant count
         $departure_date; // date format ('Y-m-d')
-        $return_date // date format ('Y-m-d')
-        
+        $return_date; // date format ('Y-m-d')
+
         $first = 10;
-        $second = 15;
+        $second = 5;
         $address = 'http://airmanas.dev/receiver/first/'.$first.'/second/'.$second;
         if( $curl = curl_init() ) {
         curl_setopt($curl, CURLOPT_URL, $address);
@@ -730,5 +725,30 @@ class HomeController extends Controller
         curl_close($curl);
         }
     }
+
+    public function receiver(Request $request)
+    {
+        $command = $request->get('command');
+        $account = $request->get('account');
+        $txn_id = $request->get('txn_id');
+        $sum = $request->get('sum');
+
+        dd($command,$account, $txn_id,$sum);
+        
+    }
+/*
+    public function sender(Request $request)
+    {
+        $first = 10;
+        $second = 5;
+        $address = 'http://airmanas.dev/receiver/first/'.$first.'/second/'.$second;
+        if( $curl = curl_init() ) {
+        curl_setopt($curl, CURLOPT_URL, $address);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER,true);
+        $out = curl_exec($curl);
+        echo $out;
+        curl_close($curl);
+        }
+    }*/
 
 }
