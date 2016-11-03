@@ -1,6 +1,6 @@
 <?php
 
-Route::group(['domain' => '46.101.124.76', 'prefix' => '/', 'namespace' => 'Front\Controllers'], function() {
+Route::group(['domain' => 'airmanas.dev', 'prefix' => '/', 'namespace' => 'Front\Controllers'], function() {
     Route::get('/', ['as' => 'front.home',   'uses' => 'HomeController@Home']);
 });
 
@@ -36,6 +36,9 @@ Route::group(['prefix' => '/', 'namespace' => 'Front\Controllers'], function() {
     Route::get('receiver/',['as'=>'front.messenger','uses'=>'HomeController@receiver']);
     Route::get('sender',['as'=>'front.messenger','uses'=>'HomeController@sender']);
 
+    // Mobilnik routes
+    Route::get('getAirports/',['as'=>'front.messenger','uses'=>'HomeController@getAirports']);
+    
 });
 
 ?>

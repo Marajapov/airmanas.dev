@@ -20,7 +20,7 @@
                     <td>Время прибытия</td>
                 </tr>
                 <tr class="hidden-xs">
-                    <td>{{ $departure->departureAirport }}<i class="fa fa-plane"></i>{{ $departure->arrivalAirport}}</td>
+                    <td>{{ $departure->departureAirport }}<i class="fa fa-plane"></i>{{ $departure->arrivalAirport }}</td>
                     <td>{{ $departure->flightNumber }}</td>
                     <td>{{ date('d.m.Y', strtotime($departure->departureDateTime)) }}</td>
                     <td>{{ date('H:i', strtotime($departure->departureDateTime)) }}</td>
@@ -313,6 +313,24 @@
         <input type="hidden" name="adult_count" id="adult_count" value="{{ $adult_count }}" />
         <input type="hidden" name="child_count" id="child_count" value="{{ $child_count }}" />
         <input type="hidden" name="infant_count" id="infant_count" value="{{ $infant_count }}" />
+
+        <input type="hidden" name="departureFlightNumber" value="{{ $departure->flightNumber }}">
+        <input type="hidden" name="departureDateTime" value="{{ $departureDT }}">
+        <input type="hidden" name="departureArrivalDateTime" value="{{ $departureADT }}">
+        <input type="hidden" name="departureFareReference" value="{{ $departure->fareReference }}">
+        @if($return)
+            <input type="hidden" name="returnFlightNumber" value="{{ $return->flightNumber }}">
+            <input type="hidden" name="returnDateTime" value="{{ $return->departureDateTime }}">
+            <input type="hidden" name="returnArrivalDateTime" value="{{ $return->arrivalDateTime }}">
+            <input type="hidden" name="returnFareReference" value="{{ $return->fareReference }}">
+        @else
+            <input type="hidden" name="returnFlightNumber" value="0">
+            <input type="hidden" name="returnDateTime" value="0">
+            <input type="hidden" name="returnArrivalDateTime" value="0">
+            <input type="hidden" name="returnFareReference" value="0">
+        @endif
+        
+
 
         <input name="submit" type="submit" class="continue-btn btn btn-danger col-lg-12 col-md-12 col-sm-12 col-xs-12">
 {!! Form::close() !!}

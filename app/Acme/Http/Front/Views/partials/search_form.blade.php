@@ -5,7 +5,6 @@
         {!! Form::open(array('route' => 'front.search', 'method' => 'post', 'enctype' => 'multipart/form-data', 'class'=> 'main-search', 'id'=> 'mainForm', 'name'=>'theForm')) !!}
             <div class="form-group cityFrom">
                 <label for="">Каяктан?</label>
-                
                 <select id="fromAddress" name="departure" class="form-control" placeholder="Шаарды тандаңыз...">
             <?php foreach($airport_loc as $key=>$value) { ?>
                         <option value="<?php echo $key; ?>"><?php echo $value; ?></option>

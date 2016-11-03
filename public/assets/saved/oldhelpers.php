@@ -15,7 +15,7 @@ use \Acme\myClass\SofeeXmlParser as SofeeXmlParser;
 use \Acme\myClass\Book;
 use \Acme\myClass\Price;
 use \Acme\myClass\Tax;
-use Barryvdh\DomPDF\ServiceProvider as PDF;
+
 
 function find_all_keys($array, $search, &$result=array()) {
     if(!is_array($array)) return $result;
@@ -88,11 +88,7 @@ function fill_flights($array){
         if ($a == 'Equipment') $flight->equipment = $b['AirEquipType'];
         if ($a == 'MarkettingAirline')$flight->markettingAirline = $b['CompanyShortName'];
         if ($a == 'ArrivalDateTime') $flight->arrivalDateTime = $b;
-        if ($a == 'DepartureDateTime'){
-            $flight->departureDateTime = $b;
-            $flight->timestamp = strtotime($b);  
-        } 
-        /*if ($a == 'DepartureDateTime') {
+        if ($a == 'DepartureDateTime') {
             $flight->timestamp = strtotime($b);
             $diff = floor(($flight->timestamp - time()) / $hour);
             if ($diff < 6) continue;
@@ -100,7 +96,7 @@ function fill_flights($array){
             $flight->departureDateTime = $b;
             $flight->timestamp = strtotime($b);
             
-        }*/
+        }
         if ($a == 'FlightNumber') $flight->flightNumber = $b;
         if ($a == 'StopQuantity') $flight->stopQuantity = $b;
         if ($a == 'OnTimeRate') $flight->onTimeRate = $b;
@@ -162,7 +158,7 @@ function fill_flights($array){
     $flight->resBookDesigCode = $least_book->resBookDesigCode;
     $flight->resBookDesigQuantity = $least_book->resBookDesigQuantity;
     $flight->resBookDesigID = $least_book->fareReferenceID;
-    //dd($flight);
+    
     return $flight;
 }
 
@@ -172,9 +168,7 @@ function get_flights($tree, $direction){
     $origindest = find_all_keys($origindest_father, 'FlightSegmentExt');
     foreach($origindest as $k=>$v){
         $flights[]=fill_flights($v);
-
     }
-    //dd($flights);
     return $flights;
 }
 
@@ -350,53 +344,23 @@ function generateRandomString($length = 10, $alphanumeric = 0 ) {
     return $randomString;
 }
 
-function mysend_mail($flight_row, $to, $subject, $body){
-    // start
-    $row = FlightRegister::where('id','=',$flight_row['id'])->first();
-    $body = "pnrcode: ".$row->pnrcode." flightNumber: ".$row->departureFlightNumber;
-
-
-    $fileName = $row->email.$row->departureFlightNumber .'.pdf';
-    $filePath = base_path('public/pdf/');
-    $pdf = \PDF::loadView('Front::vista',['body'=>$body]);
-    $pdf->save($filePath.$fileName);
-
-    $mailAttachment = $filePath.$fileName;
-
-    $mailTemplate = view('vista');
-    $data = $body;
-    
-    $mailSubject = $subject;
-    $mailMessage = 'Please see the mission report attatched for you order.';
-    
-    $emails = ['abakano21@gmail.com', 'marajapovabakan@mail.ru'];
-
-
-    \Mail::send('vista', ['gambit210420@gmail.com'], function($message) use ($emails, $mailSubject, $mailAttachment)
-        {
-            $message->from('gambit210420@gmail.com', 'Administrator')->subject('Admin Subject');
-            $message->to($emails)->subject($mailSubject);    
-            $message->attach($mailAttachment);
-        });
-}
 
 // to send email
 function send_mail($to,$s,$body)
 {
-	$from_name = 'Ulutsoft';
-	$from_a = 'ulutsoft@gmail.com';
-	$reply = 'abakan.marajapov@iaau.edu.kg';
+	global $fly24_vars;
+	$from_name = $fly24_vars["send_mail_from_name"];
+	$from_a = $fly24_vars["send_mail_from_address"];
+	$reply = $fly24_vars["send_mail_reply_to"];
 	
-    $subject= "=?utf-8?b?".base64_encode($s)."?=";
+    $s= "=?utf-8?b?".base64_encode($s)."?=";
     $headers = "MIME-Version: 1.0\r\n";
     $headers.= "From: =?utf-8?b?".base64_encode($from_name)."?= <".$from_a.">\r\n";
     $headers.= "Content-Type: text/html;charset=utf-8\r\n";
     $headers.= "Reply-To: $reply\r\n";  
     $headers.= "X-Mailer: PHP/" . phpversion();
 	//echo $to." ".$s." ".$body." ".$headers;
-    mail($to, $subject, $body, $headers);
-
-    
+    if (mail($to, $s, $body, $headers)) {}
 }
     
 //////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -449,6 +413,7 @@ date_default_timezone_set('Asia/Bishkek');
 function check_pay_account($acc, $txn_id,$sum, $prv_txn, $service){
     $acc = trim($acc);
     $comment = '';
+    
     $user_found_table = NULL;
     if ($acc[0]==1){
         $row = Tuser::where("user_account","=",$acc)->first();
@@ -461,7 +426,7 @@ function check_pay_account($acc, $txn_id,$sum, $prv_txn, $service){
         
         if ($row['id']>0){
             $user_found_table = "flight_register";
-            /*flight_booking_payment($row, $sum);
+            flight_booking_payment($row, $sum);
 
             $total_money = $row->paid_sum+$sum;
             $extra_money = $total_money-$row->price;
@@ -475,13 +440,35 @@ function check_pay_account($acc, $txn_id,$sum, $prv_txn, $service){
                 //IF money is not sufficient to buy ticket, let client know about it.
                 send_fail_message_with_flight_row($row);
                 die($returnString);
+             
             }
 
+            if($extra_money >0) { 
+                $row->paid_extra = $extra_money;
+                $row->save();
+                send_extra_message_with_flight_row($row);
+            }
+            
+            //////////////////////////
+            // BUY TICKET.
+            $pnr_code = getPNR($row);
+
+            if ($pnr_code==0) {
+                send_admin_fail_message_with_flight_row($row);
+            }
+
+            
+            $row->paid_flag = 1;
+            $row->pnrcode = $pnr_code;
+            $row->save();
+
+            send_success_message_with_flight_row($row);
+
+
             die('<?xml version="1.0" encoding="UTF-8"?><response><osmp_txn_id>'.$txn_id.'</osmp_txn_id><prv_txn>'.$prv_txn.'</prv_txn>
-<sum>'.$sum.'</sum><result>0</result><comment>OK</comment></response>');*/
+<sum>'.$sum.'</sum><result>0</result><comment>OK</comment></response>');
         }
     }
-
     
     if (!$user_found_table){
             $table = Ttransactlog::create();
@@ -508,9 +495,8 @@ function check_pay_account($acc, $txn_id,$sum, $prv_txn, $service){
             $table->service = $service;
             $table->save();
 
-            /*die('<?xml version="1.0" encoding="UTF-8"?><response><osmp_txn_id>'.$txn_id.'</osmp_txn_id><prv_txn>'.$prv_txn.'</prv_txn>
+            die('<?xml version="1.0" encoding="UTF-8"?><response><osmp_txn_id>'.$txn_id.'</osmp_txn_id><prv_txn>'.$prv_txn.'</prv_txn>
 <sum>'.$transact['money'].'</sum><result>'.$transact['status'].'</result><comment>'.$comment.'</comment></response>');
-            */
     }   
     // if still alive...
     $table1 = Ttransact::create();
@@ -530,77 +516,84 @@ function check_pay_account($acc, $txn_id,$sum, $prv_txn, $service){
             $table2->result = 'success';
             $table2->service = $service;
             $table2->save();
+    
     if ($user_found_table == "tuser") {
     $table3 = UserMoney::create();
     $table3->user = $row["id"];
     $table3->amount = $sum;
     $table3->save();
     }
-
-    if($user_found_table == "flight_register"){
-        flight_booking_payment($row, $sum);
+    else{
+        /*if ($user_found_table == "flight_register") 
+            flight_booking_payment($row, $sum);*/
     }
-
+    
+    
     die('<?xml version="1.0" encoding="UTF-8"?><response><osmp_txn_id>'.$txn_id.'</osmp_txn_id><prv_txn>'.$prv_txn.'</prv_txn>
 <sum>'.$sum.'</sum><result>0</result><comment>OK</comment></response>');
+
 } // end of function check_pay_account
-
-function flight_booking_payment($flight_row, $sum){
     
-        $row = FlightRegister::where("id","=",$flight_row['id'])->first();
-        $total_money = $row->paid_sum+$sum;
-        $extra_money = $total_money - $row->price;
-        $row->paid_sum = $total_money;
-        $row->save();
-
-        if ($total_money < $row->price) { 
-            send_fail_message_with_flight_row($row);
-            return; // no ticket, sorry. game over.
-        }
-
-        if ($total_money < $row->price) { 
-            send_fail_message_with_flight_row($row);
+// require_once "../../class/flight_payment_functions.php";
+    function flight_booking_payment($flight_row, $sum){
+        $total_money = $flight_row["paid_sum"]+$sum;
+        $extra_money = $total_money - $flight_row["price"];
+        $tableFound = FlightRegister::where("id","=",$flight_row['id'])->first();
+        $tableFound->paid_sum = $total_money;
+        $flight_row["paid_sum"] = $total_money;
+        if ($total_money < $flight_row["price"]) { 
+            //IF money is not sufficient to buy ticket, let client know about it.
+            send_fail_message_with_flight_row($flight_row);
             return; // no ticket, sorry. game over.
         } 
         if ($extra_money >0) { 
-            $row->paid_extra = $extra_money;
-            $row->save();
-            send_extra_message_with_flight_row($row);
+            $tableFoundExtra = FlightRegister::where("id","=",$flight_row['id'])->first();
+            $tableFoundExtra->paid_extra = $extra_money;
+            $tableFoundExtra->save();
+            $flight_row["paid_extra"] = $extra_money;
+            send_extra_message_with_flight_row($flight_row);
         }
         
-        $pnr_code = getPNR($row);
-        //dd($pnr_code);
+        //////////////////////////
+        // BUY TICKET.
+        $pnr_code = getPNR($flight_row);
+        //dd($pnr_code,'123');
+
         if ($pnr_code==0) {
-            send_admin_fail_message_with_flight_row($row);
-            return 0;
+            send_admin_fail_message_with_flight_row($flight_row);
+            return '0';
         }
+        /////////////////////////
         
-        $row->pnrcode = $pnr_code;
-        $row->paid_sum = 1;
-        $row->paid_flag = 1;
-        $row->save();
-        send_success_message_with_flight_row($row);
+        $upd = FlightRegister::where("id","=",$flight_row['id'])->first();
+        $upd->paid_flag = '1';
+        $upd->pnrcode = $pnr_code;
+        $upd->save();
+        
+        $flight_row["pnrcode"] = $pnr_code;
+        $flight_row["paid_flag"] = '1';
+        send_success_message_with_flight_row($flight_row);
 }
 
 function send_fail_message_with_flight_row($flight_row){
     $to = $flight_row['email'];
     $money = $flight_row['price']-$flight_row['paid_sum'];
-    $s = "Ваш баланс недостадочно чтобы купить билет!<br>";
-    $body = "Зарезервированный вами сумма билета : ".$flight_row['price']."<br>
-    Сумма которая у вас есть : ".$flight_row['paid_sum']."<br>
-    Вам нужно заплатить : ".$money." код для оплаты: ".$flight_row['paycode']."
+    $s = "[translate]Your deposit money is insufficient to buy ticket";
+    $body = "[translate]Your deposit money is insufficient to buy ticket.<br>
+    Reservation price is : ".$flight_row['price']."<br>
+    Money paid for reservation : ".$flight_row['paid_sum']."<br>
+    You have to pay : ".$money." with Pay Code: ".$flight_row['paycode']."
     ";
     $sms_body = "Билеттин акчасына дагы ".$money." сом жетпей калды.";
-    //send_mail($to, $s, $body);
-    //mysend_mail($flight_row,$to,$s,$body);
+    send_mail($to, $s, $body);
     send_sms($flight_row['phone'], $sms_body);
 }
 
 function send_extra_message_with_flight_row($flight_row){
     $to = $flight_row['email'];
-    $s = "Вы переплатили ".$flight_row["paid_extra"]." сом";
-    $body = "Вы переплатили ".$flight_row["paid_extra"]." сом.<br>
-    Мы перезвоним вам!
+    $s = "[translate]You overpaid for reservation ".$flight_row["paid_extra"]." сом";
+    $body = "[translate]You overpaid for reservation ".$flight_row["paid_extra"]." сом.<br>
+    Our staff will contact you soon to decide what to do with extra money
     ";
     $sms_body = "Билетке ".$flight_row["paid_extra"]." сом ашыкча толонду. Бул боюнча сиз менен байланышабыз.";
     //send_mail($to, $s, $body);
@@ -613,8 +606,7 @@ function send_admin_fail_message_with_flight_row($flight_row){
     $s = "[translate]Ошибка";
     $dept_time = date('d.m.Y H:s',$flight_row["departure_flight"]);
     $return_time="";
-    if ($flight_row["
-        return_flight"]) $return_time="[". date('d.m.Y H:s',$flight_row["return_flight"])."]";
+    if ($flight_row["return_flight"]) $return_time="[". date('d.m.Y H:s',$flight_row["return_flight"])."]";
     
     
     $body = "[translate]Client (".$flight_row["name"]." ".$flight_row["surname"].") paid for reservation but there was an error<br>
@@ -636,30 +628,23 @@ function send_success_message_with_flight_row($flight_row){
     Departure: ".$flight_row["departure"]."<br>
     Destination: ".$flight_row["destination"]."<br>
     ";
-    $sms_body = "Билетти ийгилитуу сатып алдыныз. ПНР код: ".$flight_row["pnrcode"].". Кененирээк маалымат электрондук почта аркылуу жиберилди.";
+    $sms_body = "Билетти ийгилитуу сатып алдыныз. ПНР код: ".$flight_row["paid_extra"].". Кененирээк маалымат электрондук почта аркылуу жиберилди.";
     send_mail($to, $s, $body);
-    mysend_mail($flight_row,$to, $s, $body);
     send_sms($flight_row['phone'], $sms_body);
     $ticket_body = "";
     //send_mail($to, $s, $ticket_body);
-    
 }
 //end
     
+
 // start getPNR function
 function getPNR($flight_row){
 $row = $flight_row;
 $flight_1 = $flight_row->departure_flight;
 $flight_2 = $flight_row->return_flight;
 
-//dd(date('Y-m-d', strtotime($flight_row->departure_departure_date_time)));
-//dd($flight_row);
-$departure_departure_date_time = date('Y-m-d',strtotime($flight_row->departure_departure_date_time))."T".date('H:i:s',strtotime($flight_row->departure_departure_date_time));
-$departure_arrival_date_time = date('Y-m-d',strtotime($flight_row->departure_arrival_date_time))."T".date('H:i:s',strtotime($flight_row->departure_arrival_date_time));
-
-//dd($departure_departure_date_time,$departure_arrival_date_time);
-
-//dd($departure_departure_date_time,$departure_arrival_date_time);
+$departureDateTime = date('Y-m-d',$flight_row->departure_flight)."T".date('H:i:s',$flight_row->departure_flight);
+$arrivalDateTime = date('Y-m-d',$flight_row->return_flight)."T".date('H:i:s',$flight_row->return_flight);
 
 $all = PassengerModel::where('flight','=',$row->id)->get();
 //dd($flight_row);
@@ -668,22 +653,23 @@ $xml = new SofeeXmlParser();
 
 $return_xml = '';
 if ($flight_2){
-    $return_departure_date_time = date('Y-m-d',strtotime($flight_row->return_departure_date_time))."T".date('H:i:s',strtotime($flight_row->return_departure_date_time));
-    $return_arrival_date_time = date('Y-m-d',strtotime($flight_row->return_arrival_date_time))."T".date('H:i:s',strtotime($flight_row->return_arrival_date_time));
+$return_departure_time = $departureDateTime;
+$return_arrival_time = $arrivalDateTime;
 
-$return_xml = '<typ:FlightSegment ArrivalDateTime="'.$return_arrival_date_time.'" DepartureDateTime="'.$return_departure_date_time.'" FlightNumber="'.$row->returnFlightNumber.'" JourneyDuration="1" OnTimeRate="1" ResBookDesigCode="'.$row->returnFareReference.'" ResBookDesigID="'.$row->returnResBookDesigID.'" StopQuantity="1" Ticket="1">
-              <typ:DepartureAirport LocationCode="'.$row->destination.'"/>
-              <typ:ArrivalAirport LocationCode="'.$row->departure.'"/>
+$return_xml = '<typ:FlightSegment ArrivalDateTime="'.$return_arrival_time.'" DepartureDateTime="'.$return_departure_time.'" FlightNumber="'.$row->returnFlightNumber.'" JourneyDuration="1" OnTimeRate="1" ResBookDesigCode="'.$row->returnResBookDesigCode.'" ResBookDesigID="'.$row->returnResBookDesigID.'" StopQuantity="1" Ticket="1">
+              <typ:DepartureAirport LocationCode="'.$row->departure.'"/>
+              <typ:ArrivalAirport LocationCode="'.$row->destination.'"/>
               <typ:Equipment AirEquipType="'.$row->returnEquipment.'" ChangeofGauge="1"/>
               <typ:MarkettingAirline CompanyShortName="'.$row->returnMarkettingAirline.'"/>
               <typ:MarketingCabin RPH="'.$row->returnRph.'" CabinType="'.$row->returnMarketingCabin.'">
                 <typ:Meal></typ:Meal>
               </typ:MarketingCabin>
-
               <typ:BookingClassAvail RPH="'.$row->returnRph.'" ResBookDesigCode="'.$row->returnResBookDesigCode.'" ResBookDesigQuantity="'.$row->returnResBookDesigQuantity.'"/>
               <typ:comment></typ:comment>
             </typ:FlightSegment>';
 }
+$departure_departure_time = $departureDateTime;
+$departure_arrival_time = $arrivalDateTime;
 
 $body = '<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:otab="http://otabase.otapax.otaxmlws/" xmlns:ota="http://ota.paxws.otaxmlws/" xmlns:typ="http://types.paxws.otaxmlws/">
   <soapenv:Header>
@@ -705,17 +691,15 @@ $body = '<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelo
       <ota:AirItinerary DirectionInd="1">
         <typ:OriginDestinationOptions>
           <typ:OriginDestinationOption>
-
-          <typ:FlightSegment ArrivalDateTime="'.$departure_arrival_date_time.'" DepartureDateTime="'.$departure_departure_date_time.'"  FlightNumber="'.$row->departureFlightNumber.'" JourneyDuration="1" OnTimeRate="1" ResBookDesigCode="'.$row->departureFareReference.'" ResBookDesigID="'.$row->departureResBookDesigID.'" StopQuantity="1" Ticket="1">
+            <typ:FlightSegment ArrivalDateTime="'.$departure_arrival_time.'" DepartureDateTime="'.$departure_departure_time.'" FlightNumber="'.$row->departureFlightNumber.'" JourneyDuration="1" OnTimeRate="1" ResBookDesigCode="'.$row->departureResBookDesigCode.'" ResBookDesigID="'.$row->departureResBookDesigID.'" StopQuantity="1" Ticket="1">
               <typ:DepartureAirport LocationCode="'.$row->departure.'"/>
               <typ:ArrivalAirport LocationCode="'.$row->destination.'"/>
-
               <typ:Equipment AirEquipType="'.$row->departureEquipment.'" ChangeofGauge="1"/>
               <typ:MarkettingAirline CompanyShortName="PC"/>
-              <typ:MarketingCabin RPH="1" CabinType="1">
+              <typ:MarketingCabin RPH="'.$row->departureRph.'" CabinType="'.$row->departureMarketingCabin.'">
                 <typ:Meal></typ:Meal>
               </typ:MarketingCabin>
-              <typ:BookingClassAvail RPH="1" ResBookDesigCode="'.$row->departureResBookDesigCode.'" ResBookDesigQuantity="'.$row->departureResBookDesigQuantity.'"/>
+              <typ:BookingClassAvail RPH="'.$row->departureRph.'" ResBookDesigCode="'.$row->departureResBookDesigCode.'" ResBookDesigQuantity="'.$row->departureResBookDesigQuantity.'"/>
               <typ:comment></typ:comment>
             </typ:FlightSegment>
             '.$return_xml.'
@@ -728,14 +712,7 @@ $body = '<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelo
       <ota:TravelerInfo>';
       foreach($all as $passenger) {
       $passenger_birthdate = date('Y-m-d', strtotime($passenger->birthday));
-      if($passenger->sex == 'adult'){
-            $sexType = 'ADT';
-      }elseif($passenger->sex == 'child'){
-            $sexType = 'CHD';
-      }elseif($passenger->sex == 'infant'){
-            $sexType = 'INF';
-      }
-$body .=  '<typ:AirTraveler PassengerTypeCode="'.$sexType.'">
+$body .=  '<typ:AirTraveler PassengerTypeCode="'.$passenger->sex.'">
           <typ:ProfileRef>
             <typ:UniqueID ID="1" URL="1" Instance="1" Type="1"/>
           </typ:ProfileRef>
@@ -745,9 +722,9 @@ $body .=  '<typ:AirTraveler PassengerTypeCode="'.$sexType.'">
             <typ:Surname>'.$passenger->surname_latin.'</typ:Surname>
             <typ:NameTitle></typ:NameTitle>
           </typ:PersonName>
-          <typ:Telephone AreaCityCode="+996" PhoneNumber="'.$row->phone.'"/>
+          <typ:Telephone AreaCityCode="" PhoneNumber=""/>
           <typ:Email>'.$row->email.'</typ:Email>
-          <typ:Document BirthDate="'.$passenger_birthdate.'" DocID="" DocIssueAuthority="1" DocIssueLocation="1" DocType="1" EffectiveDate="1" ExpireDate="1" Gender="M">
+          <typ:Document BirthDate="'.$passenger_birthdate.'" DocID="" DocIssueAuthority="1" DocIssueLocation="1" DocType="1" EffectiveDate="1" ExpireDate="1" Gender="'.$passenger->sex.'">
             <typ:DocHolderName></typ:DocHolderName>
           </typ:Document>
         </typ:AirTraveler>';
@@ -761,7 +738,7 @@ $body .=  '<typ:SpecialReqDetails>
           <typ:SpecialServiceRequests>
             <typ:SpecialServiceRequest SSRCode="BILL" FlightRefNumberRPHList="1" TravelerRefNumberRPHList="1">
               <typ:Airline>PC</typ:Airline>
-              <typ:text>401000144011</typ:text>
+              <typ:text>401000143994</typ:text>
             </typ:SpecialServiceRequest>
             <typ:dummy>dummy</typ:dummy>
           </typ:SpecialServiceRequests>
@@ -773,7 +750,7 @@ $body .=  '<typ:SpecialReqDetails>
   </soapenv:Body>
 </soapenv:Envelope>
     '; /// Your SOAP XML needs to be in this variable
-    //dd($body);
+    
 $headers = array(
     'Content-Type: text/xml; charset="utf-8"',
     'Content-Length: '.strlen($body),
@@ -789,28 +766,27 @@ curl_setopt($ch, CURLOPT_URL, $url);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($ch, CURLOPT_TIMEOUT, 60);
 curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+//curl_setopt($ch, CURLOPT_USERAGENT, $defined_vars['HTTP_USER_AGENT']);
+
+// Stuff I have added
 curl_setopt($ch, CURLOPT_POST, true);
 curl_setopt($ch, CURLOPT_POSTFIELDS, $body);
 
 $data = curl_exec($ch);
 
-curl_close($ch);
-
-//dd($body,$data);
-
 $xml->parseFileFromString($data); 
 $tree = $xml->getTree(); 
-
 unset($xml); 
 $book_reference = find_first_key($tree, "BookingReferenceID");
-
 if( array_key_exists("ID", $book_reference) ){
-    return $book_reference["ID"];
-}else{
-    return 0;
-}
+        return $book_reference["ID"];
+    }
+return 0;
+print_r($book_reference,$data);
 
 }
+curl_close($ch);
+dd($book_reference,$body,$data,$headers,$row);
 // end getPNR
 
 ?>

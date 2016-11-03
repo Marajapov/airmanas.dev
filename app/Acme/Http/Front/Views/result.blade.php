@@ -21,33 +21,37 @@
                 <!-- steps -->
                 <div id="steps" class="steps no-padding">
                     <ul class="tabs nav nav-tabs nav-justified">
-                            {{--*/ $view = 1 /*--}} 
-                            @for($i=0; $i<count($fly_days); $i++)
-                                
-                                {{--*/ $least_price = 0 /*--}}
+
+                        {{--*/ $view = 1 /*--}} 
+                        @for($i=0; $i<count($fly_days); $i++)
+                            {{--*/ $least_price = 0 /*--}}
+                            @if($fly_days[$i])
                                 @foreach($fly_days[$i] as $this_flight)
+                                
                                     @if ($least_price == 0 || ($this_flight->adultPriceSom>0 && $this_flight->adultPriceSom < $least_price))
                                         {{--*/ $least_price = $this_flight->adultPriceSom /*--}}
                                     @endif
                                 @endforeach
+
                                 {{--*/ $day_str = $fly_days[$i][0]->departure_date() /*--}}
+                                
                                 @if ($day_str)
-                                {{--*/  $day = strtotime($day_str) /*--}}
-                        
-                        <li role="presentation" @if ($dept_d==$day ) class="selected" @endif>
-                            <a href="#view{{ $view }}">
-                                <span class="tday hidden-xs">{{ date('d', $day) }}</span>
-                                <span class="tday hidden-lg hidden-md hidden-sm">12</span>
-                                <span class="tmonth-tweek">
-                                    <span class="tmonth hidden-xs"> {{ date('F', $day) }}</span><span class="tweek"> 
-                                    {{ date('D', $day) }}</span>
-                                    <span style="color:red; font-size:10px">@if($least_price>0) {{ $least_price}} сом @else no flight @endif</span>
-                                </span>
-                                <div class="clear"></div>
-                            </a>
-                        </li>
-                        {{--*/ $view++ /*--}}
-                        @endif
+                                    {{--*/  $day = strtotime($day_str) /*--}}
+                                    <li role="presentation" @if ($dept_d==$day ) class="selected" @endif>
+                                        <a href="#view{{ $view }}">
+                                            <span class="tday hidden-xs">{{ date('d', $day) }}</span>
+                                            <span class="tday hidden-lg hidden-md hidden-sm">12</span>
+                                            <span class="tmonth-tweek">
+                                                <span class="tmonth hidden-xs"> {{ date('F', $day) }}</span><span class="tweek"> 
+                                                {{ date('D', $day) }}</span>
+                                                <span style="color:red; font-size:10px">@if($least_price>0) {{ $least_price}} сом @else no flight @endif</span>
+                                            </span>
+                                            <div class="clear"></div>
+                                        </a>
+                                    </li>
+                                    {{--*/ $view++ /*--}}
+                                @endif
+                            @endif
                         @endfor
                     </ul>
                 </div> <!-- steps end  // // -->
@@ -55,7 +59,9 @@
                 <!-- tab-contents -->
                 <div class="tabcontents">
                     {{--*/ $view = 1 /*--}}
+                    
                         @for($i=0; $i<count($fly_days); $i++)
+                        @if($fly_days[$i])
                             
                             {{--*/ $day_str = $fly_days[$i][0]->departure_date() /*--}}
                             @if($day_str)
@@ -99,7 +105,12 @@
                     
                     {{--*/ $view++ /*--}}
                         @endif
+
+                        @else
+                        @endif
+
                         @endfor
+                    
                 </div> <!-- tab-contents end -->
 
 
@@ -107,6 +118,7 @@
    <!-- start 0 -->
             <!-- toTable -->
             <div class="toTable col-lg-12 no-padding">
+            
             @if(count($fly_days_return) > 0)
             <!-- breadcrumbs -->
             <ol class="breadcrumb breadcrumb2">
@@ -119,6 +131,8 @@
                         
                             {{--*/ $view = 1 /*--}}
                             @for($i=0; $i<count($fly_days_return); $i++)
+
+                            @if($fly_days_return[$i])
                                 
                                 {{--*/ $least_price = 0 /*--}}
                                 @foreach($fly_days_return[$i] as $this_flight)
@@ -146,6 +160,9 @@
                         
                     {{--*/  $view++ /*--}}
                         @endif
+
+                        @endif
+                        
                         @endfor
                     </ul>
                 </div> <!-- steps end -->
@@ -157,6 +174,8 @@
                 <div class="tabcontents">
                         {{--*/  $view = 1 /*--}}
                             @for($i=0; $i<count($fly_days_return); $i++)
+                                
+                                @if($fly_days_return[$i])
                                 
                                 {{--*/ $day_str = $fly_days_return[$i][0]->departure_date() /*--}}
                                 @if($day_str) 
@@ -204,8 +223,12 @@
 
                    {{--*/ $view++ /*--}}
                         @endif
+
+                        @endif
+
                         @endfor
                 </div> <!-- tabcontents end -->
+
             @endif
             </div> <!-- toTable end -->
         </div> <!-- ticket-info -->

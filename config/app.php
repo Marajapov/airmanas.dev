@@ -149,7 +149,7 @@ return [
         Collective\Html\HtmlServiceProvider::class, /* Form and Html */
         Orchestra\Parser\XmlServiceProvider::class,
         Nathanmac\Utilities\Parser\ParserServiceProvider::class,
-        
+        Barryvdh\DomPDF\ServiceProvider::class,
 
 //        Spatie\MediaLibrary\MediaLibraryServiceProvider::class,
 
@@ -207,6 +207,7 @@ return [
         'Image' => Intervention\Image\Facades\Image::class,
         'XmlParser' => Orchestra\Parser\Xml\Facade::class,
         'Parser' => Nathanmac\Utilities\Parser\Facades\Parser::class,
+        'PDF' => Barryvdh\DomPDF\Facade::class,
     ],
 
 ];

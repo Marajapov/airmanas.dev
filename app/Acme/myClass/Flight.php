@@ -48,5 +48,6 @@ class Flight {
         $this->adultPriceSom = $this->adultPrice > 0 ? ceil(($this->adultPrice+$fee) * $rate): 0; // 5$ service fee
         $this->childPriceSom = $this->adultPrice > 0 ? ceil(($this->childPrice+$fee) * $rate): 0; // 5$ service fee
         $this->infPriceSom = ceil($this->infPrice * $rate);
+        //dd('rate '.$rate, 'fee '.$fee, 'adultPriceSom '.$this->adultPriceSom,'adultPrice '.$this->adultPrice,'adultprice + fee '.$this->adultPrice+$fee);
     }    
 }

@@ -18,48 +18,83 @@ use \Acme\myClass\Book;
 use \Acme\myClass\Price;
 use \Acme\myClass\Tax;
 
+use Barryvdh\DomPDF\ServiceProvider as PDF;
 
 class HomeController extends Controller
 {
-    public function __construct(){}
+    protected $airport_loc, $exchange_value, $service_fee, $service_local_fee, $passenger_type, $passenger_type_code, $sex_type, $local_airports;
 
+    public function __construct(){
+        $this->airport_loc = City::lists('name','airport_code')->toArray();
+        $this->exchange_value = 68;  // value of exchange USD
+        $this->service_fee = 20; // 20 cent
+        $this->service_local_fee = 5; // 5 com
+        $this->passenger_type = array("adult"=>"Взрослый", "child"=>"Ребенок", "infant"=>"Младенец");
+        $this->passenger_type_code = array("adult"=>"ADT", "child"=>"CHD", "infant"=>"INF");
+        $this->sex_type = array("M"=>"Мужской", "F"=>"Женский");
+        $this->local_airports = array("OSS", "FRU");
+    }
     public function Home()
     {
         session(['fly_days'=> NULL]);
         session(['fly_days_2'=> NULL]);
         session(['fly_days_3'=> NULL]);
-        
-        $exchange_value = 65;
-        $airport_loc = array("FRU"=>"Бишкек", "OSS"=>"Ош", "ESB"=>"Анкара", "SAW"=>"Истанбул");
-        $local_airports = array("OSS", "FRU");
-        $passenger_type = array("adult"=>"Взрослый", "child"=>"Ребенок", "infant"=>"Младенец");
-        $passenger_type_code = array("adult"=>"ADT", "child"=>"CHD", "infant"=>"INF");
-        $sex_type = array("M"=>"Мужской", "F"=>"Женский");
+        session(['fly_days_return'=> NULL]);
+        session(['fly_days_return_2'=> NULL]);
+        /*$row = FlightRegister::where('id','=',10)->first();
+        mysend_mail($row, 'abakano21@gmail.com', 'fromHomeController', 'body text');
+        dd(123);*/
 
-        $cities = City::lists('name','airport_code')->toArray();
+   /* $row = FlightRegister::where('id','=',10)->first();
+    $body = "pnrcode: ".$row->pnrcode." flightNumber: ".$row->departureFlightNumber;
+
+
+    $fileName = $row->email.$row->departureFlightNumber .'.pdf';
+    $filePath = base_path('public/pdf/');
+    $pdf = \PDF::loadView('Front::vista',['body'=>$body]);
+    $pdf->save($filePath.$fileName);
+
+    $mailAttachment = $filePath.$fileName;
+
+    $mailTemplate = view('vista');
+    $data = $body;
+    $mailRecipients['marajapovabakan@mail.ru'] = 'Jean Luc Picard';
+    $mailRecipients['abakano21@gmail.com'] = 'Kathryn Janeway';
+    $mailSubject = 'Mission Report';
+    $mailMessage = 'Please see the mission report attatched for you order.';
+    
+    $emails = ['abakano21@gmail.com', 'marajapovabakan@mail.ru'];
+    /*\Mail::send('vista', ['ktrkkg@yandex.ru'], function($message) use ($emails)
+    {    
+        $message->from('ktrkkg@yandex.ru', 'Administrator')->subject('Admin Subject');
+        $message->to($emails)->subject('This is test e-mail');    
+        $message->attach($mailAttachment);
+    });
+    */
+
+
+    /*\Mail::send('vista', ['gambit210420@gmail.com'], function($message) use ($emails, $mailSubject, $mailAttachment)
+        {
+            $message->from('gambit210420@gmail.com', 'Administrator')->subject('Admin Subject');
+            $message->to($emails)->subject('This is test e-mail');    
+            $message->attach($mailAttachment);
+        });
+
+
+//return view('vista');
+    //dd($result);
+    /*
+    */
+        /*$row = FlightRegister::where('id','=',6)->first();
+        $result = getPNR($row);
+        $row->pnrcode = $result;*/
+        
         return view('Front::home', [
-            'cities'=> $cities,
-            'airport_loc'=> $airport_loc,
-            'local_airports'=> $local_airports,
-            'service_fee' => 20,
-            'service_local_fee' => 5,
-            'passenger_type' => $passenger_type,
-            'passenger_type_code' => $passenger_type_code,
-            'sex_type' => $sex_type,
+            'airport_loc'=> $this->airport_loc,
         ]);
     }
-
     public function searchResult(Request $request)
     {
-        $exchange_value = 65;
-        $service_fee = 20;
-        $service_local_fee = 5;
-
-        $airport_loc = array("FRU"=>"Бишкек", "OSS"=>"Ош", "ESB"=>"Анкара", "SAW"=>"Истанбул");
-        $local_airports = array("OSS", "FRU");
-        $passenger_type = array("adult"=>"Взрослый", "child"=>"Ребенок", "infant"=>"Младенец");
-        $passenger_type_code = array("adult"=>"ADT", "child"=>"CHD", "infant"=>"INF");
-        $sex_type = array("M"=>"Мужской", "F"=>"Женский");
         $success = json_encode(array( 'result' => '1'));
         $fail = json_encode(array( 'result' => '0'));
         $departure = $_POST['departure'];
@@ -175,12 +210,13 @@ class HomeController extends Controller
             curl_multi_exec($mh, $running);
         }
         while ($running > 0);
-        // Get content and remove handles.
         foreach ($ch as $key => $val) {
             $results[$key] = curl_multi_getcontent($val);
+            //dd($results[$key]);
             curl_multi_remove_handle($mh, $val);
         }
     curl_multi_close($mh);
+
     $time_3 = microtime(true);
     for($i=0; $i<count($results); $i++){
         if (empty ($results[$i])) continue;
@@ -190,12 +226,17 @@ class HomeController extends Controller
         $success_flag = find_first_key($tree, "Success");
         if ($success_flag['value']){
             $fly_days[] = get_flights($tree, "OriginDestinationOptionsExt");
-            if ($return_date) $fly_days_return[] = get_flights($tree, "ReturnOriginDestinationOptionsExt");
+            if ($return_date) {
+                $fly_days_return[] = get_flights($tree, "ReturnOriginDestinationOptionsExt");
+            }
         }
         unset($xml[$i]); 
     }
+
     $time_4 = microtime(true);
+
     $fly_days_final = $return_days_final = [];
+    
     foreach($flight_date as $day){
         $not_found = true;
         foreach($fly_days as $flight){
@@ -212,6 +253,8 @@ class HomeController extends Controller
             $newFlight->departureDate = $day;
             $newFlight->price = 0;
             $fly_days_final[] = array($newFlight);
+        }else{
+            $newFlight = new Flight();
         }
     }
     $time_5 = microtime(true);
@@ -226,72 +269,72 @@ class HomeController extends Controller
                 }
             }
             if ($not_found){
+
                 $newFlight = new Flight();
                 $newFlight->departureAirport = $departure;
                 $newFlight->arrivalAirport = $destination;
                 $newFlight->departureDate = $day;
                 $newFlight->price = 0;
                 $return_days_final[] = array($newFlight);
+            }else{
+                $newFlight = new Flight();
             }
         }
     }
     $time_6 = microtime(true);
-    
+    //dd($fly_days_final,$return_days_final);
     session_start();
     $_SESSION["fly_days"] = $fly_days_final;
     $_SESSION["fly_days_2"] = $_SESSION["fly_days"];
     if ($return_date){
       $_SESSION["fly_days_return"] = $return_days_final;  
       $_SESSION["fly_days_return_2"] = $_SESSION["fly_days_return"];
-    } 
-
-    
-    //echo $success;
-    //dd(123);
-
+    }
     if ($return_date) $retn_d = strtotime($return_date);
-    
     foreach($fly_days as $fly_days_child) 
         foreach($fly_days_child as $fly_days_child_flight) 
-            $fly_days_child_flight->updateSomPrice($exchange_value, $service_fee);
+            $fly_days_child_flight->updateSomPrice($this->exchange_value, $this->service_fee);
     
-    if ($fly_days_return)
-    foreach($fly_days_return as $fly_days_child) 
-        foreach($fly_days_child as $fly_days_child_flight) 
-            $fly_days_child_flight->updateSomPrice($exchange_value, $service_fee);
-
+   if ($fly_days_return){
+        foreach($fly_days_return as $fly_days_child){
+            foreach($fly_days_child as $fly_days_child_flight) {
+                $fly_days_child_flight->updateSomPrice($this->exchange_value, $this->service_fee);    
+            } // end foreach
+        } // end foreach
+    } // end if
+    
 
     $retn_d = (isset($retn_d)) ? $retn_d : 'no';
-        return view('Front::result', [
-                'Flight' => $newFlight,
-                'departure'=> $departure,
-                'destination'=> $destination,
-                'airport_loc' => array("FRU"=>"Бишкек", "OSS"=>"Ош", "ESB"=>"Анкара", "SAW"=>"Истанбул"),
-                'local_airports' => array("OSS", "FRU"),
-                'dept_d' => strtotime($departure_date),
-                'retn_d' => $retn_d,
-                'service_fee' => 20,
-                'service_local_fee' => 5,
-                'passenger_type' => $passenger_type,
-                'passenger_type_code' => $passenger_type_code,
-                'sex_type' => $sex_type,
-                'o'=> $departure,
-                'od'=> strtotime($departure_date),
-                'd'=> $destination,
-                'dd'=> strtotime($return_date),
-                'return_date'=> strtotime($return_date),
-                'a'=> $adult_count,
-                'adult_count'=> $adult_count,
-                'child_count'=> $child_count,
-                'c'=> $child_count,
-                'i'=> $infant_count,
-
-                'infant_count'=> $infant_count,
-                'fly_days'=> $fly_days,
-                'fly_days_return'=> $fly_days_return,
-                'fly_days_child_flight'=> $fly_days_child_flight,
-                'fly_days_child_flight'=> $fly_days_child_flight,
-            ]);
+    //dd($fly_days_final,$return_days_final);
+    return view('Front::result', [
+            'Flight' => $newFlight,
+            'departure'=> $departure,
+            'destination'=> $destination,
+            'airport_loc' => $this->airport_loc,
+            'local_airports' => $this->local_airports,
+            'dept_d' => strtotime($departure_date),
+            'retn_d' => $retn_d,
+            'service_fee' => $this->service_fee,
+            'service_local_fee' => $this->service_local_fee,
+            'passenger_type' => $this->passenger_type,
+            'passenger_type_code' => $this->passenger_type_code,
+            'sex_type' => $this->sex_type,
+            'o'=> $departure,
+            'od'=> strtotime($departure_date),
+            'd'=> $destination,
+            'dd'=> strtotime($return_date),
+            'return_date'=> strtotime($return_date),
+            'a'=> $adult_count,
+            'adult_count'=> $adult_count,
+            'child_count'=> $child_count,
+            'c'=> $child_count,
+            'i'=> $infant_count,
+            'infant_count'=> $infant_count,
+            'fly_days'=> $fly_days,
+            'fly_days_return'=> $fly_days_return,
+            /*'fly_days_child_flight'=> $fly_days_child_flight,*/
+            'return_days_final' => $return_days_final,
+        ]);
     }
 
     public function passenger(Request $request)
@@ -300,10 +343,8 @@ class HomeController extends Controller
         $adult_count = intval($_POST['adult_count']);
         $child_count = intval($_POST['child_count']);
         $infant_count = intval($_POST['infant_count']);
-        
         $total = $adult_count + $child_count + $infant_count;
         $counter = 0;
-        
         $flight_1 = intval($_POST['flight_1']);
         $flight_2 = intval($_POST['flight_2']);
         $fly_days = $_SESSION['fly_days_2'];
@@ -315,11 +356,14 @@ class HomeController extends Controller
                 for($j=0; $j<count($fly_days[$i]); $j++) 
                     if ($fly_days[$i][$j]->timestamp == $flight_1){
                         $departure = $fly_days[$i][$j];
+                        
                         break;
                     }
                 if ($departure) break;
             }
-            
+
+        
+        
         if ($flight_2)
             for($i=0; $i<count($fly_days_return); $i++){
                 for($j=0; $j<count($fly_days_return[$i]); $j++) 
@@ -329,12 +373,19 @@ class HomeController extends Controller
                     }
                 if ($return) break;
             }
-        $this_year = intval(date("Y"));
+        
+        $departureDT = date('Y-m-d H:i:s',strtotime($departure->departureDateTime));
+        $departureADT= date('Y-m-d H:i:s',strtotime($departure->arrivalDateTime));
 
+        $returnDT = ($flight_2)?date('Y-m-d H:i:s',strtotime($return->departureDateTime)):0;
+        $returnADT = ($flight_2)?date('Y-m-d H:i:s',strtotime($return->arrivalDateTime)):0;
+        
+        //dd($departureDT,$departureADT,$returnDT,$returnADT);
+        
+        $this_year = intval(date("Y"));
         $_SESSION['fly_days_3'] = $_SESSION['fly_days_2'];
         $_SESSION['fly_days_return_3'] = (isset($_SESSION["fly_days_return_2"])) ? $_SESSION["fly_days_return_2"] : 'no';
         $_SESSION['fly_days_2'] =(isset($_SESSION["fly_days_return_2"])) ? $_SESSION["fly_days_return_2"] : 'no';
-
      return view('Front::passenger', [
                 'this_year'=> $this_year,
                 'return'=> $return,
@@ -346,38 +397,43 @@ class HomeController extends Controller
                 'infant_count'=> $infant_count,
                 'child_count'=> $child_count,
                 'adult_count'=> $adult_count,
+                'departureDT'=> $departureDT,
+                'departureADT' => $departureADT,
             ]);   
     }
-
     public function flight_preview(Request $request) 
     {
-        $passenger_type = array("adult"=>"Взрослый", "child"=>"Ребенок", "infant"=>"Младенец");
-        $passenger_type_code = array("adult"=>"ADT", "child"=>"CHD", "infant"=>"INF");
-        $sex_type = array("M"=>"Мужской", "F"=>"Женский");
-
         session_start();
+        $departureFlightNumber = intval($_POST['departureFlightNumber']);
+        $postreturnFlightNumber = intval($_POST['returnFlightNumber']);
+        $returnFlightNumber = ($postreturnFlightNumber != 0) ? $postreturnFlightNumber: 0;
+
+        $departureDateTime = $_POST['departureDateTime'];
+        $departureArrivalDateTime = $_POST['departureArrivalDateTime'];
+        $returnDateTime = ($_POST['returnDateTime'] != 0) ? $_POST['returnDateTime']: 0;
+        $returnArrivalDateTime = ($_POST['returnArrivalDateTime'] != 0) ? $_POST['returnArrivalDateTime']: 0;
+        
+        $departureFareReference = $_POST['departureFareReference'];
+        $returnFareReference = ($_POST['returnFareReference'] != 0) ? $_POST['returnFareReference']: 0;
+
+        //dd($departureFlightNumber,$returnFlightNumber,$departureDateTime,$departureArrivalDateTime,$returnDateTime,$returnArrivalDateTime,$departureFareReference,$returnFareReference);
+
         if (!$_SESSION["fly_days_3"]) redirect("front.home");        
         $ip = $_SERVER['REMOTE_ADDR'];
-
         $name = $_POST["name"];
         $surname = $_POST["surname"];
         $phone = $_POST["phone"];
         $email = $_POST["email"];
-
         $total_count = intval($_POST['total']);
         $adult_count = intval($_POST['adult_count']);
         $child_count = intval($_POST['child_count']);
-        $infant_count = intval($_POST['infant_count']);
-        
+        $infant_count = intval($_POST['infant_count']);        
         $total = $adult_count + $child_count + $infant_count;
-        
-        $counter = 0;
-        
         $flight_1 = intval($_POST['flight_1']);
         $flight_2 = intval($_POST['flight_2']);
-        
         $fly_days = $_SESSION["fly_days_3"];
         $fly_days_return = $_SESSION["fly_days_return_3"];
+        $counter = 0;
         
         $departure = $return = NULL;
         if ($flight_1)
@@ -400,7 +456,6 @@ class HomeController extends Controller
         $countdown_in_hours = $countdown / $hour;
         $timeInFuture = time() + $countdown;
         // end time
-
         if ($flight_2)
             for($i=0; $i<count($fly_days_return); $i++){
                 for($j=0; $j<count($fly_days_return[$i]); $j++) 
@@ -411,17 +466,14 @@ class HomeController extends Controller
                 if ($return) break;
             }
         $all = array();
-        
         for($adult_c=0; $adult_c < $adult_count; $adult_c++) {
             $pass = new Passenger();
             $pass->type="adult";
             $pass->sex = isset($_POST["sex".$counter])?$_POST["sex".$counter]:"M";
             $pass->name = $_POST["name".$counter];
             $pass->surname = $_POST["surname".$counter];
-            
             $pass->name_latin = transliterate($pass->name);
             $pass->surname_latin = transliterate($pass->surname);
-            
             $pass->bd_day = intval($_POST["bd_day".$counter]);
             $pass->bd_month = intval($_POST["bd_month".$counter]);
             $pass->bd_year = intval($_POST["bd_year".$counter]);
@@ -440,10 +492,8 @@ class HomeController extends Controller
             $pass->sex = isset($_POST["sex".$counter])?$_POST["sex".$counter]:"M";
             $pass->name = $_POST["name".$counter];
             $pass->surname = $_POST["surname".$counter];
-            
             $pass->name_latin = transliterate($pass->name);
             $pass->surname_latin = transliterate($pass->surname);
-            
             $pass->bd_day = intval($_POST["bd_day".$counter]);
             $pass->bd_month = intval($_POST["bd_month".$counter]);
             $pass->bd_year = intval($_POST["bd_year".$counter]);
@@ -462,10 +512,8 @@ class HomeController extends Controller
             $pass->sex = isset($_POST["sex".$counter])?$_POST["sex".$counter]:"M";
             $pass->name = $_POST["name".$counter];
             $pass->surname = $_POST["surname".$counter];
-            
             $pass->name_latin = transliterate($pass->name);
             $pass->surname_latin = transliterate($pass->surname);
-            
             $pass->bd_day = intval($_POST["bd_day".$counter]);
             $pass->bd_month = intval($_POST["bd_month".$counter]);
             $pass->bd_year = intval($_POST["bd_year".$counter]);
@@ -478,11 +526,9 @@ class HomeController extends Controller
             $all[] = $pass;
             $counter++;
         }
-        
         if ($adult_c!=$adult_count || $child_c!=$child_count || $infant_c!=$infant_count){
             error_die("passenger count error!");
         }
-        
         $price = 0;
         foreach($all as $pass){
             $this_price = $departure->adultPriceSom;
@@ -497,7 +543,6 @@ class HomeController extends Controller
                 $price += $this_price;
             }
         }
-
         $allFlightRegister = FlightRegister::get();
         $random = generateRandomPayCode_helper();
         $paycodeSearch = FlightRegister::where("paycode","=",$random)->first();
@@ -505,7 +550,6 @@ class HomeController extends Controller
         $random = generateRandomPayCode_helper();
         $paycodeSearch = FlightRegister::where("paycode","=",$random)->first();
         }
-        //inserting to flight_register
         $table = FlightRegister::create();
             $table->ip = $ip;
             $table->name = $name;
@@ -516,9 +560,35 @@ class HomeController extends Controller
             $table->departure = $departure->departureAirport;
             $table->destination = $departure->arrivalAirport;
             $table->departure_flight = $flight_1;
+            $table->departure_departure_date_time = $departureDateTime;
+            $table->departure_arrival_date_time = $departureArrivalDateTime;
             $table->return_flight = $flight_2;
+            $table->return_departure_date_time = $returnDateTime;
+            $table->return_arrival_date_time = $returnArrivalDateTime;
             $table->pay_till = date("Y-m-d H:i:s", $timeInFuture);
             $table->paycode = $random;
+            $table->departureFlightNumber = $departureFlightNumber;
+            $table->departureResBookDesigCode = $departure->resBookDesigCode;
+            $table->departureResBookDesigID = $departure->resBookDesigID;
+            $table->departureEquipment = $departure->equipment;
+            $table->departureMarkettingAirline = $departure->markettingAirline; 
+            $table->departureRph = $departure->rph;
+            $table->departureMarketingCabin = $departure->marketingCabin;
+            $table->departureResBookDesigQuantity = $departure->resBookDesigQuantity;
+            $table->departureFareReference = $departureFareReference;
+            if($return){
+            $table->returnFlightNumber = $returnFlightNumber;
+            $table->returnResBookDesigCode = $return->resBookDesigCode;
+            $table->returnResBookDesigID = $return->resBookDesigID;
+            $table->returnEquipment = $return->equipment;
+            $table->returnMarkettingAirline = $return->markettingAirline;
+            $table->returnRph = $return->rph;
+            $table->returnMarketingCabin = $return->marketingCabin;
+            $table->returnResBookDesigQuantity = $return->resBookDesigQuantity;
+            $table->returnFareReference = $return->fareReference;
+            }
+
+            
             $table->save();
 
         // end
@@ -538,8 +608,10 @@ class HomeController extends Controller
             
             }   
         }
-        $return = (isset($return)) ? $return : 0;		
-		
+        $return = (isset($return)) ? $return : 0;       
+
+        //dd($flight_1,$flight_2,$all,$departure,$return);
+        
         // uncomend after testing
         //send_sms($phone, "Терминалдан билет сатып алуу номери: ".$random." Баасы: ".$price." сом. Убакыт: ".$countdown_in_hours." саат");
             
@@ -562,10 +634,9 @@ class HomeController extends Controller
                 'return'=> $return,
                 'all'=> $all,
 
-                'passenger_type'=> $passenger_type,
-                'passenger_type_code'=> $passenger_type_code,
-                'passenger_type' => $passenger_type,
-                'sex_type'=> $sex_type,
+                'passenger_type'=> $this->passenger_type,
+                'passenger_type_code'=> $this->passenger_type_code,
+                'sex_type'=> $this->sex_type,
                 'paycode'=>$random,
 
                 'flight_1'=> $flight_1,
@@ -573,72 +644,67 @@ class HomeController extends Controller
             ]);   
     }
 
-	
-	public function payQiwi(Request $request)
-	{
-	$this_username = 'qiwi';
-	$this_password = '7789105089';
-	$service_name = 'Qiwi';
+    
+    public function payQiwi(Request $request)
+    {
+    $this_username = 'qiwi';
+    $this_password = '7789105089';
+    $service_name = 'Qiwi';
+/*
+    if (!isset($_SERVER['PHP_AUTH_USER'])) {
+        header('WWW-Authenticate: Basic realm="My Realm"');
+        header('HTTP/1.0 401 Unauthorized');
+        echo 'login failed';
+        exit;
+    } else {
+        $uname = $_SERVER['PHP_AUTH_USER'];
+        $pass = $_SERVER['PHP_AUTH_PW'];
+        if ($uname != $this_username || $pass != $this_password) {
+            echo 'login failed';
+            exit;
+        }
+    }*/
 
-	if (!isset($_SERVER['PHP_AUTH_USER'])) {
-		header('WWW-Authenticate: Basic realm="My Realm"');
-		header('HTTP/1.0 401 Unauthorized');
-		echo 'login failed';
-		exit;
-	} else {
-		$uname = $_SERVER['PHP_AUTH_USER'];
-		$pass = $_SERVER['PHP_AUTH_PW'];
-		if ($uname != $this_username || $pass != $this_password) {
-			echo 'login failed';
-			exit;
-		}
-	}
-
-	// require_once "../../class/classloader.php";
-	// require_once "../../class/functions.php";
-	// require_once "../../class/pay_functions.php";
-	// require_once "../../class/getPNR.php";
-	// require_once "../../class/sms_functions.php";
-	
+    // require_once "../../class/classloader.php";
+    // require_once "../../class/functions.php";
+    // require_once "../../class/pay_functions.php";
+    // require_once "../../class/getPNR.php";
+    // require_once "../../class/sms_functions.php";
+    
     $command = $request->get('command');
-    $account = $request->get('account');
-    $txn_id = $request->get('txn_id');
-	$sum = $request->get('sum');
+    $acc = $request->get('account');
+    $txn_id = (int)$request->get('txn_id');
+    $sum = (int)$request->get('sum');
     //dd($command,$account,$txn_id,$sum);
     
-	//header("Content-type: text/xml");
+    //header("Content-type: text/xml");
     //dd($command);
-	if (isset($command)){
+    if (isset($command)){
 
-		$acc = $txn_id = $sum = 0;
-		if (isset($account)) $acc = $account;
-		if (isset($txn_id)) $txn_id = $txn_id;
-		if (isset($sum)) $sum = intval($sum);
-
+        $comment = '';
+        $txn_date = date("Y-m-d H:i:s");
         
-		$comment = '';
-		$txn_date = date("Y-m-d H:i:s");
-		
-		if ($command =='check'){
+        if ($command =='check'){
             //dd('check is starting ...');
-			$result = check_account($acc, $txn_id);
+            $result = check_account($acc, $txn_id);
             //dd('check is ok');
-		}
-		if ($command =='pay'){
+        }
+        if ($command =='pay'){
             //dd('pay is starting ...');
-			$prv_txn = generateRandomString(10, 1);
-			$result = check_pay_account($acc, $txn_id,$sum, $prv_txn, $service_name );
+            $prv_txn = generateRandomPayCode_helper();
+        //    dd($acc,$txn_id,$sum,$prv_txn,$service_name);
+            $result = check_pay_account($acc, $txn_id,$sum, $prv_txn, $service_name);
 
-		}
-	}
-	}
-	
-	
-	// Functins
-	// check_account function
-		
-	
-	// Sms functions
+        }
+    }
+    }
+    
+    
+    // Functins
+    // check_account function
+        
+    
+    // Sms functions
      function generateUniqueSMSID() {
         $characters = '0123456789';
         $randomString = '';
@@ -702,53 +768,15 @@ class HomeController extends Controller
         return $header;
     }
 
+
     //  Routes for work with Mobilnik
-    public function getFlightParams()
+    public function getAirports(Request $request)
     {
-
-        $departure; // from where
-        $destination; // where to go
-        $adult_count; // adult count
-        $child_count; // child count
-        $infant_count; // infant count
-        $departure_date; // date format ('Y-m-d')
-        $return_date; // date format ('Y-m-d')
-
-        $first = 10;
-        $second = 5;
-        $address = 'http://airmanas.dev/receiver/first/'.$first.'/second/'.$second;
-        if( $curl = curl_init() ) {
-        curl_setopt($curl, CURLOPT_URL, $address);
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER,true);
-        $out = curl_exec($curl);
-        echo $out;
-        curl_close($curl);
-        }
-    }
-
-    public function receiver(Request $request)
-    {
-        $command = $request->get('command');
-        $account = $request->get('account');
-        $txn_id = $request->get('txn_id');
-        $sum = $request->get('sum');
-
-        dd($command,$account, $txn_id,$sum);
+        $airports = City::lists('name','airport_code')->toArray();
+        $jsonAirports = json_encode($airports);
         
+        return $jsonAirports;
+
     }
-/*
-    public function sender(Request $request)
-    {
-        $first = 10;
-        $second = 5;
-        $address = 'http://airmanas.dev/receiver/first/'.$first.'/second/'.$second;
-        if( $curl = curl_init() ) {
-        curl_setopt($curl, CURLOPT_URL, $address);
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER,true);
-        $out = curl_exec($curl);
-        echo $out;
-        curl_close($curl);
-        }
-    }*/
 
 }
