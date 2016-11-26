@@ -1,0 +1,185 @@
+body{
+	max-width: 100%;
+	font-family: DejaVu Sans, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+/* MAIN CLASS BEGIN */
+.clearfix:after {
+    clear: both;
+    content: ".";
+    display: block;
+    height: 0;
+    visibility: hidden;
+}
+.clearfix {
+    display: inline-block;
+}
+.clearfix {
+    display: block;
+}
+.text-center{
+	text-align: center;
+    font-weight: bold;
+    font-size: 10px;
+    display: inline-block;
+    width: 100%;
+
+}
+/* MAIN CLASS BEGIN */
+
+/* HEADER BEGIN */
+#topheader{
+	padding: 0 0 5px 0;
+}
+#topheader h5{
+	margin: 0;
+}
+
+#header{
+	position: relative;
+	display: block;
+	height: 40px;
+}
+#header .left-pic img {
+	height: 40px;
+    width: auto;
+}
+#header .center-pic img{
+	height: 40px;
+    width: auto;
+}
+#header .right-pic img{
+	height: 40px;
+    width: auto;
+}
+#header .left-pic{
+	text-align: left;
+    width: 33%;
+    float: left;
+}
+#header .center-pic{
+    text-align: center;
+    width: 33%;
+    float: left;
+}
+#header .right-pic{
+	text-align: right;
+    width: 33%;
+    float: left;
+}
+/* HEADER END */
+
+/* TICKET BEGIN*/
+.wrapper,
+.air-info{
+	position: relative;
+	display: block;
+}
+.ticket {
+    position: relative;
+    display: block;
+	width: 100%;
+    padding: 0;
+}
+.ticket .t-name{
+	position: relative;
+    display: block;
+	margin: 0;
+    font-weight: bold;
+    font-size: 10px;
+    text-transform: uppercase;
+}
+.ticket li, .services li{
+	list-style: none;
+}
+.ticket .table tbody, .ticket .table tbody>tr{
+	display: block;
+}
+.ticket .table td{
+    padding:2px 0;
+    line-height: normal;
+    vertical-align: middle;
+    border-top: none;
+    font-weight: normal;
+    font-size: 10px;
+}
+.ticket .table .t-left{
+	width: 400px;
+	font-size: 10px;
+	font-weight: bold;
+}
+/* Ticket info*/
+.ticket-main{
+	border: 1px solid #0e0e0e;
+	padding: 0;
+}
+.ticket-info{
+    margin-bottom: 0;
+}
+.ticket-info thead th{
+    vertical-align: top;
+    border-bottom: none;
+    border-top: none;
+	font-size: 10px;
+	font-weight: bold;
+	text-align: left;	
+	line-height: 9px;
+}
+.ticket-info td{
+	border-top: none;
+    padding: .10rem 0.10rem;
+	font-size: 10px;
+}
+.ticket-info th{
+	padding: .10rem 0.10rem;
+	line-height: 1.2;
+}
+.services .s-name, 
+.services li, 
+.services .s-end{
+	padding:0 10px;
+	line-height: normal; 
+	padding: 0px 0.40rem;
+	font-size: 10px;
+}
+.services .s-name{
+	position: relative;
+    display: block;
+	font-size: 10px;
+	font-weight: bold;
+}
+.services .s-end{
+    margin-top: 1px;
+	font-size: 10px;
+	font-weight: bold;
+}
+
+/* TICKET BEGIN*/
+
+/* PRIVACY CONTENT BEGIN */
+.privacy{
+	margin-top: 10px;
+	font-size: 10px;
+}
+.privacy p{
+	font-size: 10px;
+	line-height: 10px;
+	margin-bottom: 0;
+	margin-top: 1px;	
+}
+/* PRIVACY CONTENT BEGIN */
+
+
+
+.table {
+  display: table;
+}
+.table .tr {
+  display: table-row;
+}
+.table .td {
+	display: table-cell;
+	font-size: 10px;
+}

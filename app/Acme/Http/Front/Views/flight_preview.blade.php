@@ -77,7 +77,8 @@
 				<input type="hidden" name="flight_2" id="flight_2" value="{{ $flight_2 }}" />
 				<input type="hidden" name="adult_count" id="adult_count" value="{{ $adult_count }}" />
 				<input type="hidden" name="child_count" id="child_count" value="{{ $child_count }}" />
-				<input type="hidden" name="infant_count" id="infant_count" value="{{ $infant_count }}" />
+                <input type="hidden" name="infant_count" id="infant_count" value="{{ $infant_count }}" />
+
 				
 	
 </div>

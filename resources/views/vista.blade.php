@@ -12,7 +12,7 @@
  <body>
  	<div class="wrapper">
  		<p>
- 		Как поймать льва в пустыне?
+ 		Как поймать льва в пустыне? this is resource view
  		</p>
  		<p>
  		Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fugit unde reiciendis mollitia. Debitis veniam molestiae quaerat atque commodi, necessitatibus vel nesciunt in nemo, ex consectetur, alias beatae dolores nam! Ullam!</p>

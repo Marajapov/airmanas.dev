@@ -38,6 +38,8 @@ Route::group(['prefix' => '/', 'namespace' => 'Front\Controllers'], function() {
 
     // Mobilnik routes
     Route::get('getAirports/',['as'=>'front.messenger','uses'=>'HomeController@getAirports']);
+    Route::get('msearch', ['as' => 'front.mobilnik.search', 'uses' => 'MobilnikController@searchResult']);
+    Route::get('msearch', ['as' => 'front.mobilnik.search', 'uses' => 'MobilnikController@searchResult']);
     
 });
 

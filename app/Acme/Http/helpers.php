@@ -7,6 +7,7 @@ use \Model\UserMoney\ModelName as UserMoney;
 use \Model\Tuser\ModelName as Tuser;
 use \Model\FlightRegister\ModelName as FlightRegister;
 use \Model\Passenger\ModelName as PassengerModel;
+use \Model\City\ModelName as City;
 use Input;
 
 use \Acme\myClass\Flight as Flight;
@@ -244,6 +245,7 @@ function post_content ($url,$postdata) {
 }
 
 function send_sms ($phone,$sms_text){
+    /*
 $login = "mirbek";
 $password = "SCPp2D24";
 $transactionId = generateUniqueSMSID();
@@ -261,14 +263,15 @@ $xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>".
         "</phones>".
     "</message>";   
 
-try {
-    $url = "http://smspro.nikita.kg/api/message";
-    post_content( $url, $xml );
-    return 1;
-    } 
-catch(Exception $e) {
-    return 0;
-}
+    try {
+        $url = "http://smspro.nikita.kg/api/message";
+        post_content( $url, $xml );
+        return 1;
+        } 
+    catch(Exception $e) {
+        return 0;
+    }
+    */
 }
 
 
@@ -353,31 +356,74 @@ function generateRandomString($length = 10, $alphanumeric = 0 ) {
 function mysend_mail($flight_row, $to, $subject, $body){
     // start
     $row = FlightRegister::where('id','=',$flight_row['id'])->first();
+    
+    $Adult = PassengerModel::where('flight','=',$row->id)->where('sex','=','adult')->orderBy('id','desc')->first();
+    $firstAdults = PassengerModel::where('flight','=',$row->id)->where('sex','=','adult')->get();
+    $firstChilds = PassengerModel::where('flight','=',$row->id)->where('sex','=','child')->get();
+    $firstInfants = PassengerModel::where('flight','=',$row->id)->where('sex','=','infant')->get();
+    $all = PassengerModel::where('flight','=',$row->id)->get();
+    $from = City::where('airport_code','=',$row->departure)->first();
+    $to = City::where('airport_code','=',$row->destination)->first();
+    $nextYear = date('Y', strtotime(' +1 year'));
+
     $body = "pnrcode: ".$row->pnrcode." flightNumber: ".$row->departureFlightNumber;
 
 
     $fileName = $row->email.$row->departureFlightNumber .'.pdf';
     $filePath = base_path('public/pdf/');
-    $pdf = \PDF::loadView('Front::vista',['body'=>$body]);
+    $pdf = \PDF::loadView('Front::vista',[
+        'row'=>$row,
+        'firstAdults'=>($firstAdults)?$firstAdults:0,
+        'firstChilds'=>($firstChilds)?$firstChilds:0,
+        'firstInfants'=>($firstAdults)?$firstInfants:0,
+        'Adult'=>$Adult,
+        'all' => $all,
+        'from'=> $from,
+        'to'=> $to,
+        'nextYear' =>$nextYear,
+        ]);
     $pdf->save($filePath.$fileName);
 
     $mailAttachment = $filePath.$fileName;
 
-    $mailTemplate = view('vista');
+    // $mailTemplate = view('Front::vista',[
+    //     'row'=>$row,
+    //     'firstAdults'=>($firstAdults)?$firstAdults:0,
+    //     'firstChilds'=>($firstChilds)?$firstChilds:0,
+    //     'firstInfants'=>($firstAdults)?$firstInfants:0,
+    //     'Adult'=>$Adult,
+    //     'all' => $all,
+    //     'from'=> $from,
+    //     'to'=> $to,
+    //     'nextYear' =>$nextYear,
+    //     ]);
     $data = $body;
     
     $mailSubject = $subject;
     $mailMessage = 'Please see the mission report attatched for you order.';
     
-    $emails = ['abakano21@gmail.com', 'marajapovabakan@mail.ru'];
+    $emails = ['abakano21@gmail.com'];
 
-
-    \Mail::send('vista', ['gambit210420@gmail.com'], function($message) use ($emails, $mailSubject, $mailAttachment)
+    $result = \Mail::send('Front::vista', [
+        'row'=>$row,
+        'firstAdults'=>($firstAdults)?$firstAdults:0,
+        'firstChilds'=>($firstChilds)?$firstChilds:0,
+        'firstInfants'=>($firstAdults)?$firstInfants:0,
+        'Adult'=>$Adult,
+        'all' => $all,
+        'from'=> $from,
+        'to'=> $to,
+        'nextYear' =>$nextYear,
+        ], function($message) use ('abakano21@gmail.com', $mailSubject, $mailAttachment)
         {
             $message->from('gambit210420@gmail.com', 'Administrator')->subject('Admin Subject');
             $message->to($emails)->subject($mailSubject);    
             $message->attach($mailAttachment);
         });
+
+    dd($result);
+    
+    
 }
 
 // to send email
@@ -546,18 +592,15 @@ function check_pay_account($acc, $txn_id,$sum, $prv_txn, $service){
 } // end of function check_pay_account
 
 function flight_booking_payment($flight_row, $sum){
-    
         $row = FlightRegister::where("id","=",$flight_row['id'])->first();
         $total_money = $row->paid_sum+$sum;
         $extra_money = $total_money - $row->price;
         $row->paid_sum = $total_money;
         $row->save();
-
         if ($total_money < $row->price) { 
             send_fail_message_with_flight_row($row);
             return; // no ticket, sorry. game over.
         }
-
         if ($total_money < $row->price) { 
             send_fail_message_with_flight_row($row);
             return; // no ticket, sorry. game over.
@@ -565,21 +608,26 @@ function flight_booking_payment($flight_row, $sum){
         if ($extra_money >0) { 
             $row->paid_extra = $extra_money;
             $row->save();
-            send_extra_message_with_flight_row($row);
+            send_extra_message_with_flight_row($flight_row);
         }
-        
-        $pnr_code = getPNR($row);
+        $pnr_code = getPNR($flight_row,$sum);
         //dd($pnr_code);
-        if ($pnr_code==0) {
-            send_admin_fail_message_with_flight_row($row);
-            return 0;
-        }
         
-        $row->pnrcode = $pnr_code;
-        $row->paid_sum = 1;
-        $row->paid_flag = 1;
-        $row->save();
-        send_success_message_with_flight_row($row);
+        if ($pnr_code) {
+            $flight_row->pnrcode = $pnr_code;
+            $flight_row->paid_sum = 1;
+            $flight_row->paid_flag = 1;
+            $flight_row->save();    
+            send_success_message_with_flight_row($flight_row);
+        }else{
+            send_admin_fail_message_with_flight_row($flight_row);
+            return 0;
+
+        }
+
+        //dd($pnr_code);
+        
+        
 }
 
 function send_fail_message_with_flight_row($flight_row){
@@ -604,7 +652,7 @@ function send_extra_message_with_flight_row($flight_row){
     ";
     $sms_body = "Билетке ".$flight_row["paid_extra"]." сом ашыкча толонду. Бул боюнча сиз менен байланышабыз.";
     //send_mail($to, $s, $body);
-    //send_sms($flight_row['phone'], $sms_body);
+    send_sms($flight_row['phone'], $sms_body);
 }
 
 function send_admin_fail_message_with_flight_row($flight_row){
@@ -637,7 +685,7 @@ function send_success_message_with_flight_row($flight_row){
     Destination: ".$flight_row["destination"]."<br>
     ";
     $sms_body = "Билетти ийгилитуу сатып алдыныз. ПНР код: ".$flight_row["pnrcode"].". Кененирээк маалымат электрондук почта аркылуу жиберилди.";
-    send_mail($to, $s, $body);
+    //send_mail($to, $s, $body);
     mysend_mail($flight_row,$to, $s, $body);
     send_sms($flight_row['phone'], $sms_body);
     $ticket_body = "";
@@ -649,21 +697,27 @@ function send_success_message_with_flight_row($flight_row){
 // start getPNR function
 function getPNR($flight_row){
 $row = $flight_row;
+$ddt = date('Y-m-d',$row->departure_flight)."T".date('H:i:s',$row->departure_flight);
+
 $flight_1 = $flight_row->departure_flight;
 $flight_2 = $flight_row->return_flight;
 
 //dd(date('Y-m-d', strtotime($flight_row->departure_departure_date_time)));
 //dd($flight_row);
-$departure_departure_date_time = date('Y-m-d',strtotime($flight_row->departure_departure_date_time))."T".date('H:i:s',strtotime($flight_row->departure_departure_date_time));
-$departure_arrival_date_time = date('Y-m-d',strtotime($flight_row->departure_arrival_date_time))."T".date('H:i:s',strtotime($flight_row->departure_arrival_date_time));
+$departure_departure_date_time = $ddt;
 
-//dd($departure_departure_date_time,$departure_arrival_date_time);
+$departure_arrival_date_time = date('Y-m-d',strtotime($flight_row->departure_arrival_date_time))."T".date('H:i:s',strtotime($flight_row->departure_arrival_date_time));
+//dd($departure_departure_date_time,$one,$saveDateTime->departure_departure_date_time,$departure_arrival_date_time);
+//dd($row,$departure_departure_date_time,$departure_arrival_date_time);
 
 //dd($departure_departure_date_time,$departure_arrival_date_time);
 
 $all = PassengerModel::where('flight','=',$row->id)->get();
+$firstAdults = PassengerModel::where('flight','=',$row->id)->where('sex','=','adult')->get();
+$firstChilds = PassengerModel::where('flight','=',$row->id)->where('sex','=','child')->get();
+$firstInfants = PassengerModel::where('flight','=',$row->id)->where('sex','=','infant')->get();
 //dd($flight_row);
-$url = "https://prepws.flypgs.com/axis2/services/CraneOTAServiceV21?wsdl";
+$url1 = "https://prepws.flypgs.com/axis2/services/CraneOTAServiceV21?wsdl";
 $xml = new SofeeXmlParser();
 
 $return_xml = '';
@@ -684,8 +738,8 @@ $return_xml = '<typ:FlightSegment ArrivalDateTime="'.$return_arrival_date_time.'
               <typ:comment></typ:comment>
             </typ:FlightSegment>';
 }
-
-$body = '<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:otab="http://otabase.otapax.otaxmlws/" xmlns:ota="http://ota.paxws.otaxmlws/" xmlns:typ="http://types.paxws.otaxmlws/">
+//dd($departure_departure_date_time,$departure_arrival_date_time);
+$body1 = '<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:otab="http://otabase.otapax.otaxmlws/" xmlns:ota="http://ota.paxws.otaxmlws/" xmlns:typ="http://types.paxws.otaxmlws/">
   <soapenv:Header>
     <wsse:Security mustUnderstand="1" xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">
       <wsse:UsernameToken>
@@ -726,7 +780,7 @@ $body = '<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelo
       </ota:AirItinerary>
       
       <ota:TravelerInfo>';
-      foreach($all as $passenger) {
+      foreach($firstAdults as $passenger) {
       $passenger_birthdate = date('Y-m-d', strtotime($passenger->birthday));
       if($passenger->sex == 'adult'){
             $sexType = 'ADT';
@@ -735,7 +789,7 @@ $body = '<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelo
       }elseif($passenger->sex == 'infant'){
             $sexType = 'INF';
       }
-$body .=  '<typ:AirTraveler PassengerTypeCode="'.$sexType.'">
+$body1 .=  '<typ:AirTraveler PassengerTypeCode="'.$sexType.'">
           <typ:ProfileRef>
             <typ:UniqueID ID="1" URL="1" Instance="1" Type="1"/>
           </typ:ProfileRef>
@@ -752,8 +806,63 @@ $body .=  '<typ:AirTraveler PassengerTypeCode="'.$sexType.'">
           </typ:Document>
         </typ:AirTraveler>';
 }       
-            
-$body .=  '<typ:SpecialReqDetails>
+if(!empty($firstInfants)){
+    foreach($firstInfants as $passenger) {
+          $passenger_birthdate = date('Y-m-d', strtotime($passenger->birthday));
+          if($passenger->sex == 'adult'){
+                $sexType = 'ADT';
+          }elseif($passenger->sex == 'child'){
+                $sexType = 'CHD';
+          }elseif($passenger->sex == 'infant'){
+                $sexType = 'INF';
+          }
+    $body1 .=  '<typ:AirTraveler PassengerTypeCode="'.$sexType.'">
+              <typ:ProfileRef>
+                <typ:UniqueID ID="1" URL="1" Instance="1" Type="1"/>
+              </typ:ProfileRef>
+              <typ:PersonName>
+                <typ:NamePrefix>MR</typ:NamePrefix>
+                <typ:GivenName>'.$passenger->name_latin.'</typ:GivenName>
+                <typ:Surname>'.$passenger->surname_latin.'</typ:Surname>
+                <typ:NameTitle></typ:NameTitle>
+              </typ:PersonName>
+              <typ:Telephone AreaCityCode="+996" PhoneNumber="'.$row->phone.'"/>
+              <typ:Email>'.$row->email.'</typ:Email>
+              <typ:Document BirthDate="'.$passenger_birthdate.'" DocID="" DocIssueAuthority="1" DocIssueLocation="1" DocType="1" EffectiveDate="1" ExpireDate="1" Gender="M">
+                <typ:DocHolderName></typ:DocHolderName>
+              </typ:Document>
+            </typ:AirTraveler>';
+    }
+}
+if(!empty($firstChilds)){
+    foreach($firstChilds as $passenger) {
+          $passenger_birthdate = date('Y-m-d', strtotime($passenger->birthday));
+          if($passenger->sex == 'adult'){
+                $sexType = 'ADT';
+          }elseif($passenger->sex == 'child'){
+                $sexType = 'CHD';
+          }elseif($passenger->sex == 'infant'){
+                $sexType = 'INF';
+          }
+    $body1 .=  '<typ:AirTraveler PassengerTypeCode="'.$sexType.'">
+              <typ:ProfileRef>
+                <typ:UniqueID ID="1" URL="1" Instance="1" Type="1"/>
+              </typ:ProfileRef>
+              <typ:PersonName>
+                <typ:NamePrefix>MR</typ:NamePrefix>
+                <typ:GivenName>'.$passenger->name_latin.'</typ:GivenName>
+                <typ:Surname>'.$passenger->surname_latin.'</typ:Surname>
+                <typ:NameTitle></typ:NameTitle>
+              </typ:PersonName>
+              <typ:Telephone AreaCityCode="+996" PhoneNumber="'.$row->phone.'"/>
+              <typ:Email>'.$row->email.'</typ:Email>
+              <typ:Document BirthDate="'.$passenger_birthdate.'" DocID="" DocIssueAuthority="1" DocIssueLocation="1" DocType="1" EffectiveDate="1" ExpireDate="1" Gender="M">
+                <typ:DocHolderName></typ:DocHolderName>
+              </typ:Document>
+            </typ:AirTraveler>';
+    }   
+}
+$body1 .=  '<typ:SpecialReqDetails>
           <typ:SeatRequests>
             <ota:item FlightRefNumberRPHList="1" SeatNumber="1" TravelerRefNumberRPHList="1"/>
           </typ:SeatRequests>
@@ -774,43 +883,56 @@ $body .=  '<typ:SpecialReqDetails>
 </soapenv:Envelope>
     '; /// Your SOAP XML needs to be in this variable
     //dd($body);
-$headers = array(
+$headers1 = array(
     'Content-Type: text/xml; charset="utf-8"',
-    'Content-Length: '.strlen($body),
+    'Content-Length: '.strlen($body1),
     'Accept: text/xml',
     'Cache-Control: no-cache',
     'Pragma: no-cache',
     'SOAPAction: "Booking"'
 );
 
-$ch = curl_init();
-curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-curl_setopt($ch, CURLOPT_URL, $url);
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($ch, CURLOPT_TIMEOUT, 60);
-curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-curl_setopt($ch, CURLOPT_POST, true);
-curl_setopt($ch, CURLOPT_POSTFIELDS, $body);
+$ch1 = curl_init();
+curl_setopt($ch1, CURLOPT_SSL_VERIFYPEER, false);
+curl_setopt($ch1, CURLOPT_URL, $url1);
+curl_setopt($ch1, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch1, CURLOPT_TIMEOUT, 60);
+curl_setopt($ch1, CURLOPT_HTTPHEADER, $headers1);
+curl_setopt($ch1, CURLOPT_POST, true);
+curl_setopt($ch1, CURLOPT_POSTFIELDS, $body1);
 
-$data = curl_exec($ch);
+$data1 = curl_exec($ch1);
 
-curl_close($ch);
+curl_close($ch1);
 
-//dd($body,$data);
-
-$xml->parseFileFromString($data); 
+//dd($body1,$data1);
+$xml->parseFileFromString($data1); 
 $tree = $xml->getTree(); 
 
 unset($xml); 
 $book_reference = find_first_key($tree, "BookingReferenceID");
-
-if( array_key_exists("ID", $book_reference) ){
-    return $book_reference["ID"];
-}else{
-    return 0;
-}
+//dd($data,$book_reference,$body);
+    if( array_key_exists("ID", $book_reference) ){
+        $people = find_first_key($tree,"AirTraveler");
+        //dd($people,$book_reference["ID"]);
+        $ticketNumber[] = array();
+        $GivenName[] = array();
+        
+        foreach ($all as $chel) {
+            foreach ($people as $row) {
+                $chel->TicketNumber = $row['TicketNumber'];
+                $chel->save();
+            }
+        }
+        return $book_reference["ID"];
+    }else{
+        return 0;
+    }
 
 }
 // end getPNR
+
+///////////////////////////////////////
+////////////// Mobilnik ///////////////
 
 ?>

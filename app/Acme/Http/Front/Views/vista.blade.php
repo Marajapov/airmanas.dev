@@ -1,21 +1,154 @@
 <!DOCTYPE html>
-<html>
- <head>
-  <meta charset="utf-8">
-  <title>Как поймать льва в пустыне?</title>
-  <link rel="stylesheet" href="http://htmlbook.ru/lion.css">
-  <!--[if lt IE 9]> 
-   <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script> 
-  <![endif]-->
-  <style>
-	body { font-family: DejaVu Sans, sans-serif; }
-  </style>
- </head>
- <body>
- 	<div class="wrapper">
- 	<p>Как поймать льва в пустыне?</p>
- 		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fugit unde reiciendis mollitia. Debitis veniam molestiae quaerat atque commodi, necessitatibus vel nesciunt in nemo, ex consectetur, alias beatae dolores nam! Ullam!</p>
- 		{{ $body }}
- 	</div>
- </body>
- </html>
+<html lang="ru">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>Vista</title>
+	
+	<link href="{{ asset('css/vista.css') }}" rel="stylesheet">
+
+<style>
+	 .table {
+          display: table;
+      }
+      .table tr {
+          display: table-row;
+      }
+</style>
+</head>
+<body>
+<div class="container">
+	<div class="row">
+		<div id="topheader">
+			<h5>Travel Document</h5>
+		</div>
+		<div id="header" class="clearfix">
+			<div class="left-pic">
+				<img src="{{ asset('images/print/left-pic.png')}}" alt="">
+			</div>
+			<div class="center-pic">
+				<img src="{{ asset('images/print/center-pic.png')}}" alt="">
+			</div>
+			<div class="right-pic">
+				<img src="{{ asset('images/print/right-pic.png')}}" alt="">
+			</div>
+		</div>
+		<div class="wrapper clearfix">
+			<div id="air-info">			
+				<span class="text-center">Детали полета</span>
+			</div>
+			@foreach($all as $value)
+			<div class="ticket">
+				<span class="table">
+				    <span class="t-name">{{ $value->name_latin }} {{ $value->surname_latin }}</span>
+				      <span class="tr">
+				        <span class="td t-left">Ссылка на бронирование / Booking Ref </span>
+				        <span class="td">: {{ $row->pnrcode}}</span>
+				      </span>
+				      <span class="tr">
+				        <span class="td t-left">номер билета / Ticket Number</span>
+				        <span class="td">: {{ $value->TicketNumber }}</span>
+				      </span>
+				      <span class="tr">
+				        <span class="td t-left">Выдан / Issued By</span>
+				        <span class="td">: ULUSOFT OTA</span>
+				      </span>		      
+				      <span class="tr">
+				        <span class="td t-left">Дата выдачи / Issue Date</span>
+				        <span class="td">: {{--*/ echo date('Y-m-d H:i:s')/*--}}</span>
+				     </span>	
+				</span>
+			 </div>
+			@endforeach
+			<hr>
+		</div>
+		<div class="ticket-main">
+			<table class="table ticket-info">
+				<thead>
+					<tr>
+						<th>Из <br>From</th>
+						<th>В <br>To</th>
+						<th>Номер рейса <br>Flight No</th>
+						<th>Дата вылета по распиc <br>Data</th>
+						<th>Время вылета по расписанию <br>Dep. Time </th>
+						<th>Время прилета по расписанию <br>Arr. Time </th>
+						<th>Статус <br>Status</th>
+						<th>Терминал вылета <br>Dep. Term.</th>
+						<th>Терминал прилета <br>Arr. Term. </th>
+						<th>После не действителен <br>Not Valid After </th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>{{ $from->name }}({{ $row->departure}})</td>
+						<td>{{ $to->name }}({{ $row->destination}})</td>
+						<td>{{ $row->departureEquipment}}-{{ $row->departureFlightNumber}} </td>
+						<td>{{--*/ echo date('Y-m-d',$row->departure_flight)/*--}} </td>
+						<td>{{--*/ echo date('H:i',$row->departure_flight)/*--}} </td>
+						<td>{{--*/ echo date('H:i',strtotime($row->departure_arrival_date_time))/*--}} </td>
+						<td>O</td>
+						<td></td>
+						<td></td>
+						<td>{{--*/ echo date('d-m',strtotime($row->departure_flight)).'-'.$nextYear/*--}} </td></td>
+					</tr>			
+				</tbody>
+			</table>
+			@if($row->return_flight !=0)
+			<table class="table ticket-info">
+				<thead>
+					<tr>
+						<th>Из <br>From</th>
+						<th>В <br>To</th>
+						<th>Номер рейса <br>Flight No</th>
+						<th>Дата вылета по распиc <br>Data</th>
+						<th>Время вылета по расписанию <br>Dep. Time </th>
+						<th>Время прилета по расписанию <br>Arr. Time </th>
+						<th>Статус <br>Status</th>
+						<th>Терминал вылета <br>Dep. Term.</th>
+						<th>Терминал прилета <br>Arr. Term. </th>
+						<th>После не действителен <br>Not Valid After </th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>{{ $from->name }}({{ $row->destination}})</td>
+						<td>{{ $to->name }}({{ $row->departure}})</td>
+						<td>{{ $row->returnEquipment}}-{{ $row->returnFlightNumber}} </td>
+						<td>{{--*/ echo date('Y-m-d',$row->return_flight)/*--}} </td>
+						<td>{{--*/ echo date('H:i',$row->return_flight)/*--}} </td>
+						<td>{{--*/ echo date('H:i',$row->return_arrival_date_time)/*--}} </td>
+						<td>O</td>
+						<td></td>
+						<td></td>
+						<td>{{--*/ echo date('d-m',strtotime($row->return_flight)).'-'.$nextYear/*--}} </td></td>
+					</tr>			
+				</tbody>
+			</table>
+			@endif
+			<div class="services">
+				<span class="s-name">Дополнительные услуги / Additional Services - Eco Package / Eco Package</span>
+				<li>XBAG - **XBAG / 0 KG</li>
+				<li>Всего Нормы провоза багажа / Total Baggage Allowance : 15 KG</li>
+				<span class="s-end">GKGAGT/D/P67 - IADE YAPILMAZ, DEGISIKLIK UCRETLIDIR / NO REFUND, CHANGE RESTRICTED</span>
+			</div>
+		</div>
+		<div class="privacy">
+			<p><strong>УВЕДОМЛЕНИЕ:</strong> Настоящий билет регулируется соответствующими законами, графиками полетов Авиакомпании «ПЕГАСУС АЗИЯ»,а также общими положениями и условиями. Пассажир настоящим обязуется соблюдать ОБЩИЕ ПОЛОЖЕНИЯ И УСЛОВИЯ, включая правила перевозки Авиакомпании «ПЕГАСУС АЗИЯ». ОБЩИЕ ПОЛОЖЕНИЯ И УСЛОВИЯ, а также правила перевозки находятся на нашем вэб-сайте www.airmanas.com . ПЕГАСУС АЗИЯ сохраняет за собой право в любое время вносить изменения в ОБЩИЕ ПОЛОЖЕНИЯ И УСЛОВИЯ, размещенные на вэб-сайте www.airmanas.com.
+			</p>
+			<p>Правила отмены или внесения изменений при бронировании или покупке билетов указаны ниже:</p>
+			<p>A - Имя пассажира, указанное в брони, не может изменяться. В случае если полет пассажира по действующей брони не состоялся по собственной причине (не по причине авиаперевозчика), пассажир лишается всех правил в отношении полета и не получает возмещения.</p>
+			<p>B - Возврат билета, внесение изменений бронирования, отмена бронирования и возмещение средств производятся в соответствии с ОБЩИМИ ПОЛОЖЕНИЯМИ И УСЛОВИЯМИ. В случае если возврат билета, отмена билета, получение возмещения, купленным по специальным предложениям или внесение изменений представляются возможными, они будут совершены в соответствии с ценовой категорией купленного билета. Дополнительную информацию относительно категорий билетов и иных вопросов Вы можете получить, ознакомившись с ОБЩИМИ ПРАВИЛАМИ на сайте www.airmanas.com. Отмена билетов, а также получение возмещения по билетам, купленным по специальным предложениям, будут произведены согласно положениям и условиям соответствующего предложения.</p>
+			<p>C - В случае возникновения разницы между стоимостью уже купленного билета и новым билетом пассажир обязуется уплатить дополнительную плату за билет. В случае отмены брони комиссия за обслуживание не возвращается пассажиру. Размер возмещения топливного сбора в случае отмены или изменения билета будет зависеть от количества времени, оставшегося до начала полета, а также положений и условий в отношении купленного билета. </p>
+			<p>D - Еда и напитки на наших рейсах являются платными.</p>
+			<p>E - Для прохождения регистрации Вам необходимо прибыть в аэропорт за 3 часа до установленного времени вылета по расписанию. В аэропортах с дополнительными мерами безопасности стойки регистрации пассажиров будут открыты за 3 часа до установленного времени вылета и будут закрыты за 1 час до времени вылета по расписанию. Пассажиры, вылетающие по международным рейсам, не прошедшие регистрацию за 45 минут до начала вылета, в том числе пассажиры, вылетающие по внутренним рейсам на территории Турецкой Республики, и не прошедшие регистрацию за 30 минут до вылета, лишаются всех прав относительно данного полета. Пассажиры, не появившиеся на секции выхода на посадку в установленное время вылета по расписанию, лишаются всех прав в отношении данного полета. При регистрации на все международные рейсы необходимо предъявлять действительный паспорт, и ID карточку с фотографией на все полеты, осуществляемые на территории Турецкой Республики При отсутствии указанных документов пассажир будет отстранен от полета. </p>
+			<p><strong>Пассажиры несут ответственность за действительность своих паспортов и виз.</strong></p>
+			<p>F - При перевозках на территории Турецкой Республики норма допустимого багажа составляет 15 кг, а при международных перевозках – 20 кг. Норма багажа для детей в возрасте до 2 лет составляет 10 кг. Ручная кладь на все наши полеты составляет 8 кг. Дополнительную информацию относительно правил безопасности провоза ручной клади и запрещенных веществ, Вы можете получить, посетив наш веб-сайт: www.airmanas.com (Общие правила). Авиакомпания не несет ответственности за перевозку запрещенных веществ в зарегистрированном багаже или такие мелкие повреждения, как царапины или вмятины нанесенные багажу. </p>
+			<p><strong>G - SAW- Аэропорт имени Сабихи Гокчен, IST- Аэропорт имени Ататюрка.</strong></p>
+			<p>H - В случае возникновения спора электронные записи авиакомпании «ПЕГАСУС АЗИЯ» будут являться действительными</p>
+			<p>I - В случае отмены или задержки полета Авиакомпания «ПЕГАСУС АЗИЯ» не несет ответственность за внутренний перелет с другой авиакомпанией. Пассажиры не вправе требовать замены билета на стыковочный рейс. </p>
+			<p>J - Пассажиры следующие по другим международным направлениям могут ознакомиться с общими правилами и положениями на сайте: www.flypgs.com </p>
+			<p>ПРЕДУПРЕЖДЕНИЕ: Степень ответственности авиаперевозчика за смерть или причинение вреда здоровью пассажира, а также за утрату или повреждение багажа пассажира во время полета, как при международной перевозке, так и на территории Кыргызской Республики, определяется в соответствии с Варшавской Конвенцией и ее протоколами, а также Монреальской Конвенцией (1999). Ответственность за полеты, которые будут осуществлены ПЕГАСУС АЗИЕЙ на территории Европейского Сообщества, будет регулироваться в соответствии с законодательством Европейского Сообщества. </p>
+		</div>
+	</div>
+</div>
+</body>
+</html>

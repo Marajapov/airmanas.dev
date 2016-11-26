@@ -58,6 +58,11 @@
 
                 <!-- tab-contents -->
                 <div class="tabcontents">
+
+                @if($noFlight == 1)
+                    <p>No Flight / По данным направлению нет вылетов</p>
+                    @endif
+                    
                     {{--*/ $view = 1 /*--}}
                     
                         @for($i=0; $i<count($fly_days); $i++)
