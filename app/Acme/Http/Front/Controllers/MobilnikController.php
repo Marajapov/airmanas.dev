@@ -54,8 +54,6 @@ class MobilnikController extends Controller
     }
     public function searchResult(Request $request)
     {
-        $success = json_encode(array( 'result' => '1'));
-        $fail = json_encode(array( 'result' => '0'));
         $departure = $_GET['departure'];
         $destination = $_GET['destination'];
         $adult_count = isset($_GET['adult_count'])?$_GET['adult_count']:0;
@@ -152,6 +150,7 @@ class MobilnikController extends Controller
         'Pragma: no-cache',
         'SOAPAction: "AvailabilityAndFares"'
     );
+//    dd($body);
     $ch[$i] = curl_init() or die($fail);
     curl_setopt($ch[$i], CURLOPT_SSL_VERIFYPEER, false);
     curl_setopt($ch[$i], CURLOPT_URL, $url);
@@ -221,6 +220,7 @@ class MobilnikController extends Controller
             $fly_days_final[] = array($newFlight);
         }else{
             $newFlight = new Flight();
+            $noFlight = 1;
         }
     }
     $time_5 = microtime(true);
@@ -235,7 +235,6 @@ class MobilnikController extends Controller
                 }
             }
             if ($not_found){
-
                 $newFlight = new Flight();
                 $newFlight->departureAirport = $departure;
                 $newFlight->arrivalAirport = $destination;
@@ -244,6 +243,7 @@ class MobilnikController extends Controller
                 $return_days_final[] = array($newFlight);
             }else{
                 $newFlight = new Flight();
+                $noFlight = 1;
             }
         }
     }
@@ -271,10 +271,10 @@ class MobilnikController extends Controller
     
 
     $retn_d = (isset($retn_d)) ? $retn_d : 'no';
-    
+    //dd($fly_days_final,$return_days_final);
     return view('Front::mresult', [
             'fly_days'=> $fly_days,
-            'return_days_final' => $return_days_final,
+            'fly_days_return'=> $fly_days_return,
             'noFlight' => $noFlight,
         ]);
     }
@@ -587,11 +587,11 @@ class MobilnikController extends Controller
     }
 
     
-    public function payQiwi(Request $request)
+    public function payMobilnik(Request $request)
     {
-    $this_username = 'qiwi';
+    /*$this_username = 'qiwi';
     $this_password = '7789105089';
-    $service_name = 'Qiwi';
+    $service_name = 'Qiwi';*/
 /*
     if (!isset($_SERVER['PHP_AUTH_USER'])) {
         header('WWW-Authenticate: Basic realm="My Realm"');
@@ -622,20 +622,19 @@ class MobilnikController extends Controller
     //header("Content-type: text/xml");
     //dd($command);
     if (isset($command)){
-
         $comment = '';
         $txn_date = date("Y-m-d H:i:s");
         
         if ($command =='check'){
             //dd('check is starting ...');
-            $result = check_account($acc, $txn_id);
+            $result = mcheck_account($acc, $txn_id);
             //dd('check is ok');
         }
         if ($command =='pay'){
             //dd('pay is starting ...');
             $prv_txn = generateRandomPayCode_helper();
         //    dd($acc,$txn_id,$sum,$prv_txn,$service_name);
-            $result = check_pay_account($acc, $txn_id,$sum, $prv_txn, $service_name);
+            $result = check_pay_account($acc, $txn_id,$sum, $prv_txn, 'Mobilnik');
 
         }
     }
@@ -721,4 +720,89 @@ class MobilnikController extends Controller
 
     }
 
+    public function getMobilnikPnr(Request $request)
+    {
+        $airports = City::lists('name','airport_code')->toArray();
+        $jsonAirports = json_encode($airports,JSON_UNESCAPED_UNICODE);
+        
+        return $jsonAirports;
+
+    }
+
+    public function getPnr(Request $request)
+    {
+        $random = generateRandomPayCode_helper();
+        $departure = $request->departure;
+        $return = $request->return;
+        $passenger = $request->passenger;
+
+        $row = FlightRegister::create();
+        $row->paycode = $random;
+        $row->destination = $departure['destination'];
+        $row->departure = $departure['departure'];
+        $row->mobilnik_departure_date_time = $departure['departure_date_time'];
+        $row->mobilnik_departure_arrival_date_time = $departure['arrival_date_time'];
+        $row->departureFlightNumber = $departure['flightNumber'];
+        $row->mobilnik_departure_equipment = $departure['equipment'];
+        $row->departureResBookDesigCode = $departure['resBookDesigCode'];
+        $row->departureResBookDesigQuantity = $departure['resBookDesigQuantity'];
+        $row->departureResBookDesigID = $departure['departureResBookDesigID'];
+        $row->save();
+        if($return){
+            $row->mobilnik_departure_date_time = $return['departure_date_time'];
+            $row->mobilnik_departure_arrival_date_time = $return['arrival_date_time'];
+            $row->returnFlightNumber = $return['flightNumber'];
+            $row->returnEquipment = $return['equipment'];
+            $row->returnResBookDesigCode = $return['resBookDesigCode'];
+            $row->returnResBookDesigQuantity = $return['resBookDesigQuantity'];
+            $row->returnResBookDesigID = $return['returnResBookDesigID'];
+            $row->mobilnik_return_departure_date_time = $return['departure_date_time'];
+            $row->mobilnik_return_arrival_date_time = $return['arrival_date_time'];
+            $row->save();
+        }
+        foreach ($passenger as $key => $value) {
+            if($value['typeCode'] != 'CNT'){
+                $newPassenger = PassengerModel::create();
+                $newPassenger->sex = $value['typeCode'];
+                $newPassenger->surname = $value['surname'];
+                $newPassenger->surname_latin = $value['surname'];
+                $newPassenger->name = $value['givenName'];
+                $newPassenger->name_latin = $value['givenName'];
+                $newPassenger->birthday = $value['birthDate'];
+                $newPassenger->flight = $row->id;
+                $newPassenger->save();
+            }
+        }
+       
+       // update Contact info of Flight
+        foreach ($passenger as $key => $value) {
+            if($value['typeCode'] == 'CNT'){
+            $lastFlight = FlightRegister::where('paycode','=',$random)->first();
+            $lastFlight->phone = $value['phone'];
+            $lastFlight->email = $value['email'];
+            $lastFlight->surname = $value['surname'];
+            $lastFlight->name = $value['givenName'];
+            $lastFlight->save();
+            }    
+        }
+        
+        $pnr = getPNRForMobilnik($lastFlight);
+        if($pnr){
+            $post_data = array();
+            $postPassenger = PassengerModel::where('flight','=',$lastFlight->id)->get();
+            foreach ($postPassenger as $key => $value) {
+                $post_data .= json_encode(array(
+                    'surname' => $value['surname'],
+                    'name' => $value['givenName'],
+                    'TicketNumber' => $value['TicketNumber'],
+                    'pnr' => $pnr,
+                    ));
+            }
+            print $post_data = json_encode(array('pnr' => $pnr));
+        }else{
+            print $post_data = json_encode(array('pnr' => 'no pnr'));
+        }
+
+    }
+   
 }

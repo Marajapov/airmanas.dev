@@ -42,17 +42,10 @@ class HomeController extends Controller
         session(['fly_days_return'=> NULL]);
         session(['fly_days_return_2'=> NULL]);
 
-        $row = FlightRegister::where('id','=',54)->first();
-        $all = PassengerModel::where('flight','=',$row->id)->get();
-        $from = City::where('airport_code','=',$row->departure)->first();
-        $to = City::where('airport_code','=',$row->destination)->first();
-        $nextYear = date('Y', strtotime(' +1 year'));
-        return view('Front::vista',['row'=>$row,'all'=>$all,'from'=> $from,
-        'to'=> $to,
-        'nextYear' =>$nextYear,]);
+        /*$row = FlightRegister::where('id','=',54)->first();
 
         mysend_mail($row, 'abakano21@gmail.com', 'fromHomeController', 'body text');
-        dd(123);
+        dd(123);*/
             
         return view('Front::home', [
             'airport_loc'=> $this->airport_loc,

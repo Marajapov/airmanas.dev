@@ -1,9 +1,8 @@
 <?php
 
-Route::group(['domain' => 'airmanas.dev', 'prefix' => '/', 'namespace' => 'Front\Controllers'], function() {
+Route::group(['domain' => '', 'prefix' => '/', 'namespace' => 'Front\Controllers'], function() {
     Route::get('/', ['as' => 'front.home',   'uses' => 'HomeController@Home']);
 });
-
 
 Route::group(['prefix' => '/', 'namespace' => 'Front\Controllers'], function() {
     Route::get('login', ['as' => 'front.login',   'uses' => 'AuthController@Login']);
@@ -39,8 +38,8 @@ Route::group(['prefix' => '/', 'namespace' => 'Front\Controllers'], function() {
     // Mobilnik routes
     Route::get('getAirports/',['as'=>'front.messenger','uses'=>'HomeController@getAirports']);
     Route::get('msearch', ['as' => 'front.mobilnik.search', 'uses' => 'MobilnikController@searchResult']);
-    Route::get('msearch', ['as' => 'front.mobilnik.search', 'uses' => 'MobilnikController@searchResult']);
-    
+    Route::get('mobilnik/', ['as' => 'front.mobilnik', 'uses' => 'MobilnikController@payMobilnik']);
+    Route::post('getpnr', ['as' => 'front.getpnr', 'uses' => 'MobilnikController@getPnr']);
 });
 
 ?>

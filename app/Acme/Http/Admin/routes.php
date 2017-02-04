@@ -16,6 +16,6 @@ Route::group(['prefix' => 'admin', 'middleware' => 'access:admin', 'namespace' =
 
 //	Resource routes
     Route::resource('user', 'UserController');
-    Route::resource('city', 'CityController'); // city - квартира
+    Route::resource('city', 'CityController'); 
     
 });
