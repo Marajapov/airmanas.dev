@@ -1,27 +1,29 @@
-@include('Front::partials.main_header')
+@include('Front::partials.includes')
 @include('Front::partials.header')
-    <!-- main-content -->
-    <div class="main-content container no-padding">
-    <!-- breadcrumbs -->
-    <ol class="breadcrumb breadcrumb3 clearfix">
-        <li class="col-lg-3 col-md-3 col-sm-3 col-xs-3"><a href="#">Издѳѳ</a><i></i></li>
-        <li class="active col-lg-3 col-md-3 col-sm-3 col-xs-3">Рейстер<i></i></li>
-        <li class="col-lg-3 col-md-3 col-sm-3 col-xs-3"><a href="#">Жүргүнчү</a><i></i></li>
-        <li class="col-lg-3 col-md-3 col-sm-3 col-xs-3"><a href="#">Далилдөө</a></li>
-    </ol>
-        <!-- ticket-info -->
-        <div class="ticket-info col-lg-9">
-            <!-- fromTable -->
-            <div class="fromTable col-lg-12 no-padding">
-                <!-- breadcrumbs -->
-                <ol class="breadcrumb breadcrumb2">
-                    <li class="dir_name">Учуу</li>
-                    <li><span>{{ $departure }}</span><i class="fa fa-plane"></i><span>{{ $destination }}</span></li>
-                </ol> <!-- end breadcrumbs -->
-                <!-- steps -->
-                <div id="steps" class="steps no-padding">
-                    <ul class="tabs nav nav-tabs nav-justified">
+<div class="hero">
+    <div class="search-flight full-width">
+        <h1>Результаты поиска</h1>
+        <ul class="wizard">
+            <li class="visited"><a href="index.html">Поиск</a></li>
+            <li class="current"><em>Рейсы</em></li>
+            <li><em>Информация</em></li>
+            <li><em>Потверждение</em></li>
+        </ul>
 
+        <div class="row">
+
+
+            <main class="grid grid-70">
+
+                <div class="departure">
+                    <h4>
+                        <span>Вылет</span>
+                        {{ $departure }}
+                        -
+                        {{ $destination }}
+                    </h4>
+
+                    <ul class="nav-justified">
                         {{--*/ $view = 1 /*--}} 
                         @for($i=0; $i<count($fly_days); $i++)
                             {{--*/ $least_price = 0 /*--}}
@@ -37,517 +39,439 @@
                                 
                                 @if ($day_str)
                                     {{--*/  $day = strtotime($day_str) /*--}}
-                                    <li role="presentation" @if ($dept_d==$day ) class="selected" @endif>
-                                        <a href="#view{{ $view }}">
-                                            <span class="tday hidden-xs">{{ date('d', $day) }}</span>
-                                            <span class="tday hidden-lg hidden-md hidden-sm">12</span>
-                                            <span class="tmonth-tweek">
-                                                <span class="tmonth hidden-xs"> {{ date('F', $day) }}</span><span class="tweek"> 
-                                                {{ date('D', $day) }}</span>
-                                                <span style="color:red; font-size:10px">@if($least_price>0) {{ $least_price}} сом @else no flight @endif</span>
-                                            </span>
-                                            <div class="clear"></div>
-                                        </a>
-                                    </li>
+                            <li role="presentation" @if ($dept_d==$day ) class="current" @endif>
+                                <a href="#view{{ $view }}">
+                                    <span class="tday hidden-xs">{{ date('d', $day) }}</span>
+                                    <span class="tday hidden-lg hidden-md hidden-sm">12</span>
+                                    <span class="tmonth-tweek">
+                                        <span class="tmonth hidden-xs"> {{ date('F', $day) }}</span><span class="tweek"> 
+                                        {{ date('D', $day) }}</span>
+                                        <span style="color:red; font-size:10px">@if($least_price>0) {{ $least_price}} сом @else no flight @endif</span>
+                                    </span>
+                                    <div class="clear"></div>
+                                </a>
+                            </li>
                                     {{--*/ $view++ /*--}}
                                 @endif
                             @endif
                         @endfor
-                    </ul>
-                </div> <!-- steps end  // // -->
-
-                <!-- tab-contents -->
-                <div class="tabcontents">
-
-                @if($noFlight == 1)
-                    <p>No Flight / По данным направлению нет вылетов</p>
-                    @endif
-                    
-                    {{--*/ $view = 1 /*--}}
-                    
-                        @for($i=0; $i<count($fly_days); $i++)
-                        @if($fly_days[$i])
-                            
-                            {{--*/ $day_str = $fly_days[$i][0]->departure_date() /*--}}
-                            @if($day_str)
-                                {{--*/ $day = strtotime($day_str) /*--}}
-                    <div id="view{{ $view }}" class="tab-content tab-1 current clearfix">
-                        <table class="table table-bordered col-lg-12 no-padding">
-                            <tr class="first-row active">
-                                <td class="col-lg-2 text-uppercase">№ рейстин номуру</td>
-                                <td class="col-lg-3 text-uppercase">Учуу</td>
-                                <td class="col-lg-3 text-uppercase">Келүү</td>
-                                <td class="col-lg-3 text-uppercase">Баасы</td>
-                                <td class="col-lg-1 text-uppercase">Тандоо</td>
-                            </tr>
-                            {{--*/ $jcounter=0 /*--}}
-                            @for($j=0; $j<count($fly_days[$i]); $j++)
-                                
-                                    {{--*/ $ddt_str = $fly_days[$i][$j]->departureDateTime /*--}}
-                                    {{--*/ $adt_str = $fly_days[$i][$j]->arrivalDateTime /*--}}
-                                    {{--*/ $ddt = strtotime($ddt_str) /*--}}
-                                    {{--*/ $adt = strtotime($adt_str) /*--}}
-                            
-                            <tr class="" data-price="{{ $fly_days[$i][$j]->adultPriceSom }}" data-child-price="{{ $fly_days[$i][$j]->childPriceSom }}" data-infant-price="{{ $fly_days[$i][$j]->infPriceSom }}" data-number="{{ $fly_days[$i][$j]->flightNumber}}" data-from-date="{{ date('d.m.Y', $ddt) }}" data-from-time="{{ date('H:i', $ddt) }}" data-from-city="{{ $airport_loc[$fly_days[$i][$j]->departureAirport] }}" data-from-airport="{{ $fly_days[$i][$j]->departureAirport }}" data-to-date="{{ date('d.m.Y', $adt) }}" data-to-time="{{ date('H:i', $adt) }}" data-to-city="{{ $airport_loc[$fly_days[$i][$j]->arrivalAirport] }}" data-to-airport="{{ $fly_days[$i][$j]->arrivalAirport }}" data-timestamp="{{ $fly_days[$i][$j]->timestamp }}">
-                                <td>{{ $fly_days[$i][$j]->flightNumber }}</td>
-                                <td class="timef">{{ date('H:i', $ddt) }}</span></td>
-                                <td class="timet">{{ date('H:i', $adt) }}</span></td>
-                                <td class="tprice">{{ $fly_days[$i][$j]->adultPriceSom }}</td>
-                                <td>
-                                    <input name="radio_fl_out" type="radio"/>
-                                </td>
-                            </tr>
-                            {{--*/ $jcounter++ /*--}} 
-                            @endfor
-                            @if ($jcounter==0) 
-                            <tr class="" data-price="0" data-number="0" data-from-date="01.01.2011" data-from-time="16:45" data-from-city="BB" data-from-airport="AA" data-to-date="01.01.2011" data-to-time="17:25" data-to-city="oo" data-to-airport="oo">
-                                <td colspan="5">Бош орун жок</td>
-                                
-                            </tr>
-                            @endif
-                        </table>
-                    </div>
-                    
-                    {{--*/ $view++ /*--}}
-                        @endif
-
-                        @else
-                        @endif
-
-                        @endfor
-                    
-                </div> <!-- tab-contents end -->
-
-
-            </div> <!-- fromTable end -->
-   <!-- start 0 -->
-            <!-- toTable -->
-            <div class="toTable col-lg-12 no-padding">
-            
-            @if(count($fly_days_return) > 0)
-            <!-- breadcrumbs -->
-            <ol class="breadcrumb breadcrumb2">
-                <li class="dir_name">Кайтуу</li>
-                <li class="fl-dir"><span>{{ $destination }}</span><i class="fa fa-plane"></i><span>{{ $departure }}</span></li>
-            </ol> <!-- end breadcrumbs -->
-                <!-- steps -->
-                <div id="steps" class="steps">
-                    <ul class="tabs nav nav-tabs nav-justified">
-                        
-                            {{--*/ $view = 1 /*--}}
-                            @for($i=0; $i<count($fly_days_return); $i++)
-
-                            @if($fly_days_return[$i])
-                                
-                                {{--*/ $least_price = 0 /*--}}
-                                @foreach($fly_days_return[$i] as $this_flight)
-                                    @if($least_price == 0 || ($this_flight->adultPriceSom>0 && $this_flight->adultPriceSom < $least_price))
-                                        {{--*/ $least_price = $this_flight->adultPriceSom /*--}}
-                                    @endif
-                                @endforeach
-                                {{--*/ $day_str = $fly_days_return[$i][0]->departure_date() /*--}}
-                                @if ($day_str)
-                                    {{--*/ $day = strtotime($day_str) /*--}}
-                        
-                        <li role="presentation"@if($retn_d==$day ) class="selected" @endif>
-                            <a href="#viewt{{ $view }}">
-                                <span class="tday hidden-xs">{{ date('d', $day) }}</span>
-                                <span class="tday hidden-lg hidden-md hidden-sm">12</span>
-                                <span class="tmonth-tweek">
-                                    <span class="tmonth hidden-xs">{{ date('F', $day) }}</span><span class="tweek"> 
-                                    {{ date('D', $day) }}</span>
-                                    <span style="color:red; font-size:10px">@if ($least_price>0) {{ $least_price }} сом @else no flight @endif</span>
-                                </span>
-                                <div class="clear"></div>
+                        <li class="current">
+                            <a href="#">
+                                <span class="weekday">ПН</span>
+                                <span class="date">02</span>
+                                <span class="month">февраль</span>
                             </a>
                         </li>
-                        
-                        
-                    {{--*/  $view++ /*--}}
-                        @endif
-
-                        @endif
-                        
-                        @endfor
+                       
                     </ul>
-                </div> <!-- steps end -->
-               
 
-
-<!-- start -->
-                <!-- tabcontents -->
-                <div class="tabcontents">
-                        {{--*/  $view = 1 /*--}}
-                            @for($i=0; $i<count($fly_days_return); $i++)
-                                
-                                @if($fly_days_return[$i])
-                                
-                                {{--*/ $day_str = $fly_days_return[$i][0]->departure_date() /*--}}
-                                @if($day_str) 
-                                    {{--*/ $day = strtotime($day_str) /*--}}
-                          
-                    <div id="viewt{{ $view }}" class="tab-content tab-1 current clearfix">
-                        <table class="table table-bordered col-lg-12 no-padding">
-                            <tr class="first-row active">
-                                <td class="col-lg-2 text-uppercase">№ рейстин номуру</td>
-                                <td class="col-lg-3 text-uppercase">Учуу</td>
-                                <td class="col-lg-3 text-uppercase">Келүү</td>
-                                <!--                        <td class="col-lg-3">Информация о рейсе</td>-->
-                                <td class="col-lg-3 text-uppercase">Баасы</td>
-                                <td class="col-lg-1 text-uppercase">Тандоо</td>
-
+                    <div class="flights">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>Рейс</th>
+                                <th>Маршрут</th>
+                                <th>Стоимость</th>
+                                <th></th>
                             </tr>
-                            
-                            {{--*/ $jcounter=0 /*--}}
-                            @for($j=0; $j<count($fly_days_return[$i]); $j++)
-                                @if($fly_days_return[$i][$j]->adultPrice==0) continue @endif
-                                
-                                    {{--*/ $ddt_str = $fly_days_return[$i][$j]->departureDateTime /*--}}
-                                    {{--*/ $adt_str = $fly_days_return[$i][$j]->arrivalDateTime /*---}}
-                                    {{--*/ $ddt = strtotime($ddt_str) /*--}} 
-                                    {{--*/ $adt = strtotime($adt_str) /*--}} 
-                            <tr class="" data-price="{{ $fly_days_return[$i][$j]->adultPriceSom }}" data-child-price="{{ $fly_days_return[$i][$j]->childPriceSom }}" data-infant-price="{{ $fly_days_return[$i][$j]->infPriceSom }}" data-number="{{ $fly_days_return[$i][$j]->flightNumber}}" data-from-date="{{ date('d.m.Y', $ddt) }}" data-from-time="{{ date('H:i', $ddt)}}" data-from-city="{{ $airport_loc[$fly_days_return[$i][$j]->departureAirport] }}" data-from-airport="{{ $fly_days_return[$i][$j]->departureAirport }}" data-to-date="{{ date('d.m.Y', $adt) }}" data-to-time="{{ date('H:i', $adt)}}" data-to-city="{{ $airport_loc[$fly_days_return[$i][$j]->arrivalAirport] }}" data-to-airport="{{ $fly_days_return[$i][$j]->arrivalAirport }}" data-timestamp="{{ $fly_days_return[$i][$j]->timestamp }}">
-                                <td>{{ $fly_days_return[$i][$j]->flightNumber }}</td>
-                                <td class="timef">{{ date('H:i', $ddt) }}</span></td>
-                                <td class="timet">{{ date('H:i', $adt) }}</span></td>
-                                <td class="tprice">{{ $fly_days_return[$i][$j]->adultPriceSom }}</td>
-                                <td>
-                                    <input name="radio_fl_in" type="radio"/>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td class="flight">193</td>
+                                <td class="direction">
+                                    <div class="dep-info text-right grid grid-40">
+                                        <span class="time">07:35</span>
+                                        <span class="place">
+                                        FRU, Бишкек
+                                    </span>
+                                    </div>
+                                    <div class="divider grid grid-20">
+                                        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                 viewBox="0 0 24 24" style="enable-background:new 0 0 24 24;" xml:space="preserve">
+            <g>
+                <g>
+                    <path d="M15.6,13.6l7.5-0.8c0.1,0,0.2-0.1,0.3-0.1l0.4-0.4c0.2-0.2,0.2-0.5,0-0.7l-0.4-0.4c-0.1-0.1-0.2-0.1-0.3-0.1l-7.5-0.7
+                        L8.8,1.6C8.7,1.5,8.6,1.4,8.5,1.4H6.9C6.6,1.4,6.4,1.7,6.5,2l3.3,8.4L3,11.2L1.2,8.4C1.1,8.3,0.9,8.2,0.9,8.2H0.5
+                        C0.2,8.2,0,8.5,0.1,8.8l1,3.2l-1,3.2c-0.1,0.3,0.1,0.6,0.4,0.6h0.4c0.2,0,0.3-0.1,0.3-0.2L3,12.8l6.8,0.8L6.5,22
+                        c-0.1,0.3,0.1,0.6,0.4,0.6h1.6c0.2,0,0.3-0.1,0.3-0.2L15.6,13.6z"/>
+                </g>
+            </g>
+            </svg>
+                                    </div>
+                                    <div class="arr-info text-left grid grid-40">
+                                        <span class="time">08:10</span>
+                                        <span class="place">
+                                        OSS, Ош
+                                    </span>
+                                    </div>
+                                </td>
+                                <td class="price">
+                                <span class="count">
+                                    2448
+                                </span>
+                                    <span class="currency">
+                                    сом
+                                </span>
+                                </td>
+                                <td class="check">
+                                    <button class="btn">
+                                        Купить
+                                    </button>
+                                    <!--<div class="radio">-->
+                                    <!--<input id="flight1" type="radio" name="radio_fl_out" class="form-control">-->
+                                    <!--<label for="flight1"></label>-->
+                                    <!--</div>-->
                                 </td>
                             </tr>
-
-                            {{--*/ $jcounter++ /*--}}
-                            @endfor 
-                            @if($jcounter==0)
-                            <tr class="" data-price="0" data-number="0" data-from-date="01.01.2011" data-from-time="16:45" data-from-city="BB" data-from-airport="AA" data-to-date="01.01.2011" data-to-time="17:25" data-to-city="oo" data-to-airport="oo">
-                                <td colspan="5">Бош орун жок</td>
+                            <tr>
+                                <td class="flight">193</td>
+                                <td class="direction">
+                                    <div class="dep-info text-right grid grid-40">
+                                        <span class="time">07:35</span>
+                                        <span class="place">
+                                        FRU, Бишкек
+                                    </span>
+                                    </div>
+                                    <div class="divider grid grid-20">
+                                        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                 viewBox="0 0 24 24" style="enable-background:new 0 0 24 24;" xml:space="preserve">
+            <g>
+                <g>
+                    <path d="M15.6,13.6l7.5-0.8c0.1,0,0.2-0.1,0.3-0.1l0.4-0.4c0.2-0.2,0.2-0.5,0-0.7l-0.4-0.4c-0.1-0.1-0.2-0.1-0.3-0.1l-7.5-0.7
+                        L8.8,1.6C8.7,1.5,8.6,1.4,8.5,1.4H6.9C6.6,1.4,6.4,1.7,6.5,2l3.3,8.4L3,11.2L1.2,8.4C1.1,8.3,0.9,8.2,0.9,8.2H0.5
+                        C0.2,8.2,0,8.5,0.1,8.8l1,3.2l-1,3.2c-0.1,0.3,0.1,0.6,0.4,0.6h0.4c0.2,0,0.3-0.1,0.3-0.2L3,12.8l6.8,0.8L6.5,22
+                        c-0.1,0.3,0.1,0.6,0.4,0.6h1.6c0.2,0,0.3-0.1,0.3-0.2L15.6,13.6z"/>
+                </g>
+            </g>
+            </svg>
+                                    </div>
+                                    <div class="arr-info text-left grid grid-40">
+                                        <span class="time">08:10</span>
+                                        <span class="place">
+                                        OSS, Ош
+                                    </span>
+                                    </div>
+                                </td>
+                                <td class="price">
+                                <span class="count">
+                                    2448
+                                </span>
+                                    <span class="currency">
+                                    сом
+                                </span>
+                                </td>
+                                <td class="check">
+                                    <button class="btn">
+                                        Купить
+                                    </button>
+                                    <!--<div class="radio">-->
+                                    <!--<input id="flight2" type="radio" name="radio_fl_out" class="form-control">-->
+                                    <!--<label for="flight2"></label>-->
+                                    <!--</div>-->
+                                </td>
                             </tr>
-                            @endif
+                            <tr>
+                                <td class="flight">193</td>
+                                <td class="direction">
+                                    <div class="dep-info text-right grid grid-40">
+                                        <span class="time">07:35</span>
+                                        <span class="place">
+                                        FRU, Бишкек
+                                    </span>
+                                    </div>
+                                    <div class="divider grid grid-20">
+                                        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                 viewBox="0 0 24 24" style="enable-background:new 0 0 24 24;" xml:space="preserve">
+            <g>
+                <g>
+                    <path d="M15.6,13.6l7.5-0.8c0.1,0,0.2-0.1,0.3-0.1l0.4-0.4c0.2-0.2,0.2-0.5,0-0.7l-0.4-0.4c-0.1-0.1-0.2-0.1-0.3-0.1l-7.5-0.7
+                        L8.8,1.6C8.7,1.5,8.6,1.4,8.5,1.4H6.9C6.6,1.4,6.4,1.7,6.5,2l3.3,8.4L3,11.2L1.2,8.4C1.1,8.3,0.9,8.2,0.9,8.2H0.5
+                        C0.2,8.2,0,8.5,0.1,8.8l1,3.2l-1,3.2c-0.1,0.3,0.1,0.6,0.4,0.6h0.4c0.2,0,0.3-0.1,0.3-0.2L3,12.8l6.8,0.8L6.5,22
+                        c-0.1,0.3,0.1,0.6,0.4,0.6h1.6c0.2,0,0.3-0.1,0.3-0.2L15.6,13.6z"/>
+                </g>
+            </g>
+            </svg>
+                                    </div>
+                                    <div class="arr-info text-left grid grid-40">
+                                        <span class="time">08:10</span>
+                                        <span class="place">
+                                        OSS, Ош
+                                    </span>
+                                    </div>
+                                </td>
+                                <td class="price">
+                                <span class="count">
+                                    2448
+                                </span>
+                                    <span class="currency">
+                                    сом
+                                </span>
+                                </td>
+                                <td class="check">
+                                    <button class="btn">
+                                        Купить
+                                    </button>
+                                    <!--<div class="radio">-->
+                                    <!--<input id="flight3" type="radio" name="radio_fl_out" class="form-control">-->
+                                    <!--<label for="flight3"></label>-->
+                                    <!--</div>-->
+                                </td>
+                            </tr>
+                            </tbody>
                         </table>
                     </div>
+                </div>
 
-                   {{--*/ $view++ /*--}}
-                        @endif
+                <div class="block-divider">
+                    <span>
+                        <svg version="1.1" id="Слой_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                         viewBox="0 0 64 64" style="enable-background:new 0 0 64 64;" xml:space="preserve">
+                    <path d="M64,31.8c-0.1-0.6-0.5-1-1-1.2l0,0L14.4,14.8c-0.6-0.2-1.2,0-1.6,0.4c-0.4,0.5-0.5,1.1-0.2,1.7L19.6,32l-7.1,15.1
+                        c-0.3,0.5-0.2,1.2,0.2,1.7c0.3,0.3,0.7,0.5,1.1,0.5c0.2,0,0.3,0,0.5-0.1l48.5-15.7C63.7,33.2,64.1,32.5,64,31.8z M52.8,30.5H22.3
+                        l-5.5-11.6L52.8,30.5z M16.8,45.2l5.5-11.6h30.5L16.8,45.2z M13.7,33.5H1.5C0.7,33.5,0,32.8,0,32c0-0.8,0.7-1.5,1.5-1.5h12.1
+                        c0.8,0,1.5,0.7,1.5,1.5C15.2,32.8,14.5,33.5,13.7,33.5z M11.5,39.2H8c-0.8,0-1.5-0.7-1.5-1.5s0.7-1.5,1.5-1.5h3.6
+                        c0.8,0,1.5,0.7,1.5,1.5S12.4,39.2,11.5,39.2z M11.5,27.8H8c-0.8,0-1.5-0.7-1.5-1.5s0.7-1.5,1.5-1.5h3.6c0.8,0,1.5,0.7,1.5,1.5
+                        S12.4,27.8,11.5,27.8z"/>
+                    </svg>
+                    </span>
+                </div>
 
-                        @endif
+                <div class="arrival">
+                    <h4>
+                        <span>Прибытие</span>
+                        Ош
+                        <!--<i>-->
+                        <!--<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"-->
+                        <!--viewBox="0 0 24 24" style="enable-background:new 0 0 24 24;" xml:space="preserve">-->
+                        <!--<g>-->
+                        <!--<g>-->
+                        <!--<path d="M15.6,13.6l7.5-0.8c0.1,0,0.2-0.1,0.3-0.1l0.4-0.4c0.2-0.2,0.2-0.5,0-0.7l-0.4-0.4c-0.1-0.1-0.2-0.1-0.3-0.1l-7.5-0.7-->
+                        <!--L8.8,1.6C8.7,1.5,8.6,1.4,8.5,1.4H6.9C6.6,1.4,6.4,1.7,6.5,2l3.3,8.4L3,11.2L1.2,8.4C1.1,8.3,0.9,8.2,0.9,8.2H0.5-->
+                        <!--C0.2,8.2,0,8.5,0.1,8.8l1,3.2l-1,3.2c-0.1,0.3,0.1,0.6,0.4,0.6h0.4c0.2,0,0.3-0.1,0.3-0.2L3,12.8l6.8,0.8L6.5,22-->
+                        <!--c-0.1,0.3,0.1,0.6,0.4,0.6h1.6c0.2,0,0.3-0.1,0.3-0.2L15.6,13.6z"/>-->
+                        <!--</g>-->
+                        <!--</g>-->
+                        <!--</svg>-->
+                        <!--</i>-->
+                        -
+                        Бишкек
+                    </h4>
 
-                        @endfor
-                </div> <!-- tabcontents end -->
+                    <ul class="nav-justified">
+                        <li class="">
+                            <a href="#">
+                                <span class="weekday">ПН</span>
+                                <span class="date">02</span>
+                                <span class="month">февраль</span>
+                            </a>
+                        </li>
+                        <li class="">
+                            <a href="#">
+                                <span class="weekday">ПН</span>
+                                <span class="date">02</span>
+                                <span class="month">февраль</span>
+                            </a>
+                        </li>
+                        <li class="">
+                            <a href="#">
+                                <span class="weekday">ПН</span>
+                                <span class="date">02</span>
+                                <span class="month">февраль</span>
+                            </a>
+                        </li>
+                        <li class="current">
+                            <a href="#">
+                                <span class="weekday">ПН</span>
+                                <span class="date">02</span>
+                                <span class="month">февраль</span>
+                            </a>
+                        </li>
+                        <li class="">
+                            <a href="#">
+                                <span class="weekday">ПН</span>
+                                <span class="date">02</span>
+                                <span class="month">февраль</span>
+                            </a>
+                        </li>
+                        <li class="">
+                            <a href="#">
+                                <span class="weekday">ПН</span>
+                                <span class="date">02</span>
+                                <span class="month">февраль</span>
+                            </a>
+                        </li>
+                        <li class="">
+                            <a href="#">
+                                <span class="weekday">ПН</span>
+                                <span class="date">02</span>
+                                <span class="month">февраль</span>
+                            </a>
+                        </li>
+                    </ul>
 
-            @endif
-            </div> <!-- toTable end -->
-        </div> <!-- ticket-info -->
-        
-<!-- end -->
+                    <div class="flights">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>Рейс</th>
+                                <th>Маршрут</th>
+                                <th>Стоимость</th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td class="flight">193</td>
+                                <td class="direction">
+                                    <div class="dep-info text-right grid grid-40">
+                                        <span class="time">07:35</span>
+                                        <span class="place">
+                                        FRU, Бишкек
+                                    </span>
+                                    </div>
+                                    <div class="divider grid grid-20">
+                                        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                 viewBox="0 0 24 24" style="enable-background:new 0 0 24 24;" xml:space="preserve">
+            <g>
+                <g>
+                    <path d="M15.6,13.6l7.5-0.8c0.1,0,0.2-0.1,0.3-0.1l0.4-0.4c0.2-0.2,0.2-0.5,0-0.7l-0.4-0.4c-0.1-0.1-0.2-0.1-0.3-0.1l-7.5-0.7
+                        L8.8,1.6C8.7,1.5,8.6,1.4,8.5,1.4H6.9C6.6,1.4,6.4,1.7,6.5,2l3.3,8.4L3,11.2L1.2,8.4C1.1,8.3,0.9,8.2,0.9,8.2H0.5
+                        C0.2,8.2,0,8.5,0.1,8.8l1,3.2l-1,3.2c-0.1,0.3,0.1,0.6,0.4,0.6h0.4c0.2,0,0.3-0.1,0.3-0.2L3,12.8l6.8,0.8L6.5,22
+                        c-0.1,0.3,0.1,0.6,0.4,0.6h1.6c0.2,0,0.3-0.1,0.3-0.2L15.6,13.6z"/>
+                </g>
+            </g>
+            </svg>
+                                    </div>
+                                    <div class="arr-info text-left grid grid-40">
+                                        <span class="time">08:10</span>
+                                        <span class="place">
+                                        OSS, Ош
+                                    </span>
+                                    </div>
+                                </td>
+                                <td class="price">
+                                <span class="count">
+                                    2448
+                                </span>
+                                    <span class="currency">
+                                    сом
+                                </span>
+                                </td>
+                                <td class="check">
+                                    <button class="btn">
+                                        Купить
+                                    </button>
+                                    <!--<div class="radio">-->
+                                    <!--<input id="flight1" type="radio" name="radio_fl_out" class="form-control">-->
+                                    <!--<label for="flight1"></label>-->
+                                    <!--</div>-->
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="flight">193</td>
+                                <td class="direction">
+                                    <div class="dep-info text-right grid grid-40">
+                                        <span class="time">07:35</span>
+                                        <span class="place">
+                                        FRU, Бишкек
+                                    </span>
+                                    </div>
+                                    <div class="divider grid grid-20">
+                                        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                 viewBox="0 0 24 24" style="enable-background:new 0 0 24 24;" xml:space="preserve">
+            <g>
+                <g>
+                    <path d="M15.6,13.6l7.5-0.8c0.1,0,0.2-0.1,0.3-0.1l0.4-0.4c0.2-0.2,0.2-0.5,0-0.7l-0.4-0.4c-0.1-0.1-0.2-0.1-0.3-0.1l-7.5-0.7
+                        L8.8,1.6C8.7,1.5,8.6,1.4,8.5,1.4H6.9C6.6,1.4,6.4,1.7,6.5,2l3.3,8.4L3,11.2L1.2,8.4C1.1,8.3,0.9,8.2,0.9,8.2H0.5
+                        C0.2,8.2,0,8.5,0.1,8.8l1,3.2l-1,3.2c-0.1,0.3,0.1,0.6,0.4,0.6h0.4c0.2,0,0.3-0.1,0.3-0.2L3,12.8l6.8,0.8L6.5,22
+                        c-0.1,0.3,0.1,0.6,0.4,0.6h1.6c0.2,0,0.3-0.1,0.3-0.2L15.6,13.6z"/>
+                </g>
+            </g>
+            </svg>
+                                    </div>
+                                    <div class="arr-info text-left grid grid-40">
+                                        <span class="time">08:10</span>
+                                        <span class="place">
+                                        OSS, Ош
+                                    </span>
+                                    </div>
+                                </td>
+                                <td class="price">
+                                <span class="count">
+                                    2448
+                                </span>
+                                    <span class="currency">
+                                    сом
+                                </span>
+                                </td>
+                                <td class="check">
+                                    <button class="btn">
+                                        Купить
+                                    </button>
+                                    <!--<div class="radio">-->
+                                    <!--<input id="flight2" type="radio" name="radio_fl_out" class="form-control">-->
+                                    <!--<label for="flight2"></label>-->
+                                    <!--</div>-->
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="flight">193</td>
+                                <td class="direction">
+                                    <div class="dep-info text-right grid grid-40">
+                                        <span class="time">07:35</span>
+                                        <span class="place">
+                                        FRU, Бишкек
+                                    </span>
+                                    </div>
+                                    <div class="divider grid grid-20">
+                                        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                 viewBox="0 0 24 24" style="enable-background:new 0 0 24 24;" xml:space="preserve">
+            <g>
+                <g>
+                    <path d="M15.6,13.6l7.5-0.8c0.1,0,0.2-0.1,0.3-0.1l0.4-0.4c0.2-0.2,0.2-0.5,0-0.7l-0.4-0.4c-0.1-0.1-0.2-0.1-0.3-0.1l-7.5-0.7
+                        L8.8,1.6C8.7,1.5,8.6,1.4,8.5,1.4H6.9C6.6,1.4,6.4,1.7,6.5,2l3.3,8.4L3,11.2L1.2,8.4C1.1,8.3,0.9,8.2,0.9,8.2H0.5
+                        C0.2,8.2,0,8.5,0.1,8.8l1,3.2l-1,3.2c-0.1,0.3,0.1,0.6,0.4,0.6h0.4c0.2,0,0.3-0.1,0.3-0.2L3,12.8l6.8,0.8L6.5,22
+                        c-0.1,0.3,0.1,0.6,0.4,0.6h1.6c0.2,0,0.3-0.1,0.3-0.2L15.6,13.6z"/>
+                </g>
+            </g>
+            </svg>
+                                    </div>
+                                    <div class="arr-info text-left grid grid-40">
+                                        <span class="time">08:10</span>
+                                        <span class="place">
+                                        OSS, Ош
+                                    </span>
+                                    </div>
+                                </td>
+                                <td class="price">
+                                <span class="count">
+                                    2448
+                                </span>
+                                    <span class="currency">
+                                    сом
+                                </span>
+                                </td>
+                                <td class="check">
+                                    <button class="btn">
+                                        Купить
+                                    </button>
+                                    <!--<div class="radio">-->
+                                    <!--<input id="flight3" type="radio" name="radio_fl_out" class="form-control">-->
+                                    <!--<label for="flight3"></label>-->
+                                    <!--</div>-->
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
 
-        <!-- order-info -->
-        <div class="order-info col-lg-3">
-            <table class="col-lg-12 table table-bordered no-padding">
-                <tr class="order-info-header">
-                    <td class="col-lg-12" colspan="4">Информация о заказе Тапшырык жѳнүндѳ маалымат</td>
-                </tr>
-                <tr class="order-type-person ">
-                    <td class="order-type col-lg-6" colspan="2">
-                    @if($return_date) туда и обратно @else в один конец @endif
-                    </td>
-                    <td class="order-person col-lg-6" colspan="2">
-                        <span>@if ($adult_count>0) Взрослые: {{ $adult_count }} @endif</span>
-                        <span>@if ($child_count>0) Дети: {{ $child_count }} @endif</span>
-                        <span>@if ($infant_count>0) Младенцы: {{ $infant_count }} @endif</span>
-                    </td>
-                </tr>
+            </main>
 
-                <tbody>
-                    <tr class="warning single fl_out_header">
-                        <td class="order-dir col-lg-12" colspan="4">Отправление</td>
-                    </tr>
-                    <tr class="warning single fl_out_num_price">
-                        <td class="order-number col-lg-6 col-md-6 col-sm-6 col-xs-6" colspan="2">
-                            <span>номер рейса</span>
-                            <span class="order-number-num"></span>
-                        </td>
-                        <td class="order-dir-price col-lg-6 col-md-6 col-sm-6 col-xs-6" colspan="2">
-                            <span class="order-fl-price"></span>
-                            <span> с</span>
-                        </td>
-                    </tr>
-                    <tr class="warning single fl_out_dirs">
-                        <td colspan="4" class="order-dirs">
-                            <ul>
-                                <li class="col-lg-5 col-md-5 col-sm-5 col-xs-5 fl_out_from_city">
-                                    <span class="order-fromCity"></span>
-                                    <span class="order-fromAirport"></span>
-                                    <span class="order-fromDate"></span>
-                                    <span class="order-fromTime"></span>
-                                </li>
-                                <li class="i-plane col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                                    <i class="fa fa-plane"></i>
-                                </li>
-                                <li class="col-lg-5 col-md-5 col-sm-5 col-xs-5 fl_out_to_city">
-                                    <span class="order-toCity"></span>
-                                    <span class="order-toAirport"></span>
-                                    <span class="order-toDate"></span>
-                                    <span class="order-toTime"></span>
-                                </li>
-                            </ul>
-                        </td>
-                    </tr>
-                </tbody>
+            <aside class="grid grid-30">
 
-                <tr class="blank-space hidden">
-                    <td colspan="4"></td>
-                </tr>
-
-                <tbody>
-                    <tr class="warning roundtrip fl_in_header">
-                        <td class="order-dir col-lg-12" colspan="4">Возвращение</td>
-                    </tr>
-                    <tr class="warning roundtrip fl_in_num_price">
-                        <td class="order-number col-lg-6" colspan="2">
-                            <span>номер рейса</span>
-                            <span class="order-number-num"></span>
-                        </td>
-                        <td class="order-dir-price col-lg-6" colspan="2">
-                            <span class="order-fl-price"></span>
-                            <span> с</span>
-                        </td>
-                    </tr>
-                    <tr class="warning roundtrip fl_in_dirs">
-                        <td colspan="4" class="order-dirs">
-                            <ul>
-                                <li class="col-lg-5 col-md-5 col-sm-5 col-xs-5 fl_out_from_city">
-                                    <span class="order-fromCity"></span>
-                                    <span class="order-fromAirport"></span>
-                                    <span class="order-fromDate"></span>
-                                    <span class="order-fromTime"></span>
-                                </li>
-                                <li class="i-plane col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                                    <i class="fa fa-plane"></i>
-                                </li>
-                                <li class="col-lg-5 col-md-5 col-sm-5 col-xs-5 fl_out_to_city">
-                                    <span class="order-toCity"></span>
-                                    <span class="order-toAirport"></span>
-                                    <span class="order-toDate"></span>
-                                    <span class="order-toTime"></span>
-                                </li>
-                            </ul>
-                        </td>
-                    </tr>
-                </tbody>
-                <tr class="order-total">
-                    <td colspan="2">Всего</td>
-                    <td class="order-total-sum" colspan="2"><span id='order_total_sum'></span></td>
-                </tr>
-            </table>
-            
-            <div>
-                {!! Form::open(array('route' => 'front.passenger', 'method' => 'post')) !!}
-                <input type="hidden" name="flight_1" id="flight_1" />
-                <input type="hidden" name="flight_2" id="flight_2" />
-                <input type="hidden" name="adult_count" id="adult_count" value="{{ $adult_count }}" />
-                <input type="hidden" name="child_count" id="child_count" value="{{ $child_count }}" />
-                <input type="hidden" name="infant_count" id="infant_count" value="{{ $infant_count }}" />
-                <button type="submit" class="hidden continue-btn btn btn-danger col-lg-12 col-md-12 col-sm-12 col-xs-12">Продолжить</button>
-                {!! Form::close() !!}                
-                
-                
-            </div>
+            </aside>
         </div>
 
-
-
-    </div>
-
-
-</div>
-
-<script src="{{ asset('assets/js/jquery.min.js') }}"></script>
-<script src="{{ asset('assets/js/bootstrap.js') }}"></script>
-<!--        <script src="js/bootstrap-datepicker.js"></script>-->
-<script src="{{ asset('assets/dist/js/standalone/selectize.js') }}"></script>
-<script type="text/javascript" src="{{ asset('assets/js/moment.js') }}"></script>
-<script type="text/javascript" src="{{ asset('assets/js/ru.js') }}"></script>
-<script type="text/javascript" src="{{ asset('assets/js/transition.js') }}"></script>
-<script type="text/javascript" src="{{ asset('assets/js/collapse.js') }}"></script>
-<script type="text/javascript" src="{{ asset('assets/js/bootstrap-datetimepicker.min.js') }}"></script>
-
-<script type="text/javascript">
-
-    //            $('select').selectize();
-
-</script>
-
-<script type="text/javascript">
-
-    var price_1 = 0;
-    var price_child_1 = 0;
-    var price_infant_1 = 0;
-    var price_2 = 0;
-    var price_child_2 = 0;
-    var price_infant_2 = 0;
-    var adult_count = {{ $adult_count }};
-    var child_count = {{ $child_count }};
-    var infant_count = {{ $infant_count }};
-    var result_price = 0;
-
-    $(function () {
-        
-        
-        $('#swap').click(function() {
-            var tmp = document.getElementById('fromAddress').value;
-            document.getElementById('fromAddress').value = document.getElementById('toAddress').value;
-            document.getElementById('toAddress').value = tmp;
-        });
-
-        $('#checkDir').click(function(){
-            $(this).toggleClass('checked');
-            $('#secondDate').toggleClass('visible');
-        });
-
-        $('#datetimepickerdate1').datetimepicker({
-            language: 'ru',
-            minDate: moment(),
-            pickTime: false
-        });
-        $('#datetimepickerdate2').datetimepicker({
-            language: 'ru',
-            pickTime: false
-        });
-        $("#datetimepickerdate1").on("dp.change",function (e) {
-            $('#datetimepickerdate2').data("DateTimePicker").setMinDate(e.date);
-        });
-        $("#datetimepickerdate2").on("dp.change",function (e) {
-            $('#datetimepickerdate1').data("DateTimePicker").setMaxDate(e.date);
-        });
-
-
-    });
-</script>
-<!-- start -->
-
-<script type="text/javascript">
-
-        $('input:radio[name="radio_fl_out"]').change(
-            function(){
-                if ($(this).is(':checked')) {
-                    $('input:radio[name="radio_fl_out"]').removeClass('selected');
-                    $('input:radio[name="radio_fl_out"]').parent().parent().removeClass('info');
-                    $(this).addClass('selected');
-                    var parentTr = $(this).parent().parent();
-                    parentTr.addClass('info');
-                    var flNumber = parentTr.attr('data-number');
-                    var flPrice = parentTr.attr('data-price');
-                    var flPrice_child = parentTr.attr('data-child-price');
-                    var flPrice_infant = parentTr.attr('data-infant-price');
-                    var flFromDate = parentTr.attr('data-from-date');
-                    var flFromTime = parentTr.attr('data-from-time');
-                    var flToDate = parentTr.attr('data-to-date');
-                    var flToTime = parentTr.attr('data-to-time');
-                    var flFromCity = parentTr.attr('data-from-city');
-                    var flFromAirport = parentTr.attr('data-from-airport');
-                    var flToCity = parentTr.attr('data-to-city');
-                    var flToAirport = parentTr.attr('data-to-airport');
-                    var timestamp = parentTr.attr('data-timestamp');
-                    $('input#flight_1').val(timestamp);
-                    $('.toTable').slideDown(400);
-
-                    $('.order-info').css('display', 'block');
-
-                    $('.fl_out_header').css('display', 'table-row').addClass('cont_btn');
-                    $('.fl_out_num_price').css('display', 'table-row');
-                    $('.fl_out_dirs').css('display', 'table-row');
-                    
-                    $('.fl_out_num_price .order-number-num').html(flNumber);
-                    $('.fl_out_num_price .order-fl-price').html(flPrice);
-                    $('.fl_out_dirs .order-fromCity').html(flFromCity);
-                    $('.fl_out_dirs .order-fromAirport').html(flFromAirport);
-                    $('.fl_out_dirs .order-fromDate').html(flFromDate);
-                    $('.fl_out_dirs .order-fromTime').html(flFromTime);
-                    $('.fl_out_dirs .order-toCity').html(flToCity);
-                    $('.fl_out_dirs .order-toAirport').html(flToAirport);
-                    $('.fl_out_dirs .order-toDate').html(flToDate);
-                    $('.fl_out_dirs .order-toTime').html(flToTime);
-                    @if (count($fly_days_return) == 0) $('.continue-btn').removeClass('hidden'); @endif
-                    calculate_flight_fee(1, flPrice, flPrice_child, flPrice_infant);
-                }
-            }
-        );
-
-        $('input:radio[name="radio_fl_in"]').change(
-            function(){
-                if ($(this).is(':checked')) {
-                    $('input:radio[name="radio_fl_in"]').removeClass('selected');
-                    $('input:radio[name="radio_fl_in"]').parent().parent().removeClass('info');
-                    $(this).addClass('selected');
-                    var parentTr = $(this).parent().parent();
-                    parentTr.addClass('info');
-
-                    var flNumber = parentTr.attr('data-number');
-                    var flPrice = parentTr.attr('data-price');
-                    var flPrice_child = parentTr.attr('data-child-price');
-                    var flPrice_infant = parentTr.attr('data-infant-price');
-                    var flFromDate = parentTr.attr('data-from-date');
-                    var flFromTime = parentTr.attr('data-from-time');
-                    var flToDate = parentTr.attr('data-to-date');
-                    var flToTime = parentTr.attr('data-to-time');
-                    var flFromCity = parentTr.attr('data-from-city');
-                    var flFromAirport = parentTr.attr('data-from-airport');
-                    var flToCity = parentTr.attr('data-to-city');
-                    var flToAirport = parentTr.attr('data-to-airport');
-                    var timestamp = parentTr.attr('data-timestamp');
-                    $('input#flight_2').val(timestamp);
-
-                    $('.order-info').css('display', 'block');
-
-                    $('.fl_in_header').css('display', 'table-row').addClass('cont_btn');
-                    $('.fl_in_num_price').css('display', 'table-row');
-                    $('.fl_in_dirs').css('display', 'table-row');
-
-                    $('.fl_in_num_price .order-number-num').html(flNumber);
-                    $('.fl_in_num_price .order-fl-price').html(flPrice);
-                    $('.fl_in_dirs .order-fromCity').html(flFromCity);
-                    $('.fl_in_dirs .order-fromAirport').html(flFromAirport);
-                    $('.fl_in_dirs .order-fromDate').html(flFromDate);
-                    $('.fl_in_dirs .order-fromTime').html(flFromTime);
-                    $('.fl_in_dirs .order-toCity').html(flToCity);
-                    $('.fl_in_dirs .order-toAirport').html(flToAirport);
-                    $('.fl_in_dirs .order-toDate').html(flToDate);
-                    $('.fl_in_dirs .order-toTime').html(flToTime);
-                    calculate_flight_fee(2, flPrice, flPrice_child, flPrice_infant);
-                }
-            });
-
-        $(document).change(function(){
-            @if(count($fly_days_return) > 0)
-            if(($('.fl_in_header').hasClass('cont_btn')) && ($('.fl_out_header').hasClass('cont_btn'))){
-                $('.continue-btn').removeClass('hidden');
-            }
-            @else
-            if($('.fl_in_header').hasClass('cont_btn')){
-                $('.continue-btn').removeClass('hidden');
-            }
-            @endif
-        });
-        
-        function calculate_flight_fee(direction, flPrice, flPrice_child, flPrice_infant){
-            result_price = 0;
-            if (direction==1) {
-                price_1 = parseInt(flPrice);
-                price_child_1 = parseInt(flPrice_child);
-                price_infant_1 = parseInt(flPrice_infant);
-            }
-            else {
-                price_2 = parseInt(flPrice);
-                price_child_2 = parseInt(flPrice_child);
-                price_infant_2 = parseInt(flPrice_infant);
-            }
-            result_price = price_1 * adult_count + price_child_1 * child_count + price_infant_1 * infant_count + price_2 * adult_count + price_child_2 * child_count + price_infant_2 * infant_count;
-            $('#order_total_sum').html(result_price);
-            
-        }
-</script>
-
-
-</body>
-
-</html>
+    </div><!-- end of hero -->
+@include('Front::partials.footer')

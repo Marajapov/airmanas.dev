@@ -731,10 +731,11 @@ class MobilnikController extends Controller
 
     public function getPnr(Request $request)
     {
+        $departure = $request->json('departure');
+        $return = $request->json('return');
+        $passenger = $request->json('passenger');
         $random = generateRandomPayCode_helper();
-        $departure = $request->departure;
-        $return = $request->return;
-        $passenger = $request->passenger;
+        dd($departure,$return,$passenger);
 
         $row = FlightRegister::create();
         $row->paycode = $random;
