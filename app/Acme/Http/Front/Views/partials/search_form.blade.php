@@ -1,18 +1,6 @@
 <div class="hero">
     <div class="search-flight absolute">
         <h1>Поиск авиабилетов</h1>
-        <ul class="flight-type clearfix">
-            <li class="current one-way">
-                <a href="#">
-                    В одну сторону
-                </a>
-            </li>
-            <li class="round-trip">
-                <a href="#">
-                    Туда и обратно
-                </a>
-            </li>
-        </ul>
         {!! Form::open(array('route' => 'front.search', 'method' => 'post', 'enctype' => 'multipart/form-data')) !!}
             <fieldset>
                 <legend>Маршрут</legend>
@@ -48,8 +36,9 @@
                             <label for="toAddress">Куда</label>
                             <select class="form-control selectpicker" name="destination" id="toAddress" data-live-search="true" data-width="100%">
                         <?php foreach($airport_loc as $key=>$value) { ?>
-                            <option value="<?php echo $key; ?>"><?php echo $value; ?></option>
-                        <?php } ?>
+                        <option value="<?php echo $key; ?>" <?php if ($key=="OSS") echo " selected"; ?>><?php echo $value; ?></option>
+                    
+                    <?php } ?>
                             </select>
                         </div>
                     </div>
@@ -64,7 +53,7 @@
                             <div class="form-group">
                                 <label for="departure_date">Дата вылета</label>
                                 <div class="input-group" id="datetimepickerdate1">
-                                    <input id="departure_date" name="departure_date" type="text" class="form-control"/>
+                                    <input id="departure_date" name="departure_date" required type="text" class="form-control"/>
                                     <span class="input-group-addon">
                                     <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                                          viewBox="0 0 64 64" style="enable-background:new 0 0 64 64;" xml:space="preserve">
@@ -159,10 +148,25 @@
             </div>
 
 
-            <div class="text-right">
-                <button id="submitBtn" type="submit" class="btn btn-default">
+            <div class="clearfix">
+
+                <ul class="flight-type clearfix pull-left">
+                    <li class="current one-way">
+                        <a href="#">
+                            В одну сторону
+                        </a>
+                    </li>
+                    <li class="round-trip">
+                        <a href="#">
+                            Туда и обратно
+                        </a>
+                    </li>
+                </ul>
+
+                <button id="submitBtn" type="submit" class="btn btn-default pull-right">
                     Найти
                 </button>
+
             </div>
         {!! Form::close() !!}
     </div>

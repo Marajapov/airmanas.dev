@@ -38,11 +38,10 @@ class HomeController extends Controller
     {
         Carbon::setLocale('ru');
         session(['fly_days'=> NULL]);
-        session(['fly_days_return'=> NULL]);
         session(['fly_days_2'=> NULL]);
-        session(['fly_days_return_2'=> NULL]);
         session(['fly_days_3'=> NULL]);
-        session(['fly_days_return_3'=> NULL]);
+        session(['fly_days_return'=> NULL]);
+        session(['fly_days_return_2'=> NULL]);
 
         /*$row = FlightRegister::where('id','=',54)->first();
         mysend_mail($row, 'abakano21@gmail.com', 'fromHomeController', 'body text');
@@ -51,11 +50,9 @@ class HomeController extends Controller
             'airport_loc'=> $this->airport_loc,
         ]);
     }
-
     public function searchResult(Request $request)
     {
         setlocale(LC_TIME, 'ru_RU.UTF-8');
-        ini_set('max_execution_time', 100);
         $success = json_encode(array( 'result' => '1'));
         $fail = json_encode(array( 'result' => '0'));
         $departure = $_POST['departure'];
@@ -68,29 +65,33 @@ class HomeController extends Controller
         $return_date = isset($_POST['return_date'])?$_POST['return_date']:0;
         $flight_date = $flight_date_return = [];
         $day_diff = date_manual_diff($today, $departure_date);
-
         $start_dept_day = $today;
         
         if ($day_diff>0){ 
-            $start_diff = $day_diff<3? $day_diff:1;
+            $start_diff = $day_diff<4? $day_diff:3;
             $start_dept_day = date('Y-m-d', strtotime($departure_date. ' - '.$start_diff.' days'));
         }
         $flight_date[] =  $start_dept_day;
         $flight_date[] =  date('Y-m-d', strtotime($start_dept_day. ' + 1 days'));
         $flight_date[] =  date('Y-m-d', strtotime($start_dept_day. ' + 2 days'));
-        
+        $flight_date[] =  date('Y-m-d', strtotime($start_dept_day. ' + 3 days'));
+        $flight_date[] =  date('Y-m-d', strtotime($start_dept_day. ' + 4 days'));
+        $flight_date[] =  date('Y-m-d', strtotime($start_dept_day. ' + 5 days'));
+        $flight_date[] =  date('Y-m-d', strtotime($start_dept_day. ' + 6 days'));
         if ($return_date) {
             $day_diff = date_manual_diff($start_dept_day, $return_date);
-
             $start_return_day = $start_dept_day;
             if ($day_diff>0){ 
-                $start_diff = $day_diff<3? $day_diff:1;
+                $start_diff = $day_diff<4? $day_diff:3;
                 $start_return_day = date('Y-m-d', strtotime($return_date. ' - '.$start_diff.' days'));
             }
             $flight_date_return[] =  $start_return_day;
             $flight_date_return[] =  date('Y-m-d', strtotime($start_return_day. ' + 1 days'));
             $flight_date_return[] =  date('Y-m-d', strtotime($start_return_day. ' + 2 days'));
-            
+            $flight_date_return[] =  date('Y-m-d', strtotime($start_return_day. ' + 3 days'));
+            $flight_date_return[] =  date('Y-m-d', strtotime($start_return_day. ' + 4 days'));
+            $flight_date_return[] =  date('Y-m-d', strtotime($start_return_day. ' + 5 days'));
+            $flight_date_return[] =  date('Y-m-d', strtotime($start_return_day. ' + 6 days'));
         }
     $fly_days = $fly_days_return = $ch = $ch_data = [];
     $time_1 = microtime(true);
@@ -196,12 +197,16 @@ class HomeController extends Controller
         }
         unset($xml[$i]); 
     }
-    dd($fly_days,$fly_days_return);
     $time_4 = microtime(true);
     $fly_days_final = $return_days_final = [];
     foreach($flight_date as $day){
         $not_found = true;
         foreach($fly_days as $flight){
+            /*
+            setlocale(LC_TIME, 'ru_RU');
+            $dt = Carbon::parse($flight[0]->departure_date());
+            echo $dt->formatLocalized('%A %d %B %Y');
+            */
             if (count($flight)==0) continue;
             if ($day == $flight[0]->departure_date()){
                 $not_found = false;
@@ -245,17 +250,13 @@ class HomeController extends Controller
         }
     }
     $time_6 = microtime(true);
-    session()->forget("fly_days_2");
-    session()->forget("fly_days_return_2");
-    session()->forget("fly_days_3");
-    session()->forget("fly_days_return_3");
-    session()->forget("fly_days");
-    session()->forget("fly_days_return");
-
-    session()->put("fly_days",$fly_days_final);
-    
+    //dd($fly_days_final,$return_days_final);
+    session_start();
+    $_SESSION["fly_days"] = $fly_days_final;
+    $_SESSION["fly_days_2"] = $_SESSION["fly_days"];
     if ($return_date){
-        session()->put("fly_days_return",$return_days_final);
+      $_SESSION["fly_days_return"] = $return_days_final;  
+      $_SESSION["fly_days_return_2"] = $_SESSION["fly_days_return"];
     }
     if ($return_date) $retn_d = strtotime($return_date);
     foreach($fly_days as $fly_days_child) 
@@ -269,20 +270,23 @@ class HomeController extends Controller
         } // end foreach
     } // end if
     $retn_d = (isset($retn_d)) ? $retn_d : 'no';
-    $sessionFlyReturn = session()->get("fly_days_return");
-
-    session()->put("airport_loc",$this->airport_loc);
+    //dd($fly_days_final,$return_days_final);
+    // new way 
+    foreach ($flight_date as $key => $newValue) {
+        setlocale(LC_TIME, 'ru_RU.UTF-8');
+        $carbonFlight_date[] = Carbon::parse($newValue);
+    }
+    $dept_d = Carbon::parse($departure_date);
     
-    $fly_days_return_session = ($sessionFlyReturn)? session()->get("fly_days_return"):null;
     return view('Front::result', [
-            'fly_days'=> session()->get("fly_days"),
-            'fly_days_return'=> $fly_days_return_session,
+            'carbonFlight_date'=> $carbonFlight_date,
+            'bugun' => Carbon::today(),
             'Flight' => $newFlight,
             'departure'=> $departure,
             'destination'=> $destination,
             'airport_loc' => $this->airport_loc,
             'local_airports' => $this->local_airports,
-            'dept_d' => strtotime($departure_date),
+            'dept_d' => $dept_d,
             'retn_d' => $retn_d,
             'service_fee' => $this->service_fee,
             'service_local_fee' => $this->service_local_fee,
@@ -300,6 +304,13 @@ class HomeController extends Controller
             'c'=> $child_count,
             'i'=> $infant_count,
             'infant_count'=> $infant_count,
+            'fly_days'=> $fly_days,
+            'fly_days_return'=> $fly_days_return, 
+            //'fly_days_child_flight'=> $fly_days_child_flight,
+
+            'return_days_final' => $return_days_final,
+            'noFlight' => $noFlight,
+            
         ]);
     }
 
@@ -309,7 +320,6 @@ class HomeController extends Controller
         $adult_count = intval($_POST['adult_count']);
         $child_count = intval($_POST['child_count']);
         $infant_count = intval($_POST['infant_count']);
-        $order_total_sum_post = intval($_POST['order_total_sum_post']);
         $total = $adult_count + $child_count + $infant_count;
         $counter = 0;
         $flight_1 = intval($_POST['flight_1']);
@@ -360,14 +370,12 @@ class HomeController extends Controller
                 'flight_1'=> $flight_1,
                 'flight_2'=> $flight_2,
                 'total'=> $total,
-                'order_total_sum_post'=> $order_total_sum_post,
                 'counter'=> $counter,
                 'infant_count'=> $infant_count,
                 'child_count'=> $child_count,
                 'adult_count'=> $adult_count,
                 'departureDT'=> $departureDT,
                 'departureADT' => $departureADT,
-                'airport_loc' => $this->airport_loc,
             ]);   
     }
     public function flight_preview(Request $request) 
@@ -379,7 +387,6 @@ class HomeController extends Controller
 
         $departureDateTime = $_POST['departureDateTime'];
         $departureArrivalDateTime = $_POST['departureArrivalDateTime'];
-        $order_total_sum_post = $_POST['order_total_sum_post'];
 
         //dd($departureDateTime,$departureArrivalDateTime);
 
@@ -613,7 +620,6 @@ class HomeController extends Controller
 
                 'flight_1'=> $flight_1,
                 'flight_2'=> $flight_2,
-                'order_total_sum_post'=> $order_total_sum_post,
             ]);   
     }
 

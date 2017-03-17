@@ -8,6 +8,10 @@
 <script src="{{ asset('js/bootstrap-datetimepicker.min.js') }}"></script>
     <script>
         $(function () {
+            $.ajaxSetup({
+                headers: {'X-CSRF-Token': $('meta[name=_token]').attr('content')}
+            });
+
             // header search form
             var searchForm = $('#searchForm');
             var searchToggle = $('#searchToggle');
@@ -65,6 +69,9 @@
             });
         })
     </script>
+
+@yield('footer')
+
 
 </body>
 </html>

@@ -83,7 +83,12 @@ function print_only_keys($array){
 function fill_flights($array){
     $hour = 60*60;
     $flight = new Flight(); 
-    foreach($array as $a=>$b){
+    $av = $array;
+    foreach ($av as $aKey => $aValue) { // not local airports
+        $aValue;
+    }
+    if($aValue){
+    foreach($aValue as $a=>$b){
         if ($a == 'DepartureAirport') $flight->departureAirport = $b['LocationCode'];
         if ($a == 'ArrivalAirport') $flight->arrivalAirport = $b['LocationCode'];
         if ($a == 'Equipment') $flight->equipment = $b['AirEquipType'];
@@ -93,15 +98,7 @@ function fill_flights($array){
             $flight->departureDateTime = $b;
             $flight->timestamp = strtotime($b);  
         } 
-        /*if ($a == 'DepartureDateTime') {
-            $flight->timestamp = strtotime($b);
-            $diff = floor(($flight->timestamp - time()) / $hour);
-            if ($diff < 6) continue;
-            
-            $flight->departureDateTime = $b;
-            $flight->timestamp = strtotime($b);
-            
-        }*/
+        
         if ($a == 'FlightNumber') $flight->flightNumber = $b;
         if ($a == 'StopQuantity') $flight->stopQuantity = $b;
         if ($a == 'OnTimeRate') $flight->onTimeRate = $b;
@@ -146,6 +143,63 @@ function fill_flights($array){
             }
         }
     } // end foreach
+    }else{
+        foreach($array as $a=>$b){
+        if ($a == 'DepartureAirport') $flight->departureAirport = $b['LocationCode'];
+        if ($a == 'ArrivalAirport') $flight->arrivalAirport = $b['LocationCode'];
+        if ($a == 'Equipment') $flight->equipment = $b['AirEquipType'];
+        if ($a == 'MarkettingAirline')$flight->markettingAirline = $b['CompanyShortName'];
+        if ($a == 'ArrivalDateTime') $flight->arrivalDateTime = $b;
+        if ($a == 'DepartureDateTime'){
+            $flight->departureDateTime = $b;
+            $flight->timestamp = strtotime($b);  
+        } 
+        if ($a == 'FlightNumber') $flight->flightNumber = $b;
+        if ($a == 'StopQuantity') $flight->stopQuantity = $b;
+        if ($a == 'OnTimeRate') $flight->onTimeRate = $b;
+        if ($a == 'JourneyDuration') $flight->journeyDuration = $b;
+        
+        if ($a == 'BookingClassAvailExt') {
+            
+            foreach($b as $book_k=>$book_v){
+                $book = new Book();
+                if (isset($book_v['RPH']))  $book->rph = $book_v['RPH']; else $book->rph = "";
+                if (isset($book_v['ResBookDesigCode'])) $book->resBookDesigCode = $book_v['ResBookDesigCode']; else $book->resBookDesigCode = "";
+                if (isset($book_v['ResBookDesigQuantity'])) $book->resBookDesigQuantity = $book_v['ResBookDesigQuantity']; else $book->resBookDesigQuantity = "";
+                if (isset($book_v['ResBookDesigID']))   $book->resBookDesigID = $book_v['ResBookDesigID']; else $book->resBookDesigID = "";
+                if (isset($book_v['FareReference']))    $book->fareReference = $book_v['FareReference']; else $book->fareReference = "";
+                if (isset($book_v['FareReferenceID']))  $book->fareReferenceID = $book_v['FareReferenceID']; else $book->fareReferenceID = "";
+                if (isset($book_v['FareDisplayInfos'])) $price_info = find_all_keys($book_v['FareDisplayInfos'], 'FareDisplayInfo'); else $price_info = Null;
+                foreach($price_info as $price_item_key=>$price_item_value){
+                    foreach($price_item_value as $price_key=>$price_value){
+                        $book->fareReference = $price_value['FareReference']['value'];
+                        $book->fareReferenceID = $price_value['FareReferenceID']['value'];
+                        $price = new Price();
+                        $price->passenger = $price_value['PricingInfo']['PassengerTypeCode'];
+                        $price->base_price = $price_value['PricingInfo']['BaseFare']['Amount'];
+                        $price->price = $price_value['PricingInfo']['TotalFare']['Amount'];
+                        if ($price->passenger=="ADT") $book->adultPrice = $price->price;
+                        if ($price->passenger=="CHL") $book->childPrice = $price->price;
+                        if ($price->passenger=="INF") $book->infPrice = $price->price;
+                        $tax_info = find_all_keys($price_value['PricingInfo']['Taxes'], 'Tax');
+                        foreach($tax_info as $tax_item_key=>$tax_item_value){
+                            foreach($tax_item_value as $tax_key=>$tax_value){
+                                $tax = new Tax();
+                                $tax->amount = $tax_value['Amount'];
+                                $tax->code = $tax_value['TaxCode'];
+                                $price->tax_list[] = $tax;
+                            }
+                        }
+                        $book->price_list[] = $price;
+                    }
+                }
+                
+                $flight->books[] = $book;
+            }
+        }
+    } // end foreach2
+    } // end else
+
     $least_book = new Book();
     $least_book->adultPrice = 0;
     foreach($flight->books as $key=>$value){
@@ -969,6 +1023,19 @@ $book_reference = find_first_key($tree, "BookingReferenceID");
 }
 // end getPNR
 
+function object_to_array($data)
+{
+    if (is_array($data) || is_object($data))
+    {
+        $result = array();
+        foreach ($data as $key => $value)
+        {
+            $result[$key] = object_to_array($value);
+        }
+        return $result;
+    }
+    return $data;
+}
 
 ///////////////////////////////////////
 ///////////////////////////////////////

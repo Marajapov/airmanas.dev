@@ -14,6 +14,8 @@ class VerifyCsrfToken extends BaseVerifier
 
     protected $except = [
        	'getpnr',
+       	'result',
+        'ajaxRequest',
         	// 'get_available_tickets.php'
     ];
 }
